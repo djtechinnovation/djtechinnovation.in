@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>User Manual · DJ Tech Schedule Timer</title>
+<meta name="description" content="How to set up and use the DJ Tech Schedule Timer v2.0: app, bell unit, BASIC and PRO.">
+<link rel="icon" href="../logo.png">
+<style>
+  :root {
+    --bg: #0b0b0d; --card: #16171a; --card2: #1d1f23; --line: #2c2e33; --text: #f2f2f3; --muted: #a8a8b0;
+    --gold: #f2c14e; --gold2: #d99a1f; --cyan: #00bcd4; --green: #4caf50; --red: #f44336; --orange: #ff9800;
+    --lcd: #1637c9; --lcd-text: #f4f8ff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+  body { background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    font-size: 17px; line-height: 1.6; }
+  a { color: var(--gold); }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 16px; }
+
+  /* top bar */
+  .bar { position: sticky; top: 0; z-index: 5; background: rgba(11,11,13,.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  .bar .wrap { display: flex; align-items: center; gap: 10px; height: 56px; }
+  .bar img { height: 38px; }
+  .bar b { flex: 1; font-size: 16px; }
+  .btn { display: inline-flex; align-items: center; gap: 6px; border: 1.5px solid var(--gold); color: var(--gold); background: rgba(242,193,78,.1);
+    padding: 7px 12px; border-radius: 10px; font-size: 14px; font-weight: 700; text-decoration: none; cursor: pointer; font-family: inherit; }
+
+  /* hero */
+  .hero { text-align: center; padding: 34px 0 26px; background: radial-gradient(600px 300px at 50% 0, rgba(242,193,78,.16), transparent 70%); }
+  .hero img { width: 150px; }
+  .hero h1 { font-size: 30px; line-height: 1.15; margin-top: 8px; }
+  .hero h1 span { color: var(--gold); }
+  .hero p { color: var(--muted); margin-top: 6px; }
+  .tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 14px; }
+  .tag { font-size: 13px; padding: 4px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); color: var(--muted); }
+
+  /* contents */
+  .toc { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 16px; margin: 6px 0 10px; }
+  .toc h2 { font-size: 16px; margin-bottom: 10px; color: var(--muted); font-weight: 600; }
+  .toc ol { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 14px; }
+  .toc a { color: var(--text); text-decoration: none; font-size: 15px; }
+  .toc a span { color: var(--gold); font-weight: 700; margin-right: 6px; }
+  @media (max-width: 520px) { .toc ol { grid-template-columns: 1fr; } }
+
+  /* sections */
+  section { padding: 26px 0 8px; border-top: 1px solid var(--line); }
+  section > h2 { display: flex; align-items: center; gap: 12px; font-size: 24px; line-height: 1.2; margin-bottom: 12px; }
+  .num { flex: none; width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; font-size: 18px; font-weight: 800; color: #111; }
+  h3 { font-size: 19px; margin: 20px 0 8px; }
+  p { margin: 8px 0; }
+  .muted { color: var(--muted); }
+  .pro-badge { font-size: 12px; font-weight: 800; letter-spacing: 1px; padding: 2px 8px; border-radius: 6px; background: linear-gradient(180deg, #ffe08a, #e0a526); color: #1a1305; vertical-align: middle; }
+  .basic-badge { font-size: 12px; font-weight: 800; letter-spacing: 1px; padding: 2px 8px; border-radius: 6px; border: 1px solid #888; color: #ddd; vertical-align: middle; }
+
+  /* numbered steps */
+  ol.steps { list-style: none; counter-reset: s; margin: 10px 0; }
+  ol.steps > li { counter-increment: s; position: relative; padding: 10px 12px 10px 52px; margin: 8px 0; background: var(--card); border: 1px solid var(--line); border-radius: 14px; }
+  ol.steps > li::before { content: counter(s); position: absolute; left: 12px; top: 10px; width: 28px; height: 28px; border-radius: 50%;
+    background: var(--gold); color: #111; font-weight: 800; display: grid; place-items: center; font-size: 15px; }
+  ul.dots { margin: 8px 0 8px 22px; }
+  ul.dots li { margin: 4px 0; }
+
+  /* boxes */
+  .box { border-radius: 14px; padding: 12px 14px 12px 48px; margin: 12px 0; position: relative; border: 1px solid; }
+  .box::before { position: absolute; left: 14px; top: 10px; font-size: 20px; }
+  .tip { background: rgba(0,188,212,.08); border-color: rgba(0,188,212,.45); }
+  .tip::before { content: "💡"; }
+  .warn { background: rgba(255,152,0,.09); border-color: rgba(255,152,0,.55); }
+  .warn::before { content: "⚠️"; }
+  .good { background: rgba(76,175,80,.09); border-color: rgba(76,175,80,.5); }
+  .good::before { content: "✅"; }
+
+  /* tables */
+  .table { overflow-x: auto; margin: 12px 0; border: 1px solid var(--line); border-radius: 14px; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  th, td { text-align: left; padding: 9px 12px; vertical-align: top; border-bottom: 1px solid var(--line); }
+  th { background: var(--card2); color: var(--muted); font-weight: 600; }
+  tr:last-child td { border-bottom: 0; }
+  td:first-child { font-weight: 600; width: 38%; }
+
+  /* the unit's 20x4 display */
+  .lcd { background: var(--lcd); border: 6px solid #08090b; border-radius: 10px; padding: 10px 12px; margin: 12px 0; max-width: 360px;
+    font-family: Consolas, "Courier New", monospace; color: var(--lcd-text); font-size: 17px; line-height: 1.45; white-space: pre;
+    text-shadow: 0 0 6px rgba(200,225,255,.7); box-shadow: 0 0 24px rgba(60,110,255,.35); overflow-x: auto; }
+  .lcd-cap { font-size: 14px; color: var(--muted); margin-top: -6px; }
+
+  /* colour dots and keys */
+  .dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; vertical-align: middle; margin-right: 6px; }
+  .k { display: inline-block; padding: 0 7px; border-radius: 6px; border: 1px solid var(--line); background: var(--card2); font-weight: 700; font-size: 14px; }
+
+  /* screenshots: each one shows only when its picture file is there */
+  figure.shot { margin: 14px auto; max-width: 300px; text-align: center; }
+  figure.shot img { width: 100%; border-radius: 22px; border: 6px solid #1d1e21; box-shadow: 0 10px 30px rgba(0,0,0,.5); }
+  figure.shot figcaption { font-size: 14px; color: var(--muted); margin-top: 6px; }
+  figure.photo { max-width: 520px; }
+  figure.photo img { border-radius: 14px; border: 0; }
+
+  footer { text-align: center; color: var(--muted); padding: 30px 0 40px; border-top: 1px solid var(--line); margin-top: 20px; }
+  footer .call { display: inline-block; margin-top: 10px; padding: 12px 26px; border-radius: 999px; background: linear-gradient(180deg, #ffe08a, #e0a526);
+    color: #1a1305; font-weight: 800; font-size: 22px; text-decoration: none; }
+  .top { position: fixed; right: 14px; bottom: 16px; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center;
+    background: var(--gold); color: #111; text-decoration: none; font-size: 22px; font-weight: 800; box-shadow: 0 6px 18px rgba(0,0,0,.5); }
+
+  /* print / save as PDF: light paper, no bar */
+  @media print {
+    :root { --bg: #fff; --card: #fff; --card2: #f2f2f2; --line: #ccc; --text: #111; --muted: #555; --gold: #a86f00; }
+    body { font-size: 12pt; }
+    .bar, .top, .noprint { display: none !important; }
+    section { break-inside: auto; }
+    ol.steps > li, .box, .table, .lcd, figure { break-inside: avoid; }
+    .lcd { box-shadow: none; text-shadow: none; }
+    a { color: #111; text-decoration: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bar noprint"><div class="wrap">
+  <img src="../logo.png" alt="DJ Tech">
+  <b>User Manual</b>
+  <button class="btn" onclick="window.print()">⎙ Save as PDF</button>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <img src="../logo.png" alt="DJ Tech logo">
+  <h1>DJ Tech <span>Schedule Timer</span></h1>
+  <p>Automatic bells. Zero manual work.</p>
+  <div class="tags"><span class="tag">App v2.0</span><span class="tag">Bell unit software v2.2</span><span class="tag">Android</span></div>
+</div></header>
+
+<main class="wrap">
+
+<nav class="toc">
+  <h2>Contents</h2>
+  <ol>
+    <li><a href="#unit"><span>1</span>Know your bell unit</a></li>
+    <li><a href="#install"><span>2</span>Install the app</a></li>
+    <li><a href="#setup"><span>3</span>First-time setup and pairing</a></li>
+    <li><a href="#home"><span>4</span>The home screen</a></li>
+    <li><a href="#times"><span>5</span>Set bell times</a></li>
+    <li><a href="#onoff"><span>6</span>Switch a timetable on or off</a></li>
+    <li><a href="#ring"><span>7</span>Ring the bell by hand</a></li>
+    <li><a href="#alerts"><span>8</span>Bell alerts on your phone</a></li>
+    <li><a href="#tools"><span>9</span>Tools and keeping in step</a></li>
+    <li><a href="#phones"><span>10</span>Phones and unit ID</a></li>
+    <li><a href="#upgrade"><span>11</span>Upgrade to PRO</a></li>
+    <li><a href="#internet"><span>12</span>PRO: control from anywhere</a></li>
+    <li><a href="#users"><span>13</span>PRO: master, users and record</a></li>
+    <li><a href="#help"><span>14</span>If something goes wrong</a></li>
+  </ol>
+</nav>
+
+<!-- 1 -->
+<section id="unit">
+  <h2><span class="num" style="background:#64b5f6">1</span>Know your bell unit</h2>
+  <p>The bell unit keeps its own clock and stores your bell times. Once a timetable is sent to it and switched on, it rings the bell by itself, every day. Your phone does not need to stay nearby.</p>
+  <figure class="shot photo"><img src="img/unit-front.jpg" alt="The bell unit" onerror="this.parentElement.remove()"><figcaption>The bell unit</figcaption></figure>
+
+  <h3>The display</h3>
+  <p>At power-on, for about 3 seconds, with one short beep:</p>
+  <div class="lcd">      DJ TECH
+   SMART WIRELESS
+   SCHEDULE TIMER
+  Version 2.2 BASIC</div>
+  <p class="lcd-cap">A PRO unit shows <b>Version 2.2 PRO</b>.</p>
+
+  <p>Normal running screen:</p>
+  <div class="lcd">14:01:00 ID6 MTWTF--
+14/10/2026 WED LOCAL
+ACTIVE: NORMAL
+NEXT: 15:30 (3s)</div>
+  <div class="table"><table>
+    <tr><th>On the screen</th><th>Meaning</th></tr>
+    <tr><td>14:01:00</td><td>The unit's clock. It is set from your phone every time you upload, or when you tap Sync clock.</td></tr>
+    <tr><td>ID6</td><td>This unit's ID number (0 to 7), set by the three small switches inside the unit.</td></tr>
+    <tr><td>MTWTF--</td><td>The days the running timetable rings on, Monday first. A dash means that day is off.</td></tr>
+    <tr><td>LOCAL</td><td>How the unit is linked: <b>LOCAL</b> = the app is connected on the unit's own WiFi. PRO only: <b>NET</b> = online, control from anywhere is ready; <b>WIFI</b> = joined the internet WiFi, not online yet; <b>SRCH</b> = looking for the internet WiFi; <b>PASS</b> = the WiFi password was refused. Empty = no phone connected.</td></tr>
+    <tr><td>ACTIVE</td><td>The timetable that is running now, by its name, or NONE.</td></tr>
+    <tr><td>NEXT</td><td>The next bell and how long it rings. When no more bells are due today, it shows the day, for example <b>NEXT: TUE 09:00 (3s)</b>.</td></tr>
+  </table></div>
+
+  <h3>Other messages on the display</h3>
+  <div class="table"><table>
+    <tr><th>Message</th><th>Meaning</th></tr>
+    <tr><td>BELL RINGING!</td><td>A bell from the timetable is ringing.</td></tr>
+    <tr><td>EMERGENCY ALARM</td><td>The bell is being rung by hand from a phone.</td></tr>
+    <tr><td>PAIRING CODE</td><td>A phone tapped SEARCH UNIT. Type the 6 digits in the app (section 3).</td></tr>
+    <tr><td>Data Received!</td><td>A timetable arrived from the app. Its name is shown below.</td></tr>
+    <tr><td>Clock Updated!</td><td>The clock was set from the app.</td></tr>
+    <tr><td>PHONE PAIRED</td><td>A phone was paired with the unit.</td></tr>
+  </table></div>
+
+  <h3>The status light</h3>
+  <div class="table"><table>
+    <tr><th>Light</th><th>Meaning</th></tr>
+    <tr><td>Short flash every 10 s</td><td>The unit is on and working. No phone is connected.</td></tr>
+    <tr><td>Even blinking</td><td>A phone has joined the unit's WiFi, but the app is closed or not paired with this unit.</td></tr>
+    <tr><td>Steady on</td><td>The app is connected. Ready to receive bell times.</td></tr>
+    <tr><td>Off</td><td>No power to the unit.</td></tr>
+  </table></div>
+
+  <h3>The buzzer</h3>
+  <div class="table"><table>
+    <tr><th>Sound</th><th>Meaning</th></tr>
+    <tr><td>One short beep</td><td>The unit received something from the app, or the app connected.</td></tr>
+    <tr><td>Two short beeps</td><td>A timetable was switched off, or the app disconnected.</td></tr>
+    <tr><td>Continuous sound</td><td>The bell is ringing. The buzzer sounds with it.</td></tr>
+    <tr><td>No beep</td><td>The unit did not accept the command.</td></tr>
+  </table></div>
+
+  <h3>The display light</h3>
+  <p>To save power, the display light switches off 3 minutes after the last activity. The unit still works and bells still ring. The light comes back by itself when a bell rings, when the app connects or sends something, or when a phone joins the unit's WiFi.</p>
+</section>
+
+<!-- 2 -->
+<section id="install">
+  <h2><span class="num" style="background:#81c784">2</span>Install the app</h2>
+  <p>The app is for <b>Android</b> phones. It is not in the Play Store; you get it from the QR code on the bell unit.</p>
+  <ol class="steps">
+    <li><b>Scan the QR code</b> on the bell unit with the phone camera.</li>
+    <li>On the page that opens, tap <b>Download the app</b>.</li>
+    <li>Open the downloaded file.</li>
+    <li>If the phone asks, tap <b>Settings</b>, switch on <b>Allow from this source</b>, and go back.</li>
+    <li>Tap <b>Install</b>, then <b>Open</b>.</li>
+    <li>The first time, <b>allow notifications and alarms</b> when the app asks.</li>
+  </ol>
+  <div class="tip">To update the app later, scan the same QR code and install again. Your timetables stay on the phone.</div>
+</section>
+
+<!-- 3 -->
+<section id="setup">
+  <h2><span class="num" style="background:#ffd54f">3</span>First-time setup and pairing</h2>
+  <p>Each phone must be <b>paired</b> with the unit once. Pairing needs the code shown on the unit's display, so only someone standing at the unit can add a phone.</p>
+  <ol class="steps">
+    <li><b>Power on the unit.</b> After the welcome screen, note the ID on the top line, for example <b>ID6</b>.</li>
+    <li><b>Join the unit's WiFi.</b> In the phone's WiFi settings choose <b>DJ TECH Bell v2.2</b>. The password is <b>88888888</b>.</li>
+    <li><b>Stay connected.</b> The phone will say this WiFi has no internet. That is correct. Choose to keep the connection. Keep <b>mobile data ON</b> too. If the phone's screen locks by itself, that is not harmful: see <a href="#offline-lock">"Screen was auto-locked"</a>.</li>
+    <li><b>Open the app.</b> On the home screen, <b>press and hold RING for 5 seconds</b>. The Device ID Configuration page opens.</li>
+    <li><b>Set the ID.</b> Tap the three switches until the large number equals the unit's ID.</li>
+    <li><b>Tap SEARCH UNIT.</b> The unit beeps and its display shows <b>PAIRING CODE</b> with 6 digits, for 1 minute.</li>
+    <li><b>Type the code</b> in the app and tap <b>Pair</b>. The unit shows <b>PHONE PAIRED</b> and beeps once.</li>
+    <li><b>Done.</b> The app shows <span class="dot" style="background:var(--green)"></span><b>Connected</b>, and the unit's light is steady.</li>
+  </ol>
+  <div class="lcd">PAIRING CODE
+       482913
+
+Type it in the app</div>
+  <p class="lcd-cap">Example only. The code is random and different every time.</p>
+  <figure class="shot"><img src="img/device-id.jpg" alt="Device ID Configuration page" onerror="this.parentElement.remove()"><figcaption>Device ID Configuration page</figcaption></figure>
+  <h3>One code, one phone</h3>
+  <p>Each code works for <b>one phone only</b>. As soon as a phone is paired, the unit makes a new random code. The next phone must read the new code from the display.</p>
+  <div class="table"><table>
+    <tr><th>What happens</th><th>Code on the display</th></tr>
+    <tr><td>Phone A taps SEARCH UNIT</td><td>482913</td></tr>
+    <tr><td>Phone A pairs with 482913</td><td>Changes to 739201</td></tr>
+    <tr><td>Phone B taps SEARCH UNIT and pairs with 739201</td><td>Changes to 058463</td></tr>
+    <tr><td>Someone tries 482913 again</td><td><b>Refused</b>, it is an old code</td></tr>
+  </table></div>
+  <div class="tip">Pairing is needed only once per phone. A paired phone never types the code again, also when used through the internet.</div>
+  <div class="tip">After a <b>factory reset</b>, all paired phones are removed and the unit makes a new code. Every phone, the primary and all others, must pair again.</div>
+  <div class="warn">Wrong code 5 times locks pairing for 5 minutes, and the unit makes a new code. Wait, then tap SEARCH UNIT again and read the new code.</div>
+</section>
+
+<!-- 4 -->
+<section id="home">
+  <h2><span class="num" style="background:#4dd0e1">4</span>The home screen</h2>
+  <figure class="shot"><img src="img/home.jpg" alt="Home screen" onerror="this.parentElement.remove()"><figcaption>Home screen</figcaption></figure>
+  <ul class="dots">
+    <li><b>Clock.</b> The time on your phone. The unit's clock is set to this time whenever you upload.</li>
+    <li><b>Five timetable buttons.</b> Each shows its name (for example NORMAL or EXAM, or TIMER 1 if it has no name). The small line, for example <b>8 Sch/6 Days</b>, means 8 bell times on 6 days. <b>NO Sch</b> means nothing is set.</li>
+    <li><b>RING (Manual).</b> Tap to ring the bell by hand. Hold for 5 seconds to open the Device ID page.</li>
+    <li><b>Next Bell.</b> The next bell of the running timetable, with a countdown. <span class="muted">09:45.03 means 9:45, ringing for 3 seconds.</span></li>
+    <li><b>Bell icon</b> at the right of Next Bell: opens the phone alert settings.</li>
+    <li><b>… Schedule.</b> Tap to see all bell times of the running timetable in one list.</li>
+    <li><b>Connection bar.</b> <span class="dot" style="background:var(--green)"></span>Connected, <span class="dot" style="background:#ffeb3b"></span>Searching or <span class="dot" style="background:var(--red)"></span>Disconnected.</li>
+    <li><b>Three-dot button</b> at the right of the connection bar: opens <b>Tools</b>.</li>
+  </ul>
+  <h3>Timetable button colours</h3>
+  <div class="table"><table>
+    <tr><th>Colour</th><th>Meaning</th></tr>
+    <tr><td><span class="dot" style="background:var(--green)"></span>Green, glowing</td><td>This timetable is running.</td></tr>
+    <tr><td><span class="dot" style="background:var(--red)"></span>Red</td><td>Bell times are saved, but it is switched off.</td></tr>
+    <tr><td><span class="dot" style="background:#9e9e9e"></span>Grey</td><td>No bell times set yet.</td></tr>
+  </table></div>
+</section>
+
+<!-- 5 -->
+<section id="times">
+  <h2><span class="num" style="background:#f06292">5</span>Set bell times</h2>
+  <p>Each of the five timetables is separate, for example one for normal days, one for exam days and one for half days. Each holds up to <b>30 bell times</b>. A bell time is called a <b>preset</b>.</p>
+  <ol class="steps">
+    <li><b>Tap a timetable button</b> on the home screen. The page opens <b>locked</b>, so nothing changes by accident.</li>
+    <li><b>Tap MODIFY</b> (pink). The page unlocks.</li>
+    <li><b>Choose the days.</b> Tap MO to SU at the top. Green days are on. At least one day is needed.</li>
+    <li><b>Set each preset.</b> Slide the Hour, Minute and Duration wheels. Duration is the ring length, 1 to 5 seconds. A preset you change gets an <b style="color:var(--orange)">orange border</b> until you save.</li>
+    <li><b>Tap SAVE.</b> A green message says "Presets saved successfully", and the page locks again.</li>
+    <li><b>Send it to the unit.</b> With the app Connected, move the slide switch to <b>UPLOAD</b> and tap <b>UPLOAD</b>. The unit shows <b>Data Received!</b> and beeps once.</li>
+  </ol>
+  <figure class="shot"><img src="img/timer-view.jpg" alt="Timetable page, locked" onerror="this.parentElement.remove()"><figcaption>Locked (view)</figcaption></figure>
+  <figure class="shot"><img src="img/timer-edit.jpg" alt="Timetable page, editing" onerror="this.parentElement.remove()"><figcaption>After MODIFY (edit)</figcaption></figure>
+  <div class="tip">Uploading also <b>sets the unit's clock</b> from your phone and makes that timetable the running one. Make sure the phone's time is right.</div>
+
+  <h3>Give a timetable a name</h3>
+  <p>Hold the name at the top of the page for <b>5 seconds</b>. A text box appears. Type up to 12 letters or digits, for example <b>EXAM</b>, then tap Done. The name shows in the app and on the unit's display after the next upload.</p>
+
+  <h3>Clear a timetable</h3>
+  <p>After MODIFY, <b>hold SAVE for 5 seconds</b>. It turns red and reads RESETTING. All presets, days and the name are cleared, on the phone and on the unit.</p>
+
+  <div class="warn">The app will not save when no day is selected, a preset has a time but duration 0, a preset has a duration but time 00:00, or every preset is empty. An orange <b>Cannot Save</b> box tells you which preset to fix. To leave a preset unused, set all three values to 00.</div>
+</section>
+
+<!-- 6 -->
+<section id="onoff">
+  <h2><span class="num" style="background:#a5d6a7">6</span>Switch a timetable on or off</h2>
+  <ol class="steps">
+    <li><b>Press and hold</b> the timetable button for <b>3 seconds</b>. A ring fills up around your finger.</li>
+    <li>It turns <b>green</b> and glows. The unit beeps once and shows <b>ACTIVE:</b> with its name.</li>
+    <li>To switch it off, hold the green button for 3 seconds. The unit beeps twice.</li>
+  </ol>
+  <p>Only one timetable runs at a time. Switching another one on replaces it. The unit remembers the running timetable through a power cut.</p>
+  <div class="warn">If the phone is not connected, the timetable is switched on in the app only, and the app tells you. Connect and hold the button again.</div>
+</section>
+
+<!-- 7 -->
+<section id="ring">
+  <h2><span class="num" style="background:#ff8a65">7</span>Ring the bell by hand</h2>
+  <ol class="steps">
+    <li>On the home screen, <b>tap RING</b>.</li>
+    <li><b>Press and hold</b> the round orange button. It turns red and reads <b>RINGING</b>, and the unit shows <b>EMERGENCY ALARM</b>.</li>
+    <li><b>Let go</b> to stop.</li>
+  </ol>
+  <figure class="shot"><img src="img/emergency.jpg" alt="RING page" onerror="this.parentElement.remove()"><figcaption>The RING page</figcaption></figure>
+  <div class="good">For safety, the bell stops by itself after <b>5 seconds</b>, even if the phone loses the connection. It can never stay on.</div>
+  <p class="muted">A quick tap does nothing, so the bell cannot ring by a slip of the finger. Timetable bells are not affected.</p>
+</section>
+
+<!-- 8 -->
+<section id="alerts">
+  <h2><span class="num" style="background:#ce93d8">8</span>Bell alerts on your phone</h2>
+  <p>When a bell is due, your phone alerts you too, even away from the unit.</p>
+  <div class="table"><table>
+    <tr><th>Your phone is</th><th>What you get</th></tr>
+    <tr><td>Showing the app</td><td>A banner "Bell Ringing!" with tone and vibration.</td></tr>
+    <tr><td>Showing another app</td><td>A pop-up notification with tone.</td></tr>
+    <tr><td>Locked</td><td>The screen lights up and shows the notification with tone.</td></tr>
+  </table></div>
+  <h3>Alert settings</h3>
+  <p>Tap the <b>bell icon</b> beside Next Bell:</p>
+  <ul class="dots">
+    <li><b>Push Notification</b>: switches phone alerts on or off.</li>
+    <li><b>Notification Sound</b> and <b>Vibrate</b>.</li>
+    <li><b>Bell Sound Selection</b>: the phone's own sound, or your own MP3 file. <b>Test Sound</b> plays it.</li>
+    <li>Allow these once: <b>Banner &amp; Lock Screen</b>, <b>Display Over Other Apps</b>, <b>Run in Background</b>.</li>
+  </ul>
+  <div class="tip">On OPPO, Vivo, Xiaomi and similar phones, also allow <b>Auto-launch</b> for the app in the phone's settings, or alerts may stop when the app is closed.</div>
+</section>
+
+<!-- 9 -->
+<section id="tools">
+  <h2><span class="num" style="background:#4db6ac">9</span>Tools and keeping in step</h2>
+  <p>Tap the <b>three-dot button</b> on the connection bar.</p>
+  <div class="table"><table>
+    <tr><th>Tool</th><th>What it does</th></tr>
+    <tr><td>Sync clock</td><td>Sets the unit's clock to the phone's time. Use it after the unit's clock battery is changed, or when it shows CLOCK NOT SET.</td></tr>
+    <tr><td>Sync schedules</td><td>Copies all 5 timetables from the unit to this phone.</td></tr>
+    <tr><td>Features</td><td>What the schedule timer can do, BASIC and PRO.</td></tr>
+    <tr><td>User manual</td><td>Opens this page.</td></tr>
+    <tr><td>Export timers <span class="pro-badge">PRO</span></td><td>Saves all 5 timetables to a file and shares it (WhatsApp, email, Drive).</td></tr>
+    <tr><td>Import timers <span class="pro-badge">PRO</span></td><td>Loads all 5 timetables from such a file. Then upload each one to the unit.</td></tr>
+  </table></div>
+  <h3>When more than one phone is used</h3>
+  <p>Every time your phone connects, the app checks the unit. A small window shows the result:</p>
+  <ul class="dots">
+    <li><b>Timers up to date</b>: nothing to do.</li>
+    <li><b>Update completed</b>: another phone had changed timetables; they were copied to your phone.</li>
+    <li><b>Send your changes?</b>: your phone has saved changes the unit does not have. Choose Send now or Later.</li>
+  </ul>
+  <p>An orange bar "Timers on the bell were changed" means your copy is old. Tap it to sync.</p>
+</section>
+
+<!-- 10 -->
+<section id="phones">
+  <h2><span class="num" style="background:#90a4ae">10</span>Phones and unit ID</h2>
+  <h3>Phones on a BASIC unit <span class="basic-badge">BASIC</span></h3>
+  <p>Up to <b>3 phones</b> can use a BASIC unit: one <b>primary</b> (the first one paired) and two <b>secondary</b>. The list is on the Device ID page. The primary phone can <b>REMOVE</b> a phone or <b>MAKE PRIMARY</b> another one.</p>
+  <p>To take your own phone off the unit, hold <b>RESET</b> on the Device ID page for 5 seconds.</p>
+  <h3>Unit ID and more units</h3>
+  <p>Every unit has an ID from <b>0 to 7</b>, set by three small switches. Up to <b>8 units</b> can work in one building. The app controls only the unit whose ID it is paired with, so units are never mixed up.</p>
+  <ol class="steps">
+    <li>Move the three switches inside the unit to the new position.</li>
+    <li>Wait 3 seconds. The unit shows <b>ID CHANGED TO</b> and restarts with the new ID.</li>
+    <li>In the app, set the same ID on the Device ID page and tap <b>SEARCH UNIT</b>.</li>
+  </ol>
+  <p class="muted">Up to 4 phones can be on the unit's WiFi at the same time.</p>
+</section>
+
+<!-- 11 -->
+<section id="upgrade">
+  <h2><span class="num" style="background:linear-gradient(180deg,#ffe08a,#e0a526)">11</span>Upgrade to PRO</h2>
+  <p>A BASIC unit becomes PRO with <b>one code</b>. Same unit, no new hardware. PRO adds control from anywhere, master and users with PINs, the record of changes, and saving timetables to a file.</p>
+  <ol class="steps">
+    <li>On the Device ID page, find the gold card <b>Upgrade to PRO</b>.</li>
+    <li>Give the <b>Serial</b> number on the card to your dealer (tap the copy icon to copy it).</li>
+    <li>The dealer gives you an <b>8-digit code</b> made for this unit only.</li>
+    <li>With the phone on the unit's WiFi, tap <b>ENTER UNLOCK CODE</b>, type the code and tap <b>Send</b>.</li>
+    <li>The app says <b>This bell unit is now PRO.</b> The unit shows <b>PRO UNLOCKED</b>.</li>
+  </ol>
+  <figure class="shot"><img src="img/upgrade.jpg" alt="Upgrade to PRO card" onerror="this.parentElement.remove()"><figcaption>The Upgrade to PRO card</figcaption></figure>
+</section>
+
+<!-- 12 -->
+<section id="internet">
+  <h2><span class="num" style="background:linear-gradient(180deg,#ffe08a,#e0a526)">12</span>PRO: control from anywhere <span class="pro-badge">PRO</span></h2>
+  <p>The unit can join a WiFi with internet (campus WiFi or a phone hotspot). Then the app works from anywhere: timetables, switching, clock and ringing by hand.</p>
+  <ol class="steps">
+    <li>With the phone on the unit's WiFi, open the Device ID page and find <b>Remote Access (Internet)</b>.</li>
+    <li>Type the <b>WiFi name</b> and <b>WiFi password</b> of the internet WiFi.</li>
+    <li>Tap <b>SEND WIFI TO BELL</b>. The unit shows <b>Internet WiFi Set!</b></li>
+    <li>Wait about a minute. The unit's display shows <b>NET</b> when it is online, and the card says <b>Remote access is ready</b>.</li>
+    <li>Now the app works on mobile data too, away from the unit.</li>
+  </ol>
+  <figure class="shot"><img src="img/remote.jpg" alt="Remote Access card" onerror="this.parentElement.remove()"><figcaption>Remote Access card</figcaption></figure>
+  <div class="good">If the internet goes down, the bells still ring on time as usual.</div>
+  <p class="muted">To remove the internet WiFi, hold REMOVE on the card for 5 seconds.</p>
+</section>
+
+<!-- 13 -->
+<section id="users">
+  <h2><span class="num" style="background:linear-gradient(180deg,#ffe08a,#e0a526)">13</span>PRO: master, users and record <span class="pro-badge">PRO</span></h2>
+  <p>On a PRO unit, one <b>master</b> and up to <b>5 users</b> can change the bells, each with their own mobile number and <b>4-digit PIN</b>.</p>
+  <div class="warn">Set a master on the first day. Until a master is set, any paired phone can change the bells.</div>
+  <h3>Set the master</h3>
+  <ol class="steps">
+    <li>On the Device ID page, tap <b>USERS &amp; ACCESS</b>.</li>
+    <li>Type your <b>mobile number</b> and a <b>4-digit PIN</b>.</li>
+    <li>Tap <b>SET AS MASTER</b> (on the unit's WiFi). The boxes turn green.</li>
+  </ol>
+  <h3>Add users</h3>
+  <ol class="steps">
+    <li>Logged in as master, find <b>Users List</b>.</li>
+    <li>Type each user's mobile number and a PIN for them.</li>
+    <li>Tap <b>SAVE USERS</b>. Saved users turn green. Clear a number to remove that user.</li>
+  </ol>
+  <p>Saving a user's number does <b>not</b> pair their phone. Each user does this once, on their own phone, standing near the unit:</p>
+  <ol class="steps">
+    <li>Join the unit's WiFi and tap <b>SEARCH UNIT</b> (see section 3).</li>
+    <li>Type the 6-digit code from the unit's display. The unit shows <b>PHONE PAIRED</b>.</li>
+    <li>Under <b>USERS &amp; ACCESS</b>, type their own number and PIN, then tap <b>LOG IN</b>.</li>
+  </ol>
+  <div class="good">Two checks keep the unit safe: the <b>phone</b> must be paired with the display code, and the <b>person</b> must know a number and PIN. A stolen PIN alone does not work on an unpaired phone.</div>
+  <figure class="shot"><img src="img/users.jpg" alt="Users and Access page" onerror="this.parentElement.remove()"><figcaption>Users &amp; Access</figcaption></figure>
+  <h3>Record of changes</h3>
+  <p>The master sees the <b>Last 25 Changes</b>: what was changed, the date and time, whose number did it, and whether it was done near the unit (local) or through the internet. Wrong PIN tries are shown in orange.</p>
+  <div class="warn">5 wrong PINs in a row lock the unit for 5 minutes.</div>
+  <h3>Forgot the master PIN?</h3>
+  <ol class="steps">
+    <li>Switch the unit off and on.</li>
+    <li>Within 1 minute, flip one of the ID switches back and forth <b>6 times</b>.</li>
+    <li>The unit shows <b>USERS RESET</b>. Timetables are kept. Pair and set a new master.</li>
+  </ol>
+  <h3>Master reset</h3>
+  <p>Hold <b>MASTER RESET</b> on the Device ID page for 5 seconds (master only, on the unit's WiFi). It clears the users, the internet WiFi and the paired phones, for a new owner. The timetables stay.</p>
+</section>
+
+<!-- 14 -->
+<section id="help">
+  <h2><span class="num" style="background:#e57373">14</span>If something goes wrong</h2>
+  <div class="table"><table>
+    <tr><th>What you see</th><th>What to do</th></tr>
+    <tr><td>"Not paired"</td><td>Hold RING 5 s, tap SEARCH UNIT and type the code shown on the unit's display.</td></tr>
+    <tr><td>"No unit registered"</td><td>Do the first-time setup in section 3.</td></tr>
+    <tr><td>Disconnected, unit light blinking</td><td>Check the phone is still on the unit's WiFi, and that the ID in the app matches the unit.</td></tr>
+    <tr><td>"This bell already has 3 phones"</td><td>Ask the primary phone to remove one (section 10).</td></tr>
+    <tr><td>Bell does not ring at the set time</td><td>Check ACTIVE shows the right timetable, today's letter is on the top line, and the clock is right. Upload again, or use Sync clock.</td></tr>
+    <tr><td>NEXT shows --:--</td><td>No timetable is running. Hold a timetable button for 3 s.</td></tr>
+    <tr><td>"… is not on the bell unit yet"</td><td>Open that timetable, UPLOAD it, then hold its button again.</td></tr>
+    <tr><td>CLOCK NOT SET</td><td>The clock battery was flat or removed. Use Sync clock.</td></tr>
+    <tr><td>RTC NOT FOUND</td><td>The clock part is not responding and bells are stopped. Call service.</td></tr>
+    <tr><td>CHECK POWER at start</td><td>The power dipped and the unit restarted. If it happens often, have the power supply checked.</td></tr>
+    <tr><td>CALL SERVICE at start</td><td>The unit found a fault and restarted itself. It keeps working; call service if you see it again.</td></tr>
+    <tr><td>Display is dark</td><td>Normal. It lights up again at the next bell or when the app connects.</td></tr>
+    <tr><td>No phone alerts when the app is closed</td><td>Allow Run in Background and Auto-launch (section 8).</td></tr>
+    <tr><td>PRO: display shows SRCH or PASS</td><td>SRCH: the internet WiFi is not found; check its name and signal. PASS: the password is wrong; send the WiFi again.</td></tr>
+    <tr><td>PRO: "Access refused"</td><td>Log in under USERS &amp; ACCESS with your number and PIN.</td></tr>
+    <tr><td>Phone screen locked by itself: "Screen was auto-locked, Offline Device Lock"</td><td>Not harmful. See below.</td></tr>
+  </table></div>
+
+  <h3 id="offline-lock">"Screen was auto-locked" message</h3>
+  <p>While your phone is on the unit's WiFi, the screen may lock by itself, and this message appears:</p>
+  <div style="background:#2b2d31;border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:10px 0">
+    <div style="color:var(--muted);font-size:13px">Security and privacy</div>
+    <div style="font-weight:700">Screen was auto-locked</div>
+    <div>Offline Device Lock detected your device was offline for a while</div>
+  </div>
+  <p class="lcd-cap">The message on the phone (not on the bell unit).</p>
+  <div class="good"><b>This is not harmful.</b> Nothing is wrong with your phone, the app or the bell unit. Your data is safe. Just unlock the phone as usual and carry on.</div>
+  <p><b>Why it happens:</b> this is an anti-theft feature of Android, made by Google. It locks the screen when the phone has had no internet for a while. The unit's WiFi has no internet, by design, so Android thinks the phone went offline. The DJ Tech app <b>cannot</b> lock your screen; it does not have that permission.</p>
+  <p><b>How to stop it:</b></p>
+  <ol class="steps">
+    <li><b>Best:</b> keep <b>mobile data ON</b> while you use the unit's WiFi. Then the phone still has internet and does not lock.</li>
+    <li><b>Or:</b> open <b>Settings → Google → All services → Theft protection</b> and switch off <b>Offline Device Lock</b>. The names may differ a little on your phone's brand. This lowers your phone's theft protection, so the first way is better.</li>
+  </ol>
+</section>
+
+</main>
+
+<footer><div class="wrap">
+  <img src="../logo.png" alt="DJ Tech" style="width:90px">
+  <p>DJ Tech Schedule Timer · App v2.0 · Bell unit software v2.2</p>
+  <p>Need help? Call</p>
+  <a class="call" href="tel:+918098888255">📞 80988 88255</a>
+</div></footer>
+
+<a class="top noprint" href="#" aria-label="Back to top">↑</a>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DJ Tech Schedule Timer</title>
+<meta name="description" content="Download the DJ Tech Schedule Timer app or read the user manual.">
+<link rel="icon" href="logo.png">
+<style>
+  :root {
+    --bg: #0b0b0d; --card: #17181b; --line: #2c2e33; --text: #f4f4f5; --muted: #a1a1aa;
+    --gold: #f2c14e; --gold-dark: #d99a1f; --cyan: #00bcd4;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.5; min-height: 100vh; }
+  main { max-width: 520px; margin: 0 auto; padding: 32px 16px 40px; text-align: center; }
+  .logo { width: 170px; height: auto; }
+  h1 { font-size: 28px; margin-top: 12px; letter-spacing: -.3px; }
+  h1 span { color: var(--gold); }
+  .tag { color: var(--muted); margin-top: 6px; font-size: 17px; }
+  .buttons { display: grid; gap: 14px; margin-top: 28px; }
+  .btn { display: block; padding: 18px 16px; border-radius: 16px; text-decoration: none; font-weight: 700; font-size: 19px; }
+  .btn small { display: block; font-weight: 400; font-size: 14px; margin-top: 2px; opacity: .8; }
+  .app { background: linear-gradient(180deg, var(--gold), var(--gold-dark)); color: #1a1305; }
+  .manual { background: var(--card); color: var(--text); border: 2px solid var(--cyan); }
+  .help { margin-top: 30px; text-align: left; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px 18px 14px; }
+  .help h2 { font-size: 17px; margin-bottom: 8px; }
+  .help ol { padding-left: 20px; color: var(--muted); }
+  .help li { margin-bottom: 6px; }
+  .help b { color: var(--text); }
+  .contact { margin-top: 28px; color: var(--muted); }
+  .contact a { color: var(--gold); font-size: 22px; font-weight: 700; text-decoration: none; }
+</style>
+</head>
+<body>
+<main>
+  <img class="logo" src="logo.png" alt="DJ Tech logo">
+  <h1>DJ Tech <span>Schedule Timer</span></h1>
+  <p class="tag">Automatic bells. Zero manual work.</p>
+
+  <div class="buttons">
+    <!-- Always the newest app: the file name in each GitHub release must stay the same -->
+    <a class="btn app" id="appLink" href="https://github.com/djtechinnovation/djtechinnovation.in/releases/latest/download/DJ-Schedule-Bell.apk">
+      Download the app<small>For Android phones</small>
+    </a>
+    <a class="btn manual" href="manual/">
+      User manual<small>Read on your phone, or save as PDF</small>
+    </a>
+  </div>
+
+  <section class="help">
+    <h2>Installing the app</h2>
+    <ol>
+      <li>Tap <b>Download the app</b> and wait for the download to finish.</li>
+      <li>Open the downloaded file.</li>
+      <li>If the phone asks, tap <b>Settings</b> and switch on <b>Allow from this source</b>, then go back.</li>
+      <li>Tap <b>Install</b>, then <b>Open</b>.</li>
+    </ol>
+  </section>
+
+  <p class="contact">Need help? Call<br><a href="tel:+918098888255">80988 88255</a></p>
+</main>
+</body>
+</html>
