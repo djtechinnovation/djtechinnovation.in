@@ -142,6 +142,12 @@
   .wire { width: 40px; height: 4px; background: #5f7180; border-radius: 2px; }
   .wave { font-size: 26px; color: var(--cyan); text-shadow: 0 0 10px var(--cyan); letter-spacing: -2px; }
 
+  /* demo video: landscape on computers, vertical on phones (only the one shown is downloaded, on play) */
+  .vid { max-width: 980px; margin: 0 auto; border-radius: 20px; overflow: hidden; border: 1px solid var(--line); box-shadow: 0 20px 60px rgba(0,0,0,.5); background: #000; }
+  .vid video { width: 100%; display: block; background: #000; }
+  .vid .v-tall { display: none; }
+  @media (max-width: 700px) { .vid { max-width: 400px; } .vid .v-wide { display: none; } .vid .v-tall { display: block; } }
+
   /* why us */
   .why { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
   .w { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 20px; }
@@ -178,7 +184,7 @@
 <div class="nav"><div class="wrap">
   <img src="logo.png" alt="DJ Tech">
   <div class="brand">DJ Tech <span>Innovation</span></div>
-  <nav class="links"><a href="#products">Products</a><a href="#why">Why DJ Tech</a><a href="#support">Support</a><a href="#contact">Contact</a></nav>
+  <nav class="links"><a href="#products">Products</a><a href="#demo">Demo</a><a href="#why">Why DJ Tech</a><a href="#support">Support</a><a href="#contact">Contact</a></nav>
   <a class="call-mini" href="tel:+918098888255">📞 Call</a>
 </div></div>
 
@@ -220,6 +226,7 @@
   <!-- Always the newest app: the file name in each GitHub release must stay the same -->
   <a class="q1" href="https://github.com/djtechinnovation/djtechinnovation.in/releases/latest/download/DJ-Schedule-Bell.apk">⬇ Download the app</a>
   <a class="q2" href="manual/">📖 User manual</a>
+  <a class="q2" href="#demo">▶ Demo video</a>
 </div></div>
 
 <main>
@@ -310,6 +317,18 @@ NEXT: 09:00 (3s)</div></div>
       </div>
     </article>
 
+  </div>
+</div></section>
+
+<section class="sec" id="demo" style="padding-top:10px"><div class="wrap">
+  <div class="head">
+    <span class="tag mono">// see it work</span>
+    <h2>Schedule Timer in 100 seconds</h2>
+    <p>Pairing, timetables, ringing by hand, and the PRO features.</p>
+  </div>
+  <div class="vid">
+    <video class="v-wide" controls playsinline preload="none" poster="video/schedule-timer-demo.jpg"><source src="video/schedule-timer-demo.mp4" type="video/mp4"></video>
+    <video class="v-tall" controls playsinline preload="none" poster="video/schedule-timer-demo-vertical.jpg"><source src="video/schedule-timer-demo-vertical.mp4" type="video/mp4"></video>
   </div>
 </div></section>
 
