@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>User Manual · DJ Tech Arduino Development Kit</title>
+<meta name="description" content="User manual of the DJ Tech Arduino Development Kit (ADK): Arduino Uno + Nano development board with on-board modules and power supply.">
+<link rel="icon" href="../logo.png">
+<style>
+  :root {
+    --bg: #0b0b0d; --card: #16171a; --card2: #1d1f23; --line: #2c2e33; --text: #f2f2f3; --muted: #a8a8b0;
+    --gold: #f2c14e; --cyan: #00bcd4; --green: #4caf50; --orange: #ff9800;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+  body { background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    font-size: 17px; line-height: 1.6; }
+  a { color: var(--gold); }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 16px; }
+
+  .bar { position: sticky; top: 0; z-index: 5; background: rgba(11,11,13,.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  .bar .wrap { display: flex; align-items: center; gap: 10px; height: 56px; }
+  .bar img { height: 38px; }
+  .bar b { flex: 1; font-size: 16px; }
+  .bar .home { color: var(--muted); text-decoration: none; font-size: 22px; padding: 0 4px; }
+  .btn { display: inline-flex; align-items: center; gap: 6px; border: 1.5px solid var(--gold); color: var(--gold); background: rgba(242,193,78,.1);
+    padding: 7px 12px; border-radius: 10px; font-size: 14px; font-weight: 700; text-decoration: none; cursor: pointer; font-family: inherit; }
+
+  .hero { text-align: center; padding: 30px 0 22px; background: radial-gradient(600px 300px at 50% 0, rgba(0,188,212,.14), transparent 70%); }
+  .hero .logo { width: 120px; }
+  .hero h1 { font-size: 30px; line-height: 1.15; margin-top: 8px; }
+  .hero h1 span { color: var(--cyan); }
+  .hero p { color: var(--muted); margin-top: 6px; }
+  .tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 14px; }
+  .tag { font-size: 13px; padding: 4px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); color: var(--muted); }
+  .board { width: 100%; border-radius: 16px; margin-top: 20px; border: 1px solid var(--line); }
+
+  .toc { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 16px; margin: 6px 0 10px; }
+  .toc h2 { font-size: 16px; margin-bottom: 10px; color: var(--muted); font-weight: 600; }
+  .toc ol { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 4px 14px; }
+  .toc a { color: var(--text); text-decoration: none; font-size: 15px; }
+  .toc a span { color: var(--cyan); font-weight: 700; margin-right: 6px; display: inline-block; min-width: 20px; }
+  @media (max-width: 520px) { .toc ol { grid-template-columns: 1fr; } }
+
+  section { padding: 24px 0 8px; border-top: 1px solid var(--line); }
+  section > h2 { display: flex; align-items: center; gap: 12px; font-size: 22px; line-height: 1.2; margin-bottom: 10px; }
+  .num { flex: none; width: 38px; height: 38px; border-radius: 11px; display: grid; place-items: center; font-size: 16px; font-weight: 800;
+    color: #062a30; background: var(--cyan); }
+  .num.part { background: var(--gold); color: #1a1305; }
+  h3 { font-size: 18px; margin: 18px 0 6px; }
+  p { margin: 8px 0; }
+  .muted { color: var(--muted); }
+  ul.dots { margin: 8px 0 8px 22px; }
+  ul.dots li { margin: 5px 0; }
+
+  .box { border-radius: 14px; padding: 12px 14px 12px 48px; margin: 12px 0; position: relative; border: 1px solid; }
+  .box::before { position: absolute; left: 14px; top: 10px; font-size: 20px; }
+  .tip { background: rgba(0,188,212,.08); border-color: rgba(0,188,212,.45); }
+  .tip::before { content: "💡"; }
+  .warn { background: rgba(255,152,0,.09); border-color: rgba(255,152,0,.55); }
+  .warn::before { content: "⚠️"; }
+
+  .table { overflow-x: auto; margin: 12px 0; border: 1px solid var(--line); border-radius: 14px; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  th, td { text-align: left; padding: 9px 12px; vertical-align: top; border-bottom: 1px solid var(--line); }
+  th { background: var(--card2); color: var(--muted); font-weight: 600; }
+  tr:last-child td { border-bottom: 0; }
+  td:first-child { font-weight: 600; width: 38%; }
+  .dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; vertical-align: middle; margin-right: 6px; border: 1px solid #555; }
+
+  /* photos: one wide, or two/three side by side */
+  .pics { display: grid; gap: 10px; margin: 12px 0; grid-template-columns: 1fr; }
+  .pics.two { grid-template-columns: 1fr 1fr; }
+  .pics.three { grid-template-columns: 1fr 1fr 1fr; }
+  .pics figure { margin: 0; text-align: center; }
+  .pics img { width: 100%; max-height: 420px; object-fit: contain; border-radius: 12px; background: #000; display: block; }
+  .pics figcaption { font-size: 13px; color: var(--muted); margin-top: 4px; }
+  .pics.one img { max-height: 360px; }
+  @media (max-width: 520px) { .pics.three { grid-template-columns: 1fr 1fr; } }
+
+  footer { text-align: center; color: var(--muted); padding: 30px 0 40px; border-top: 1px solid var(--line); margin-top: 20px; }
+  footer .slogan { font-family: "Brush Script MT", "Segoe Script", cursive; color: #e0524a; font-size: 30px; }
+  footer .call { display: inline-block; margin-top: 10px; padding: 12px 26px; border-radius: 999px; background: linear-gradient(180deg, #ffe08a, #e0a526);
+    color: #1a1305; font-weight: 800; font-size: 22px; text-decoration: none; }
+  .top { position: fixed; right: 14px; bottom: 16px; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center;
+    background: var(--cyan); color: #062a30; text-decoration: none; font-size: 22px; font-weight: 800; box-shadow: 0 6px 18px rgba(0,0,0,.5); }
+
+  @media print {
+    :root { --bg: #fff; --card: #fff; --card2: #f2f2f2; --line: #ccc; --text: #111; --muted: #555; --gold: #a86f00; --cyan: #0a7f8f; }
+    body { font-size: 12pt; }
+    .bar, .top, .noprint { display: none !important; }
+    .pics, .box, .table { break-inside: avoid; }
+    .pics img { background: #fff; }
+    a { color: #111; text-decoration: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bar noprint"><div class="wrap">
+  <a class="home" href="../" aria-label="All products">←</a>
+  <img src="../logo.png" alt="DJ Tech">
+  <b>ADK User Manual</b>
+  <button class="btn" onclick="window.print()">⎙ Save as PDF</button>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <img class="logo" src="../logo.png" alt="DJ Tech logo">
+  <h1>DJ Tech <span>Arduino Development Kit</span></h1>
+  <p>Build Arduino projects without breadboard wiring.</p>
+  <div class="tags"><span class="tag">Arduino Uno + Nano</span><span class="tag">30 on-board features</span><span class="tag">Board V 1.0</span></div>
+  <img class="board" src="img/board.jpg" alt="DJ Tech Arduino Uno + Nano Development Board">
+</div></header>
+
+<main class="wrap">
+
+<section id="why" style="border-top:0">
+  <h2><span class="num part">★</span>Why DJ Tech ADK</h2>
+  <p>To build an Arduino project, we usually use a breadboard, modules and many jumper wires. For example, a clock on an OLED display needs many wires between the Arduino, the RTC (clock) module and the display.</p>
+  <p>Many wires make the circuit messy, and loose breadboard contacts cause errors. The <b>DJ Tech ADK</b> avoids this: the modules plug straight into the board, so you get your output quickly.</p>
+
+  <h3>Special features</h3>
+  <ul class="dots">
+    <li>Works with both <b>Arduino Uno</b> and <b>Arduino Nano</b>.</li>
+    <li>Programmable switches with 4 different logic outputs.</li>
+    <li>Each voltage has its own <b>colour</b> of pins, for easy reference.</li>
+    <li>The Arduino board's own power can drive small modules such as LCD, OLED and RTC.</li>
+    <li>For bigger loads such as motors, an external supply through regulator ICs gives up to <b>1 A</b>.</li>
+    <li>Works with advanced sensor and display modules.</li>
+    <li><b>15 V / 1 A</b> power adapter included for the external supply.</li>
+    <li>A <b>3 mm acrylic sheet</b> under the board protects it.</li>
+    <li>The <b>Multi-Link</b> terminal lets you connect other parts too.</li>
+  </ul>
+</section>
+
+<nav class="toc">
+  <h2>Contents</h2>
+  <ol>
+    <li><a href="#s1"><span>1</span>Arduino Uno</a></li>
+    <li><a href="#s2"><span>2</span>Arduino Nano</a></li>
+    <li><a href="#s3"><span>3</span>Programmable switches</a></li>
+    <li><a href="#s4"><span>4</span>LED arrays (CA / CC)</a></li>
+    <li><a href="#s5"><span>5</span>433 MHz radio</a></li>
+    <li><a href="#s6"><span>6</span>Membrane keypads</a></li>
+    <li><a href="#s7"><span>7</span>Analog presets</a></li>
+    <li><a href="#s8"><span>8</span>Rotary encoder</a></li>
+    <li><a href="#s9"><span>9</span>HC-05 Bluetooth</a></li>
+    <li><a href="#s10"><span>10</span>SD card</a></li>
+    <li><a href="#s11"><span>11</span>Gas sensor</a></li>
+    <li><a href="#s12"><span>12</span>16x2 LCD (I2C)</a></li>
+    <li><a href="#s13"><span>13</span>MPU6050 motion sensor</a></li>
+    <li><a href="#s14"><span>14</span>BMP180 pressure sensor</a></li>
+    <li><a href="#s15"><span>15</span>RGB LED</a></li>
+    <li><a href="#oled"><span>16</span>OLED displays</a></li>
+    <li><a href="#s19"><span>19</span>NRF24L01 2.4 GHz radio</a></li>
+    <li><a href="#s20"><span>20</span>DS3231 clock (RTC)</a></li>
+    <li><a href="#s21"><span>21</span>Buzzer</a></li>
+    <li><a href="#s22"><span>22</span>PIR motion sensor</a></li>
+    <li><a href="#s23"><span>23</span>16x2 LCD (parallel)</a></li>
+    <li><a href="#s24"><span>24</span>TM1637 4-digit display</a></li>
+    <li><a href="#s25"><span>25</span>Multi-Link connector</a></li>
+    <li><a href="#s26"><span>26</span>HC-SR04 ultrasonic</a></li>
+    <li><a href="#s27"><span>27</span>Double and triple links</a></li>
+    <li><a href="#s28"><span>28</span>On-board power pins</a></li>
+    <li><a href="#s29"><span>29</span>External power pins</a></li>
+    <li><a href="#s30"><span>30</span>Power LEDs</a></li>
+    <li><a href="#notes"><span>!</span>Important notes</a></li>
+  </ol>
+</nav>
+
+<section id="dual">
+  <h2><span class="num part">⇄</span>Dual board support</h2>
+  <p>This is a combo development board: you can use <b>either an Arduino Uno or an Arduino Nano</b> on it.</p>
+  <div class="pics two">
+    <figure><img src="img/uno-board.jpg" alt="Arduino Uno placed on the ADK" loading="lazy"><figcaption>With Arduino Uno</figcaption></figure>
+    <figure><img src="img/nano-board.jpg" alt="Arduino Nano placed on the ADK" loading="lazy"><figcaption>With Arduino Nano</figcaption></figure>
+  </div>
+</section>
+
+<section id="s1">
+  <h2><span class="num">1</span>Arduino Uno</h2>
+  <div class="pics one"><figure><img src="img/uno.jpg" alt="Arduino Uno on the ADK" loading="lazy"></figure></div>
+  <p>Place the Uno board <b>upside down</b> on the <b>black male header pins</b>. The <b>blue header pins</b> then work as the Uno's input and output pins.</p>
+  <ul class="dots">
+    <li>14 digital input/output pins, 6 analog inputs, 6 PWM (pulse width modulation) outputs.</li>
+    <li>Built with a DIP (Dual In-line Package) chip.</li>
+  </ul>
+  <div class="warn box">Take at most <b>20 mA</b> from each I/O pin.</div>
+</section>
+
+<section id="s2">
+  <h2><span class="num">2</span>Arduino Nano</h2>
+  <div class="pics one"><figure><img src="img/nano.jpg" alt="Arduino Nano on the ADK" loading="lazy"></figure></div>
+  <p>Place the Nano board <b>straight</b> (pins down) in the <b>black female headers</b>. The <b>green header pins</b> then work as the Nano's input and output pins.</p>
+  <ul class="dots">
+    <li>22 input/output pins (14 digital + 8 analog), 6 PWM outputs.</li>
+    <li>Built with an SMD (Surface Mount Device) chip.</li>
+  </ul>
+  <div class="warn box">Take at most <b>20 mA</b> from each I/O pin.</div>
+</section>
+
+<section id="s3">
+  <h2><span class="num">3</span>Programmable switches</h2>
+  <div class="pics one"><figure><img src="img/switches.jpg" alt="Six programmable switches S1 to S6 with jumper pins 1 to 7" loading="lazy"><figcaption>Switches S1–S6, each with jumper pins 1 to 7</figcaption></figure></div>
+  <p>Each switch (S1 to S6) has jumper pins numbered <b>1 to 7</b>. <b>Pin 7 is the output.</b> By placing jumpers you choose one of 4 logic outputs:</p>
+  <div class="table"><table>
+    <tr><th>Output you want</th><th>Jumper setting</th></tr>
+    <tr><td>HIGH when pressed</td><td>Connect pin 5 to <b>5 V</b> (red pin). Pressed: pin 7 goes HIGH. Released: pin 7 floats.</td></tr>
+    <tr><td>LOW when pressed</td><td>Connect pin 5 to <b>0 V</b> (black pin). Pressed: pin 7 goes LOW. Released: pin 7 floats.</td></tr>
+    <tr><td>LOW → HIGH when pressed</td><td>Jumpers on <b>2–3</b> and <b>4–5</b>.</td></tr>
+    <tr><td>HIGH → LOW when pressed</td><td>Jumpers on <b>2–3</b> and <b>5–6</b>.</td></tr>
+  </table></div>
+  <div class="pics one"><figure><img src="img/switch-config.jpg" alt="Switch configuration printed on the board" loading="lazy"><figcaption>The same settings are printed on the board</figcaption></figure></div>
+</section>
+
+<section id="s4">
+  <h2><span class="num">4</span>LED arrays: common anode and common cathode</h2>
+  <div class="pics one"><figure><img src="img/leds.jpg" alt="7 green LEDs (CC) and 7 red LEDs (CA)" loading="lazy"></figure></div>
+  <p>Two sets of 7 LEDs are used as outputs, for example as indicators:</p>
+  <ul class="dots">
+    <li><span class="dot" style="background:#4caf50"></span><b>CC</b>: Common Cathode set.</li>
+    <li><span class="dot" style="background:#f44336"></span><b>CA</b>: Common Anode set.</li>
+  </ul>
+</section>
+
+<section id="s5">
+  <h2><span class="num">5</span>433 MHz radio transmitter and receiver</h2>
+  <div class="pics two">
+    <figure><img src="img/rf-tx.jpg" alt="433 MHz transmitter" loading="lazy"><figcaption>Transmitter (TX, 4 pins)</figcaption></figure>
+    <figure><img src="img/rf-rx.jpg" alt="433 MHz receiver" loading="lazy"><figcaption>Receiver (RX, 8 pins)</figcaption></figure>
+  </div>
+  <p>These modules work at 433 MHz and let two Arduinos talk to each other. Data sent by the <b>TX module</b> is received by the <b>RX module</b> and given to the Arduino's I/O pin.</p>
+  <div class="tip box">Connect a wire to the <b>ANT</b> pin as an antenna for a good signal.</div>
+</section>
+
+<section id="s6">
+  <h2><span class="num">6</span>Membrane keypads (1x4, 3x4 and 4x4)</h2>
+  <div class="pics two">
+    <figure><img src="img/keypad-1x4.jpg" alt="1x4 membrane keypad" loading="lazy"><figcaption>1x4 keypad (4 keys)</figcaption></figure>
+    <figure><img src="img/keypad-4x4.jpg" alt="4x4 membrane keypad" loading="lazy"><figcaption>4x4 keypad (16 keys)</figcaption></figure>
+  </div>
+  <p>A membrane keypad is used to type numbers and symbols into the Arduino. It is a matrix of rows and columns of keys. The <b>1x4</b> (4 keys), <b>3x4</b> (12 keys) and <b>4x4</b> (16 keys) keypads can all be connected to the ADK.</p>
+</section>
+
+<section id="s7">
+  <h2><span class="num">7</span>Analog presets</h2>
+  <div class="pics one"><figure><img src="img/preset.jpg" alt="Two analog presets with knobs, A1 and A2" loading="lazy"></figure></div>
+  <p>A preset gives an <b>analog voltage (0–5 V)</b> instead of only HIGH or LOW. Each preset feeds its own analog input pin (<b>A1</b> and <b>A2</b>).</p>
+  <p>The presets have a knob, so you can turn them by hand without a screwdriver. The <b>arrow</b> on the knob shows its position.</p>
+</section>
+
+<section id="s8">
+  <h2><span class="num">8</span>Rotary encoder with push button</h2>
+  <div class="pics one"><figure><img src="img/encoder.jpg" alt="Rotary encoder" loading="lazy"></figure></div>
+  <p>The rotary encoder works as a 3-way input: <b>1.</b> turn clockwise, <b>2.</b> turn anti-clockwise, <b>3.</b> push the centre. The Arduino reads the pulses from the encoder and acts on them.</p>
+  <p class="muted">Example: scroll and select in a menu on a display.</p>
+</section>
+
+<section id="s9">
+  <h2><span class="num">9</span>HC-05 Bluetooth</h2>
+  <div class="pics one"><figure><img src="img/bluetooth.jpg" alt="HC-05 Bluetooth module" loading="lazy"></figure></div>
+  <p>The HC-05 Bluetooth module sets up wireless communication with the Arduino. It can be set as <b>master</b> or <b>slave</b>. It talks to the Arduino through <b>UART</b> (serial: TX and RX).</p>
+</section>
+
+<section id="s10">
+  <h2><span class="num">10</span>SD card module</h2>
+  <div class="pics one"><figure><img src="img/sd-card.jpg" alt="SD card module" loading="lazy"></figure></div>
+  <p>Stores data from the Arduino on a micro SD card, for example a data logger, GPS logger or temperature logger. It can also be used to play sound notes from the SD card.</p>
+</section>
+
+<section id="s11">
+  <h2><span class="num">11</span>Gas sensor module</h2>
+  <div class="pics two">
+    <figure><img src="img/gas-1.jpg" alt="MQ-2 gas sensor, front" loading="lazy"></figure>
+    <figure><img src="img/gas-2.jpg" alt="MQ-2 gas sensor, back" loading="lazy"></figure>
+  </div>
+  <p>A gas sensor such as the <b>MQ-2</b> detects smoke and flammable gases such as LPG and methane. Its resistance changes with the gas, so the Arduino can raise an alarm when the gas level is high.</p>
+</section>
+
+<section id="s12">
+  <h2><span class="num">12</span>16x2 LCD in I2C mode</h2>
+  <div class="pics two">
+    <figure><img src="img/lcd-i2c-front.jpg" alt="16x2 LCD, front" loading="lazy"><figcaption>Front</figcaption></figure>
+    <figure><img src="img/lcd-i2c-back.jpg" alt="16x2 LCD with I2C module on the back" loading="lazy"><figcaption>Back, with the I2C module</figcaption></figure>
+  </div>
+  <p>A 16x2 LCD shows <b>16 characters on 2 lines</b>: letters, numbers and some custom characters. With the <b>I2C module</b> on its back, it needs only 2 signal wires (SDA and SCL), so the connection is simple.</p>
+</section>
+
+<section id="s13">
+  <h2><span class="num">13</span>MPU6050 accelerometer and gyroscope</h2>
+  <div class="pics one"><figure><img src="img/mpu6050.jpg" alt="MPU6050 module" loading="lazy"></figure></div>
+  <p>A 6-axis motion sensor in one chip: a <b>3-axis gyroscope</b>, a <b>3-axis accelerometer</b>, a digital motion processor and a temperature sensor.</p>
+</section>
+
+<section id="s14">
+  <h2><span class="num">14</span>BMP180 barometric pressure sensor</h2>
+  <div class="pics one"><figure><img src="img/bmp180.jpg" alt="BMP180 module" loading="lazy"></figure></div>
+  <p>Measures <b>air pressure, temperature and altitude</b> with high accuracy.</p>
+</section>
+
+<section id="s15">
+  <h2><span class="num">15</span>RGB LED</h2>
+  <div class="pics one"><figure><img src="img/rgb.jpg" alt="RGB LED with R, G, B pins" loading="lazy"></figure></div>
+  <p>A <b>common cathode</b> RGB LED with Red, Green and Blue. By changing the voltage (PWM) on R, G and B, you can mix many colours.</p>
+</section>
+
+<section id="oled">
+  <h2><span class="num">16</span>OLED displays</h2>
+  <div class="pics one"><figure><img src="img/oled-types.jpg" alt="Three types of OLED display" loading="lazy"><figcaption>The three OLED displays</figcaption></figure></div>
+  <p>OLED means <b>Organic Light Emitting Diode</b>. Each dot gives its own light, so there is no backlight and black looks really black. OLEDs are smaller and lighter than LCDs. Each dot (pixel) can be switched on or off, so you can show text and pictures of any shape.</p>
+  <div class="table"><table>
+    <tr><th>Display</th><th>Pixels</th></tr>
+    <tr><td>16. 1.3 inch</td><td>128 x 64 = 8192 pixels</td></tr>
+    <tr><td>17. 0.96 inch</td><td>128 x 64 = 8192 pixels (driver SSD1306)</td></tr>
+    <tr><td>18. 0.91 inch</td><td>128 x 32 = 4096 pixels (driver SSD1306)</td></tr>
+  </table></div>
+  <div class="pics three">
+    <figure><img src="img/oled-13.jpg" alt="1.3 inch OLED" loading="lazy"><figcaption>16. 1.3 inch</figcaption></figure>
+    <figure><img src="img/oled-096.jpg" alt="0.96 inch OLED" loading="lazy"><figcaption>17. 0.96 inch</figcaption></figure>
+    <figure><img src="img/oled-091.jpg" alt="0.91 inch OLED" loading="lazy"><figcaption>18. 0.91 inch</figcaption></figure>
+  </div>
+</section>
+
+<section id="s19">
+  <h2><span class="num">19</span>NRF24L01 2.4 GHz radio</h2>
+  <div class="pics one"><figure><img src="img/nrf24.jpg" alt="NRF24L01 module with antenna" loading="lazy"></figure></div>
+  <p>A wireless transceiver (send and receive) for the 2.4 GHz band, made for very low power use. It talks to the Arduino through <b>SPI</b>.</p>
+  <ul class="dots">
+    <li>Data speed up to <b>2 Mbps</b>.</li>
+    <li><b>125 channels</b>, so up to 125 separate networks can work in one place.</li>
+    <li>Each channel has up to <b>6 addresses</b>, so it can talk with 6 other devices at the same time.</li>
+    <li>Range up to about <b>100 metres</b>.</li>
+  </ul>
+</section>
+
+<section id="s20">
+  <h2><span class="num">20</span>DS3231 real-time clock (RTC)</h2>
+  <div class="pics two">
+    <figure><img src="img/rtc-1.jpg" alt="DS3231 module with battery" loading="lazy"><figcaption>With backup battery</figcaption></figure>
+    <figure><img src="img/rtc-2.jpg" alt="DS3231 module on the board" loading="lazy"><figcaption>On the board</figcaption></figure>
+  </div>
+  <p>The DS3231 is a very accurate, low-cost clock chip that talks over <b>I2C</b>. It has a built-in temperature-compensated crystal (TCXO).</p>
+  <ul class="dots">
+    <li>A <b>battery</b> keeps the time when the power is off.</li>
+    <li>Counts seconds, minutes, hours, day, date, month and year. Short months and <b>leap years</b> are corrected automatically.</li>
+    <li>24-hour or 12-hour mode (with AM/PM).</li>
+    <li>Two programmable alarms and a programmable square-wave output.</li>
+  </ul>
+</section>
+
+<section id="s21">
+  <h2><span class="num">21</span>Buzzer</h2>
+  <div class="pics one"><figure><img src="img/buzzer.jpg" alt="Buzzer" loading="lazy"></figure></div>
+  <p>An electric buzzer gives a sound signal as an Arduino output. It makes sound in the <b>1 to 7 kHz</b> range.</p>
+</section>
+
+<section id="s22">
+  <h2><span class="num">22</span>PIR sensor (Passive Infrared)</h2>
+  <div class="pics one"><figure><img src="img/pir.jpg" alt="PIR motion sensor" loading="lazy"></figure></div>
+  <p>A PIR sensor detects the <b>heat (infrared)</b> given off by people and animals, so it can sense movement.</p>
+  <ul class="dots">
+    <li>Output <b>HIGH</b>: movement found.</li>
+    <li>Output <b>LOW</b>: no movement.</li>
+  </ul>
+</section>
+
+<section id="s23">
+  <h2><span class="num">23</span>16x2 LCD in parallel mode</h2>
+  <div class="pics one"><figure><img src="img/lcd-parallel.jpg" alt="16x2 LCD in parallel mode" loading="lazy"></figure></div>
+  <p>The same 16x2 LCD (16 characters, 2 lines) can also be connected directly, without the I2C module. It has 16 pins; in <b>4-bit mode</b> only 12 are used (D0–D3 are not needed).</p>
+  <p>A <b>10 kΩ preset</b> on the board adjusts the text contrast.</p>
+</section>
+
+<section id="s24">
+  <h2><span class="num">24</span>TM1637 4-digit 7-segment display</h2>
+  <div class="pics two">
+    <figure><img src="img/tm1637-front.jpg" alt="TM1637 display, front" loading="lazy"></figure>
+    <figure><img src="img/tm1637-back.jpg" alt="TM1637 display, back" loading="lazy"></figure>
+  </div>
+  <p>A 4-digit 7-segment display normally needs at least 12 pins, which is most of an Arduino's pins. This module has a <b>TM1637</b> driver chip, so it needs only <b>2 signal wires</b> (CLK and DIO).</p>
+  <p class="muted">Use it to build a clock, counter, stopwatch, timer and more.</p>
+</section>
+
+<section id="s25">
+  <h2><span class="num">25</span>Multi-Link connector</h2>
+  <div class="pics three">
+    <figure><img src="img/ml-1.jpg" alt="Multi-Link with LM35" loading="lazy"></figure>
+    <figure><img src="img/ml-2.jpg" alt="Multi-Link with DIP switch" loading="lazy"></figure>
+    <figure><img src="img/ml-3.jpg" alt="Multi-Link with LM324 IC" loading="lazy"></figure>
+    <figure><img src="img/ml-4.jpg" alt="Multi-Link with humidity module" loading="lazy"></figure>
+    <figure><img src="img/ml-5.jpg" alt="Multi-Link connector" loading="lazy"></figure>
+    <figure><img src="img/ml-6.jpg" alt="Multi-Link with a module" loading="lazy"></figure>
+  </div>
+  <p>Multi-Link is a special connector where other parts and even modules can be plugged in easily. For example: the <b>LM35</b> temperature sensor, the <b>78L05</b> regulator, a humidity module, a <b>DIP switch</b>, and ICs such as the <b>LM324</b>.</p>
+</section>
+
+<section id="s26">
+  <h2><span class="num">26</span>HC-SR04 ultrasonic sensor</h2>
+  <div class="pics one"><figure><img src="img/ultrasonic.jpg" alt="HC-SR04 ultrasonic sensor" loading="lazy"></figure></div>
+  <p>Measures the distance to an object, from <b>2 cm to 400 cm</b>, using sound echo (like SONAR).</p>
+  <ul class="dots">
+    <li>Give a pulse of <b>10 µs</b> or more on the <b>TRIG</b> pin. The module sends 8 sound pulses at 40 kHz.</li>
+    <li>The <b>ECHO</b> pin then goes HIGH and stays HIGH until the echo comes back.</li>
+    <li>The HIGH time is the time for the sound to go to the object and back. From this time and the speed of sound, the Arduino works out the distance.</li>
+  </ul>
+</section>
+
+<section id="s27">
+  <h2><span class="num">27</span>Double and triple links</h2>
+  <div class="pics one"><figure><img src="img/links.jpg" alt="Double and triple link pins" loading="lazy"></figure></div>
+  <p>These pins work as <b>joints</b> when wiring a project. Connect an Arduino output to a double or triple link, then from the link to several modules or sensors.</p>
+</section>
+
+<section id="s28">
+  <h2><span class="num">28</span>On-board power pins (internal)</h2>
+  <div class="pics one"><figure><img src="img/power-int.jpg" alt="On-board GND, +5V and +3.3V pins" loading="lazy"></figure></div>
+  <p>These pins take their power from the Arduino Uno or Nano. Each voltage has its own colour:</p>
+  <div class="table"><table>
+    <tr><th>Colour</th><th>Voltage</th></tr>
+    <tr><td><span class="dot" style="background:#222"></span>Black</td><td>GND (negative, 0 V)</td></tr>
+    <tr><td><span class="dot" style="background:#e53935"></span>Red</td><td>+5 V</td></tr>
+    <tr><td><span class="dot" style="background:#fdd835"></span>Yellow</td><td>+3.3 V</td></tr>
+  </table></div>
+  <p><b>GND is common</b> to both the internal and the external power supply.</p>
+  <div class="warn box">Do not take more than <b>20 mA</b> from an Arduino I/O pin.</div>
+</section>
+
+<section id="s29">
+  <h2><span class="num">29</span>External power pins</h2>
+  <div class="pics one"><figure><img src="img/power-ext.jpg" alt="External +12V, +5V and +3.3V pins" loading="lazy"></figure></div>
+  <p>The Arduino's own power is enough for small modules. For loads that need more current, such as <b>motors and solenoid coils</b>, use the external supply (up to <b>1 A</b>) from the 15 V adapter:</p>
+  <div class="table"><table>
+    <tr><th>Colour</th><th>Voltage</th></tr>
+    <tr><td><span class="dot" style="background:#43a047"></span>Green</td><td>+12 V</td></tr>
+    <tr><td><span class="dot" style="background:#e53935"></span>Red</td><td>+5 V</td></tr>
+    <tr><td><span class="dot" style="background:#fdd835"></span>Yellow</td><td>+3.3 V</td></tr>
+  </table></div>
+</section>
+
+<section id="s30">
+  <h2><span class="num">30</span>Power LED indicators</h2>
+  <div class="pics one"><figure><img src="img/power-leds.jpg" alt="Power LEDs" loading="lazy"></figure></div>
+  <p>Each power LED shows whether that voltage is present:</p>
+  <div class="table"><table>
+    <tr><th>LED</th><th>Meaning</th></tr>
+    <tr><td><span class="dot" style="background:#1e88e5"></span>Blue</td><td>+15 V from the external adapter</td></tr>
+    <tr><td><span class="dot" style="background:#43a047"></span>Green</td><td>+12 V</td></tr>
+    <tr><td><span class="dot" style="background:#e53935"></span>Red</td><td>+5 V</td></tr>
+    <tr><td><span class="dot" style="background:#fdd835"></span>Yellow</td><td>+3.3 V</td></tr>
+  </table></div>
+</section>
+
+<section id="notes">
+  <h2><span class="num part">!</span>Important notes</h2>
+  <div class="pics one"><figure><img src="img/note-star.jpg" alt="Star symbol next to a module socket" loading="lazy"><figcaption>The star (*) marks the positive pin</figcaption></figure></div>
+  <div class="tip box">The <b>star (*)</b> printed next to a socket marks the <b>VCC / + / positive</b> pin of the module. Match the module's VCC pin with the star.</div>
+  <div class="warn box">While using the supplied <b>15 V adapter</b>, keep yourself isolated from the floor (for example, wear footwear) to avoid a mild shock from induction.</div>
+</section>
+
+</main>
+
+<footer><div class="wrap">
+  <img src="../logo.png" alt="DJ Tech" style="width:90px">
+  <p class="slogan">Striking with differences</p>
+  <p>Customer care</p>
+  <a class="call" href="tel:+918098888255">📞 80988 88255</a>
+</div></footer>
+
+<a class="top noprint" href="#" aria-label="Back to top">↑</a>
+</body>
+</html>

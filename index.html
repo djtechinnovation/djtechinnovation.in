@@ -3,63 +3,361 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DJ Tech Schedule Timer</title>
-<meta name="description" content="Download the DJ Tech Schedule Timer app or read the user manual.">
+<title>DJ Tech Innovation</title>
+<meta name="description" content="DJ Tech Innovation designs and builds smart electronics: Schedule Timer automatic bell, Arduino Development Kit and water level controllers. Apps, manuals and support.">
+<meta property="og:title" content="DJ Tech Innovation · Striking with differences">
+<meta property="og:description" content="Smart electronics designed and built by DJ Tech: automatic bells, Arduino kits and water level controllers.">
+<meta property="og:image" content="https://djtechinnovation.in/adk/img/board.jpg">
 <link rel="icon" href="logo.png">
 <style>
   :root {
-    --bg: #0b0b0d; --card: #17181b; --line: #2c2e33; --text: #f4f4f5; --muted: #a1a1aa;
-    --gold: #f2c14e; --gold-dark: #d99a1f; --cyan: #00bcd4;
+    --bg: #07090c; --bg2: #0c1015; --card: #11161c; --card2: #161c24; --line: #1f2a33; --text: #eef3f6; --muted: #93a1ad;
+    --gold: #f2c14e; --gold2: #d99a1f; --cyan: #00d4e6; --green: #3ddc84;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    line-height: 1.5; min-height: 100vh; }
-  main { max-width: 520px; margin: 0 auto; padding: 32px 16px 40px; text-align: center; }
-  .logo { width: 170px; height: auto; }
-  h1 { font-size: 28px; margin-top: 12px; letter-spacing: -.3px; }
-  h1 span { color: var(--gold); }
-  .tag { color: var(--muted); margin-top: 6px; font-size: 17px; }
-  .buttons { display: grid; gap: 14px; margin-top: 28px; }
-  .btn { display: block; padding: 18px 16px; border-radius: 16px; text-decoration: none; font-weight: 700; font-size: 19px; }
-  .btn small { display: block; font-weight: 400; font-size: 14px; margin-top: 2px; opacity: .8; }
-  .app { background: linear-gradient(180deg, var(--gold), var(--gold-dark)); color: #1a1305; }
-  .manual { background: var(--card); color: var(--text); border: 2px solid var(--cyan); }
-  .help { margin-top: 30px; text-align: left; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px 18px 14px; }
-  .help h2 { font-size: 17px; margin-bottom: 8px; }
-  .help ol { padding-left: 20px; color: var(--muted); }
-  .help li { margin-bottom: 6px; }
-  .help b { color: var(--text); }
-  .contact { margin-top: 28px; color: var(--muted); }
-  .contact a { color: var(--gold); font-size: 22px; font-weight: 700; text-decoration: none; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; line-height: 1.55; overflow-x: hidden; }
+  a { color: inherit; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+  .mono { font-family: Consolas, "Courier New", monospace; }
+
+  /* ---------- top bar ---------- */
+  .nav { position: sticky; top: 0; z-index: 20; background: rgba(7,9,12,.82); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  .nav .wrap { display: flex; align-items: center; gap: 12px; height: 62px; }
+  .nav img { height: 42px; }
+  .brand { font-weight: 800; letter-spacing: .3px; flex: 1; white-space: nowrap; }
+  .brand span { color: var(--gold); }
+  .links { display: flex; gap: 20px; font-size: 15px; }
+  .links a { text-decoration: none; color: var(--muted); }
+  .links a:hover { color: var(--text); }
+  .call-mini { text-decoration: none; font-weight: 700; font-size: 14px; padding: 8px 14px; border-radius: 10px; color: #1a1305;
+    background: linear-gradient(180deg, var(--gold), var(--gold2)); white-space: nowrap; }
+  @media (max-width: 760px) { .links { display: none; } }
+
+  /* ---------- hero with circuit board ---------- */
+  .hero { position: relative; overflow: hidden; border-bottom: 1px solid var(--line);
+    background: radial-gradient(900px 480px at 75% 30%, rgba(0,212,230,.10), transparent 60%),
+                radial-gradient(700px 420px at 15% 80%, rgba(242,193,78,.10), transparent 60%), var(--bg); }
+  .grid-bg { position: absolute; inset: 0; opacity: .35;
+    background-image: linear-gradient(rgba(0,212,230,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,230,.07) 1px, transparent 1px);
+    background-size: 32px 32px; -webkit-mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%); mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%); }
+  .traces { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .traces path { fill: none; stroke: rgba(0,212,230,.22); stroke-width: 2; }
+  .traces .sig { stroke: var(--cyan); stroke-width: 2.5; stroke-dasharray: 18 260; stroke-linecap: round; filter: drop-shadow(0 0 4px var(--cyan)); animation: run 5s linear infinite; }
+  .traces .sig.g { stroke: var(--gold); filter: drop-shadow(0 0 4px var(--gold)); animation-duration: 6.5s; }
+  .traces .sig.d2 { animation-delay: -2s; } .traces .sig.d3 { animation-delay: -3.5s; }
+  .traces circle { fill: var(--bg); stroke: rgba(0,212,230,.45); stroke-width: 2; }
+  @keyframes run { from { stroke-dashoffset: 278; } to { stroke-dashoffset: 0; } }
+
+  .hero .wrap { position: relative; display: grid; grid-template-columns: 1.1fr .9fr; gap: 30px; align-items: center; padding-top: 64px; padding-bottom: 64px; }
+  /* dark glow behind the text, so the circuit lines never cross the words */
+  .txt { position: relative; z-index: 0; }
+  .txt::before { content: ""; position: absolute; inset: -40px -50px; z-index: -1; background: radial-gradient(closest-side, rgba(7,9,12,.92) 55%, transparent); }
+  .kicker { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--cyan);
+    border: 1px solid rgba(0,212,230,.35); background: rgba(0,212,230,.07); padding: 5px 12px; border-radius: 999px; }
+  .led { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); animation: blink 2s infinite; }
+  @keyframes blink { 50% { opacity: .35; } }
+  .hero h1 { font-size: clamp(34px, 5.4vw, 58px); line-height: 1.05; margin-top: 16px; letter-spacing: -1px; }
+  .hero h1 em { font-style: normal; color: var(--gold); }
+  .hero p.lead { color: var(--muted); font-size: 18px; margin-top: 16px; max-width: 520px; }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+  .b { display: inline-block; text-decoration: none; font-weight: 700; padding: 13px 20px; border-radius: 12px; font-size: 16px; }
+  .b.gold { background: linear-gradient(180deg, var(--gold), var(--gold2)); color: #1a1305; box-shadow: 0 8px 24px rgba(242,193,78,.25); }
+  .b.line { border: 1.5px solid var(--cyan); color: var(--cyan); background: rgba(0,212,230,.06); }
+
+  /* chip illustration */
+  .chipbox { display: grid; place-items: center; padding: 20px; }
+  .chip { position: relative; width: min(300px, 64vw); aspect-ratio: 1; border-radius: 26px;
+    background: linear-gradient(145deg, #1a2128, #0e1318); border: 1px solid #2a3540;
+    box-shadow: 0 0 0 10px rgba(0,212,230,.04), 0 30px 80px rgba(0,0,0,.6), inset 0 0 40px rgba(0,212,230,.08); display: grid; place-items: center; }
+  .chip::before, .chip::after { content: ""; position: absolute; left: 12%; right: 12%; height: 18px;
+    background: repeating-linear-gradient(90deg, #c9a24a 0 10px, transparent 10px 22px); }
+  .chip::before { top: -18px; } .chip::after { bottom: -18px; }
+  .pins-side { position: absolute; top: 12%; bottom: 12%; width: 18px; background: repeating-linear-gradient(180deg, #c9a24a 0 10px, transparent 10px 22px); }
+  .pins-side.l { left: -18px; } .pins-side.r { right: -18px; }
+  .chip img { width: 62%; filter: drop-shadow(0 0 18px rgba(242,193,78,.35)); }
+  .chip .dot1 { position: absolute; left: 16px; top: 16px; width: 12px; height: 12px; border-radius: 50%; background: #2b3540; }
+  .chip .label { position: absolute; bottom: 14px; font-size: 11px; letter-spacing: 3px; color: #5d6b78; }
+  @media (max-width: 860px) { .hero .wrap { grid-template-columns: 1fr; text-align: center; padding-top: 30px; }
+    .hero p.lead { margin-left: auto; margin-right: auto; } .cta { justify-content: center; } .chipbox { order: -1; } }
+
+  /* quick strip for Schedule Timer customers (the QR sticker opens this page) */
+  .quick { background: var(--bg2); border-bottom: 1px solid var(--line); }
+  .quick .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; padding-top: 14px; padding-bottom: 14px; }
+  .quick b { flex: 1 1 260px; font-size: 15px; }
+  .quick b span { color: var(--gold); }
+  .quick a { text-decoration: none; font-size: 14px; font-weight: 700; padding: 9px 14px; border-radius: 10px; }
+  .quick .q1 { background: linear-gradient(180deg, var(--gold), var(--gold2)); color: #1a1305; }
+  .quick .q2 { border: 1.5px solid var(--cyan); color: var(--cyan); }
+
+  /* ---------- sections ---------- */
+  .sec { padding: 70px 0; }
+  .head { text-align: center; max-width: 640px; margin: 0 auto 36px; }
+  .head .tag { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--cyan); }
+  .head h2 { font-size: clamp(28px, 4vw, 40px); margin-top: 6px; letter-spacing: -.5px; }
+  .head p { color: var(--muted); margin-top: 8px; }
+
+  /* product cards */
+  .products { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 430px), 1fr)); }
+  .p { position: relative; background: var(--card); border: 1px solid var(--line); border-radius: 22px; overflow: hidden; display: flex; flex-direction: column;
+    transition: transform .25s, border-color .25s, box-shadow .25s; }
+  .p:hover { transform: translateY(-4px); border-color: rgba(0,212,230,.45); box-shadow: 0 18px 50px rgba(0,0,0,.45), 0 0 0 1px rgba(0,212,230,.15); }
+  .p .pic { height: 210px; position: relative; overflow: hidden; display: grid; place-items: center; border-bottom: 1px solid var(--line); }
+  .p .pic img { width: 100%; height: 100%; object-fit: cover; }
+  .badge { position: absolute; top: 12px; left: 12px; z-index: 1; font-size: 12px; font-weight: 800; letter-spacing: .5px; padding: 4px 10px; border-radius: 8px;
+    background: rgba(7,9,12,.8); border: 1px solid var(--line); color: var(--text); }
+  .badge.soon { color: var(--gold); border-color: rgba(242,193,78,.5); }
+  .p .body { padding: 20px; display: flex; flex-direction: column; flex: 1; }
+  .p h3 { font-size: 22px; line-height: 1.2; }
+  .p .sub { color: var(--cyan); font-size: 14px; margin-top: 2px; }
+  .p p { color: var(--muted); margin-top: 10px; font-size: 15px; }
+  .feat { list-style: none; margin-top: 12px; display: grid; gap: 6px; font-size: 14px; }
+  .feat li { padding-left: 22px; position: relative; }
+  .feat li::before { content: ""; position: absolute; left: 4px; top: 8px; width: 8px; height: 8px; border-radius: 2px; background: var(--green); box-shadow: 0 0 6px var(--green); }
+  .acts { display: grid; gap: 10px; margin-top: auto; padding-top: 18px; }
+  .acts.two { grid-template-columns: 1fr 1fr; }
+  .acts a { text-align: center; text-decoration: none; font-weight: 700; padding: 12px; border-radius: 12px; font-size: 15px; }
+  .acts .a1 { background: linear-gradient(180deg, var(--gold), var(--gold2)); color: #1a1305; }
+  .acts .a2 { border: 1.5px solid var(--cyan); color: var(--cyan); }
+  .acts .a3 { border: 1.5px dashed #3a4652; color: var(--muted); }
+  details.inst { margin-top: 12px; font-size: 14px; color: var(--muted); }
+  details.inst summary { cursor: pointer; }
+  details.inst ol { padding-left: 20px; margin-top: 6px; }
+
+  /* Schedule Timer picture: its display, as on the unit */
+  .bellpic { background: radial-gradient(420px 220px at 50% 0, rgba(242,193,78,.22), transparent 70%), #0d1013; }
+  .lcd { background: #1637c9; border: 7px solid #08090b; border-radius: 10px; padding: 9px 12px; font-family: Consolas, "Courier New", monospace;
+    color: #f4f8ff; font-size: 14px; line-height: 1.45; white-space: pre; text-shadow: 0 0 6px rgba(200,225,255,.7); box-shadow: 0 0 30px rgba(60,110,255,.35); }
+
+  /* water tank picture */
+  .tankpic { background: radial-gradient(420px 220px at 50% 0, rgba(0,212,230,.18), transparent 70%), #0b1116; }
+  .tankrow { display: flex; align-items: center; gap: 18px; }
+  .tank { width: 110px; height: 140px; border: 4px solid #5f7180; border-top-width: 10px; border-radius: 10px 10px 16px 16px; position: relative; overflow: hidden; background: #0a1218; }
+  .water { position: absolute; left: 0; right: 0; bottom: 0; height: 62%; background: linear-gradient(180deg, #33d2f0, #0a7fb3); animation: fill 6s ease-in-out infinite; }
+  .water::before { content: ""; position: absolute; top: -6px; left: -10%; width: 120%; height: 12px; border-radius: 50%; background: #5fe2f8; opacity: .6; }
+  @keyframes fill { 0%, 100% { height: 30%; } 50% { height: 85%; } }
+  .ctrl { width: 70px; height: 90px; border-radius: 10px; background: #1a2128; border: 1px solid #2f3b46; display: grid; place-items: center; gap: 6px; padding: 10px 0; }
+  .ctrl i { display: block; width: 10px; height: 10px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); }
+  .ctrl i.off { background: #3a2a2a; box-shadow: none; }
+  .wire { width: 40px; height: 4px; background: #5f7180; border-radius: 2px; }
+  .wave { font-size: 26px; color: var(--cyan); text-shadow: 0 0 10px var(--cyan); letter-spacing: -2px; }
+
+  /* why us */
+  .why { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+  .w { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 20px; }
+  .w .ic { width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center; font-size: 22px;
+    background: rgba(0,212,230,.08); border: 1px solid rgba(0,212,230,.3); }
+  .w h4 { font-size: 17px; margin-top: 12px; }
+  .w p { color: var(--muted); font-size: 14px; margin-top: 4px; }
+
+  /* support */
+  .support { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .s { display: block; text-decoration: none; background: var(--card2); border: 1px solid var(--line); border-radius: 16px; padding: 18px; transition: border-color .2s; }
+  .s:hover { border-color: rgba(242,193,78,.5); }
+  .s small { color: var(--muted); display: block; font-size: 13px; }
+  .s b { font-size: 17px; }
+
+  /* contact */
+  .contact { background: linear-gradient(135deg, rgba(242,193,78,.12), rgba(0,212,230,.08)); border: 1px solid var(--line); border-radius: 26px;
+    padding: 36px 24px; text-align: center; }
+  .contact h2 { font-size: clamp(26px, 4vw, 36px); }
+  .contact p { color: var(--muted); margin-top: 6px; }
+  .contact .num { display: block; font-size: clamp(30px, 6vw, 44px); font-weight: 800; color: var(--gold); text-decoration: none; margin-top: 14px; letter-spacing: 1px; }
+  .contact .cta { justify-content: center; }
+  .b.wa { background: #25d366; color: #062b14; }
+
+  footer { border-top: 1px solid var(--line); padding: 30px 0 40px; text-align: center; color: var(--muted); font-size: 14px; }
+  footer img { width: 80px; }
+  footer .slogan { font-family: "Brush Script MT", "Segoe Script", cursive; color: var(--gold); font-size: 26px; }
+
+  @media (prefers-reduced-motion: reduce) { .traces .sig, .led, .water { animation: none; } .p { transition: none; } }
 </style>
 </head>
 <body>
-<main>
-  <img class="logo" src="logo.png" alt="DJ Tech logo">
-  <h1>DJ Tech <span>Schedule Timer</span></h1>
-  <p class="tag">Automatic bells. Zero manual work.</p>
 
-  <div class="buttons">
-    <!-- Always the newest app: the file name in each GitHub release must stay the same -->
-    <a class="btn app" id="appLink" href="https://github.com/djtechinnovation/djtechinnovation.in/releases/latest/download/DJ-Schedule-Bell.apk">
-      Download the app<small>For Android phones</small>
-    </a>
-    <a class="btn manual" href="manual/">
-      User manual<small>Read on your phone, or save as PDF</small>
-    </a>
+<div class="nav"><div class="wrap">
+  <img src="logo.png" alt="DJ Tech">
+  <div class="brand">DJ Tech <span>Innovation</span></div>
+  <nav class="links"><a href="#products">Products</a><a href="#why">Why DJ Tech</a><a href="#support">Support</a><a href="#contact">Contact</a></nav>
+  <a class="call-mini" href="tel:+918098888255">📞 Call</a>
+</div></div>
+
+<header class="hero">
+  <div class="grid-bg"></div>
+  <!-- circuit board traces with signals running along them -->
+  <svg class="traces" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <path d="M0 120 H260 L300 160 H520 L560 120 H760"/>
+    <path d="M0 470 H180 L230 420 H430 L470 460 H700 L740 500 H1200"/>
+    <path d="M1200 90 H980 L940 130 H820 L780 170 V300"/>
+    <path d="M620 600 V520 L660 480 H900 L940 440 H1200"/>
+    <path d="M90 0 V60 L130 100 V300 L170 340 H330"/>
+    <path class="sig" d="M0 120 H260 L300 160 H520 L560 120 H760"/>
+    <path class="sig g d2" d="M0 470 H180 L230 420 H430 L470 460 H700 L740 500 H1200"/>
+    <path class="sig d3" d="M1200 90 H980 L940 130 H820 L780 170 V300"/>
+    <path class="sig g" d="M620 600 V520 L660 480 H900 L940 440 H1200"/>
+    <path class="sig d2" d="M90 0 V60 L130 100 V300 L170 340 H330"/>
+    <circle cx="760" cy="120" r="6"/><circle cx="780" cy="300" r="6"/><circle cx="330" cy="340" r="6"/>
+  </svg>
+  <div class="wrap">
+    <div class="txt">
+      <span class="kicker"><span class="led"></span>Smart electronics · Made by DJ Tech</span>
+      <h1>Electronics that <em>work for you</em>, every day.</h1>
+      <p class="lead">We design and build practical electronic products: automatic bells for schools and offices, Arduino learning kits, and water level controllers. Each comes with clear manuals and phone support.</p>
+      <div class="cta">
+        <a class="b gold" href="#products">See our products</a>
+        <a class="b line" href="#support">Apps &amp; manuals</a>
+      </div>
+    </div>
+    <div class="chipbox">
+      <div class="chip"><span class="pins-side l"></span><span class="pins-side r"></span><span class="dot1"></span>
+        <img src="logo.png" alt="DJ Tech logo"><span class="label mono">DJ-TECH · 2026</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="quick"><div class="wrap">
+  <b>Have a <span>DJ Tech Schedule Timer</span>? Get the app and manual here.</b>
+  <!-- Always the newest app: the file name in each GitHub release must stay the same -->
+  <a class="q1" href="https://github.com/djtechinnovation/djtechinnovation.in/releases/latest/download/DJ-Schedule-Bell.apk">⬇ Download the app</a>
+  <a class="q2" href="manual/">📖 User manual</a>
+</div></div>
+
+<main>
+
+<section class="sec" id="products"><div class="wrap">
+  <div class="head">
+    <span class="tag mono">// our products</span>
+    <h2>Built for real work</h2>
+    <p>Designed, assembled and supported by DJ Tech.</p>
   </div>
 
-  <section class="help">
-    <h2>Installing the app</h2>
-    <ol>
-      <li>Tap <b>Download the app</b> and wait for the download to finish.</li>
-      <li>Open the downloaded file.</li>
-      <li>If the phone asks, tap <b>Settings</b> and switch on <b>Allow from this source</b>, then go back.</li>
-      <li>Tap <b>Install</b>, then <b>Open</b>.</li>
-    </ol>
-  </section>
+  <div class="products">
 
-  <p class="contact">Need help? Call<br><a href="tel:+918098888255">80988 88255</a></p>
+    <article class="p">
+      <div class="pic bellpic"><span class="badge">Android app</span><div class="lcd">08:59:57 ID6 MTWTF--
+16/10/2026 FRI NET
+ACTIVE: NORMAL
+NEXT: 09:00 (3s)</div></div>
+      <div class="body">
+        <h3>Schedule Timer</h3>
+        <div class="sub">Automatic bell controller</div>
+        <p>Rings school and office bells on time, every day, by itself. Set the bell times from your phone.</p>
+        <ul class="feat">
+          <li>5 timetables, up to 30 bells each, day by day</li>
+          <li>Control from your phone over the unit's own WiFi</li>
+          <li>PRO: control from anywhere through the internet</li>
+          <li>Built-in clock keeps the time during power cuts</li>
+        </ul>
+        <div class="acts two">
+          <a class="a1" href="https://github.com/djtechinnovation/djtechinnovation.in/releases/latest/download/DJ-Schedule-Bell.apk">Download app</a>
+          <a class="a2" href="manual/">User manual</a>
+        </div>
+        <details class="inst">
+          <summary>How to install the app</summary>
+          <ol>
+            <li>Tap <b>Download app</b> and wait for the download to finish.</li>
+            <li>Open the downloaded file.</li>
+            <li>If the phone asks, tap <b>Settings</b> and switch on <b>Allow from this source</b>, then go back.</li>
+            <li>Tap <b>Install</b>, then <b>Open</b>.</li>
+          </ol>
+        </details>
+      </div>
+    </article>
+
+    <article class="p">
+      <div class="pic"><span class="badge">30 features</span><img src="adk/img/board.jpg" alt="DJ Tech Arduino Uno + Nano Development Board" loading="lazy"></div>
+      <div class="body">
+        <h3>Arduino Development Kit</h3>
+        <div class="sub">Arduino Uno + Nano development board</div>
+        <p>Build Arduino projects without messy breadboard wiring. Modules plug straight into the board.</p>
+        <ul class="feat">
+          <li>Works with Arduino Uno and Arduino Nano</li>
+          <li>Sockets for displays, sensors, radio and more</li>
+          <li>Colour-coded power pins: 12 V, 5 V, 3.3 V</li>
+          <li>15 V / 1 A adapter and acrylic base included</li>
+        </ul>
+        <div class="acts">
+          <a class="a2" href="adk/">User manual</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="p">
+      <div class="pic tankpic"><span class="badge soon">Details soon</span>
+        <div class="tankrow"><div class="tank"><div class="water"></div></div><span class="wire"></span><div class="ctrl"><i></i><i class="off"></i></div></div>
+      </div>
+      <div class="body">
+        <h3>Water Level Controller</h3>
+        <div class="sub">Wired model</div>
+        <p>Automatic water tank level control, connected to the tank by wire.</p>
+        <div class="acts">
+          <a class="a3" href="#contact">Ask us about it</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="p">
+      <div class="pic tankpic"><span class="badge soon">Details soon</span>
+        <div class="tankrow"><div class="tank"><div class="water" style="animation-delay:-3s"></div></div><span class="wave">)))</span><div class="ctrl"><i></i><i class="off"></i></div></div>
+      </div>
+      <div class="body">
+        <h3>Water Level Controller</h3>
+        <div class="sub">Wireless model</div>
+        <p>Automatic water tank level control, with no wires to run to the tank.</p>
+        <div class="acts">
+          <a class="a3" href="#contact">Ask us about it</a>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</div></section>
+
+<section class="sec" id="why" style="background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)"><div class="wrap">
+  <div class="head">
+    <span class="tag mono">// why dj tech</span>
+    <h2>Striking with differences</h2>
+  </div>
+  <div class="why">
+    <div class="w"><div class="ic">🛠️</div><h4>Designed in-house</h4><p>Hardware, software and apps are made by our own team, so everything works together.</p></div>
+    <div class="w"><div class="ic">📱</div><h4>Free apps</h4><p>Control your product from your phone. App updates are free.</p></div>
+    <div class="w"><div class="ic">📖</div><h4>Clear manuals</h4><p>Every manual is online, easy to read on a phone, and can be saved as PDF.</p></div>
+    <div class="w"><div class="ic">📞</div><h4>Phone support</h4><p>Call us when you need help. We answer your questions directly.</p></div>
+  </div>
+</div></section>
+
+<section class="sec" id="support"><div class="wrap">
+  <div class="head">
+    <span class="tag mono">// support</span>
+    <h2>Apps &amp; manuals</h2>
+    <p>Everything you need to set up and use your DJ Tech product.</p>
+  </div>
+  <div class="support">
+    <a class="s" href="https://github.com/djtechinnovation/djtechinnovation.in/releases/latest/download/DJ-Schedule-Bell.apk"><small>Schedule Timer · Android</small><b>⬇ Download the app</b></a>
+    <a class="s" href="manual/"><small>Schedule Timer</small><b>📖 User manual</b></a>
+    <a class="s" href="adk/"><small>Arduino Development Kit</small><b>📖 User manual</b></a>
+  </div>
+</div></section>
+
+<section class="sec" id="contact" style="padding-top:10px"><div class="wrap">
+  <div class="contact">
+    <h2>Talk to DJ Tech</h2>
+    <p>Questions, orders or service: call or message us.</p>
+    <a class="num" href="tel:+918098888255">80988 88255</a>
+    <div class="cta">
+      <a class="b gold" href="tel:+918098888255">📞 Call now</a>
+      <a class="b wa" href="https://wa.me/918098888255">💬 WhatsApp</a>
+    </div>
+  </div>
+</div></section>
+
 </main>
+
+<footer><div class="wrap">
+  <img src="logo.png" alt="DJ Tech">
+  <div class="slogan">Striking with differences</div>
+  <p>© 2026 DJ Tech Innovation · djtechinnovation.in</p>
+</div></footer>
+
 </body>
 </html>
