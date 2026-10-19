@@ -97,20 +97,146 @@
   .head h2 { font-size: clamp(28px, 4vw, 40px); margin-top: 6px; letter-spacing: -.5px; }
   .head p { color: var(--muted); margin-top: 8px; }
 
-  /* product cards */
-  .products { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 430px), 1fr)); }
-  .p { position: relative; background: var(--card); border: 1px solid var(--line); border-radius: 22px; overflow: hidden; display: flex; flex-direction: column;
-    transition: transform .25s, border-color .25s, box-shadow .25s; }
-  .p:hover { transform: translateY(-4px); border-color: rgba(0,212,230,.45); box-shadow: 0 18px 50px rgba(0,0,0,.45), 0 0 0 1px rgba(0,212,230,.15); }
-  .p .pic { height: 210px; position: relative; overflow: hidden; display: grid; place-items: center; border-bottom: 1px solid var(--line); }
-  .p .pic img { width: 100%; height: 100%; object-fit: cover; }
+  /* product tiles: small cards; tap one to open its details */
+  .tiles { display: grid; gap: 20px; grid-template-columns: repeat(3, 1fr); }
+  .tile { position: relative; text-decoration: none; background: var(--card); border: 1px solid var(--line); border-radius: 20px; overflow: hidden;
+    display: flex; flex-direction: column; transition: transform .25s, border-color .25s, box-shadow .25s; }
+  .tile:hover, .tile:focus-visible { transform: translateY(-4px); border-color: rgba(0,212,230,.45); box-shadow: 0 18px 50px rgba(0,0,0,.45), 0 0 0 1px rgba(0,212,230,.15); outline: none; }
+  .pic { position: relative; overflow: hidden; display: grid; place-items: center; border-bottom: 1px solid var(--line); }
+  .pic img { width: 100%; height: 100%; object-fit: cover; }
+  .tile .pic { height: 170px; }
+  .tile .lcd { font-size: 12px; }
+  .tile .tank { transform: scale(.8); }
+  .tile .tb { padding: 16px 18px 18px; display: flex; flex-direction: column; flex: 1; }
+  .tile h3 { font-size: 19px; line-height: 1.2; }
+  .tile .sub { color: var(--cyan); font-size: 14px; margin-top: 2px; }
+  .tile p { color: var(--muted); margin-top: 8px; font-size: 14px; flex: 1; }
+  .tile .go { margin-top: 12px; color: var(--gold); font-weight: 700; font-size: 14px; }
+  .swipe { display: none; text-align: center; color: var(--muted); font-size: 13px; margin-top: 4px; }
+  /* phones: one row of cards you swipe left and right */
+  @media (max-width: 760px) {
+    .tiles { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 14px; margin: 0 -16px; padding: 4px 16px 14px; scrollbar-width: none; }
+    .tiles::-webkit-scrollbar { display: none; }
+    .tile { flex: 0 0 78%; scroll-snap-align: center; }
+    .swipe { display: block; }
+  }
   .badge { position: absolute; top: 12px; left: 12px; z-index: 1; font-size: 12px; font-weight: 800; letter-spacing: .5px; padding: 4px 10px; border-radius: 8px;
     background: rgba(7,9,12,.8); border: 1px solid var(--line); color: var(--text); }
   .badge.soon { color: var(--gold); border-color: rgba(242,193,78,.5); }
-  .p .body { padding: 20px; display: flex; flex-direction: column; flex: 1; }
-  .p h3 { font-size: 22px; line-height: 1.2; }
-  .p .sub { color: var(--cyan); font-size: 14px; margin-top: 2px; }
-  .p p { color: var(--muted); margin-top: 10px; font-size: 15px; }
+
+  /* product details window (one product at a time) */
+  .sheet-bg { position: fixed; inset: 0; z-index: 50; display: none; align-items: center; justify-content: center; padding: 20px;
+    background: rgba(0,0,0,.72); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
+  .sheet-bg.open { display: flex; }
+  .sheet { position: relative; width: min(860px, 100%); max-height: calc(100vh - 40px); max-height: calc(100dvh - 40px); overflow-y: auto; overscroll-behavior: contain;
+    background: var(--card); border: 1px solid var(--line); border-radius: 22px; box-shadow: 0 30px 90px rgba(0,0,0,.6); animation: pop .25s ease-out; }
+  .sheet[hidden] { display: none; }
+  @keyframes pop { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+  .sheet-bar { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 12px;
+    background: rgba(17,22,28,.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  .sheet-bar button { font: inherit; cursor: pointer; color: var(--text); background: var(--card2); border: 1px solid var(--line); border-radius: 10px; }
+  .sheet-bar .back { padding: 8px 14px; font-size: 14px; font-weight: 700; }
+  .sheet-bar .x { width: 38px; height: 38px; font-size: 18px; }
+  .sheet .pic { height: 260px; }
+  .sheet .body { padding: 22px; display: flex; flex-direction: column; }
+  .sheet h3 { font-size: 26px; line-height: 1.2; }
+  .sheet .sub { color: var(--cyan); font-size: 15px; margin-top: 2px; }
+  .sheet p { color: var(--muted); margin-top: 10px; font-size: 15px; }
+  .sheet h4.part { font-size: 18px; margin-top: 26px; margin-bottom: 12px; }
+  @media (max-width: 760px) {
+    .sheet-bg { padding: 0; }
+    .sheet { width: 100%; height: 100%; max-height: none; border-radius: 0; border: 0; }
+    .sheet .pic { height: 210px; }
+    .sheet .body { padding: 18px 16px 28px; }
+  }
+  body.locked { overflow: hidden; }
+
+  /* water controller: model tabs */
+  .mtabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 18px; }
+  .mt { font: inherit; cursor: pointer; text-align: left; padding: 10px 12px; border-radius: 12px; background: var(--card2); border: 1px solid var(--line); color: var(--text); }
+  .mt b { display: block; font-size: 15px; }
+  .mt span { font-size: 13px; color: var(--muted); }
+  .mt[aria-selected="true"] { border-color: var(--gold); background: rgba(242,193,78,.1); }
+  .mt[aria-selected="true"] span { color: var(--gold); }
+  @media (max-width: 560px) { .mtabs { grid-template-columns: 1fr 1fr; } }
+  .minfo { margin-top: 14px; }
+  .minfo h5 { font-size: 18px; }
+  .minfo small { font: 700 12px Consolas, "Courier New", monospace; color: var(--cyan); border: 1px solid rgba(0,212,230,.4); border-radius: 6px; padding: 2px 6px; margin-left: 8px; vertical-align: middle; }
+  .sheet .minfo p { margin-top: 4px; }
+
+  /* water controller: working animation */
+  .stage { margin-top: 12px; background: #0b1116; border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
+  .scene { display: block; width: 100%; height: auto; background: radial-gradient(500px 260px at 70% 10%, rgba(0,212,230,.10), transparent 70%); }
+  .scene .lab { font: 700 10px Consolas, "Courier New", monospace; fill: #6f8090; letter-spacing: 1px; }
+  .scene:not(.two) .two-only, .scene:not(.radio) .radio-only, .scene.radio .wired-only { display: none; }
+  .lvl { transform-box: fill-box; transform-origin: 50% 100%; transition: transform 1.2s ease-in-out; }
+  .fl { transition: transform 1.2s ease-in-out; }
+  .scene.instant .lvl, .scene.instant .fl { transition: none; }
+  .pipe { fill: none; stroke: #33414d; stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; }
+  .flow { fill: none; stroke: #5fe2f8; stroke-width: 3; stroke-dasharray: 6 10; stroke-linecap: round; stroke-linejoin: round; opacity: 0; transition: opacity .4s; }
+  .flow.on { opacity: 1; animation: flow .6s linear infinite; }
+  @keyframes flow { to { stroke-dashoffset: -16; } }
+  .pour { stroke: #5fe2f8; stroke-width: 4; stroke-dasharray: 6 6; opacity: 0; transition: opacity .4s; }
+  .scene.filling .pour { opacity: 1; animation: flow .5s linear infinite; }
+  .cable { fill: none; stroke: #5a4630; stroke-width: 2.5; }
+  .sig { fill: none; stroke: #9a7b2c; stroke-width: 2; stroke-dasharray: 5 4; }
+  .air { fill: none; stroke: var(--cyan); stroke-width: 2; stroke-dasharray: 2 9; stroke-linecap: round; opacity: .8; animation: air 1s linear infinite; }
+  @keyframes air { to { stroke-dashoffset: -11; } }
+  .motor circle { fill: #1a2128; stroke: #5f7180; stroke-width: 3; }
+  .motor .fan { fill: none; stroke: #93a1ad; stroke-width: 3; stroke-linecap: round; transform-origin: 0 0; }
+  .motor.on circle { stroke: var(--green); filter: drop-shadow(0 0 6px var(--green)); }
+  .motor.on .fan { stroke: var(--green); animation: spin .5s linear infinite; }
+  .motor.st circle { stroke: var(--gold); animation: blink .5s infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .ledm { fill: #3a2a2a; }
+  .scene.filling .ledm { fill: var(--green); }
+  .buzz path { fill: none; stroke: var(--gold); stroke-width: 2.5; stroke-linecap: round; opacity: 0; }
+  .scene.beep .buzz path { animation: buzz .5s infinite; }
+  .scene.beep .buzz path + path { animation-delay: .1s; }
+  @keyframes buzz { 0%, 100% { opacity: 0; } 40% { opacity: 1; } }
+  .stage-bot { display: grid; grid-template-columns: auto 1fr; gap: 16px; padding: 14px; border-top: 1px solid var(--line); align-items: start; }
+  .stage .lcd { font-size: 13px; padding: 8px 10px; border-width: 6px; }
+  .wsteps { list-style: none; counter-reset: s; display: grid; gap: 4px; }
+  .wsteps li { counter-increment: s; font-size: 13.5px; color: var(--muted); cursor: pointer; padding: 4px 8px 4px 32px; position: relative; border-radius: 8px; }
+  .wsteps li::before { content: counter(s); position: absolute; left: 7px; top: 5px; width: 18px; height: 18px; border-radius: 50%; background: #24303a; color: var(--text);
+    font-size: 11px; font-weight: 700; text-align: center; line-height: 18px; }
+  .wsteps li.on { color: var(--text); background: rgba(0,212,230,.1); }
+  .wsteps li.on::before { background: var(--cyan); color: #00222a; }
+  .pz { font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; margin-top: 10px; padding: 6px 12px; border-radius: 8px; color: var(--cyan); background: transparent; border: 1px solid rgba(0,212,230,.45); }
+  @media (max-width: 640px) { .stage-bot { grid-template-columns: 1fr; } .stage .lcd { justify-self: center; } .scene .lab { font-size: 15px; letter-spacing: 0; } }
+
+  /* water controller: protections */
+  .prot { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); }
+  .pc { display: flex; gap: 12px; align-items: flex-start; background: var(--card2); border: 1px solid var(--line); border-radius: 16px; padding: 14px; }
+  .pc svg { flex: 0 0 56px; width: 56px; height: 56px; background: #0b1116; border: 1px solid var(--line); border-radius: 12px; }
+  .pc h5 { font-size: 15px; }
+  .sheet .pc p { font-size: 13.5px; margin-top: 3px; }
+  .ico-t { font: 700 8px Consolas, "Courier New", monospace; fill: #93a1ad; letter-spacing: .5px; }
+  .needle { transform-origin: 30px 42px; animation: needle 4s ease-in-out infinite; }
+  @keyframes needle { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-62deg); } 50% { transform: rotate(8deg); } 75% { transform: rotate(62deg); } }
+  .amp { transform-box: fill-box; transform-origin: 50% 100%; animation: amp 3s ease-in infinite; }
+  @keyframes amp { 0% { transform: scaleY(.25); fill: #3ddc84; } 60% { fill: #f2c14e; } 85%, 100% { transform: scaleY(1); fill: #ff5a5a; } }
+  .drop { fill: #33d2f0; animation: drop 3s linear infinite; }
+  .drop.d2 { animation-delay: .4s; } .drop.d3 { animation-delay: .8s; }
+  @keyframes drop { 0% { transform: translateY(0); opacity: 1; } 20% { transform: translateY(20px); opacity: 0; } 100% { opacity: 0; } }
+  .dryx { opacity: 0; animation: late 3s infinite; }
+  @keyframes late { 0%, 55% { opacity: 0; } 65%, 100% { opacity: 1; } }
+  .hand { transform-origin: 30px 30px; animation: spin 3s linear infinite; }
+  .st1, .st4 { fill: #24303a; }
+  .st1 { animation: stOn 3s infinite; } .st1.s2 { animation-delay: .4s; } .st1.s3 { animation-delay: .8s; }
+  .st4 { animation: stBad 3s infinite; }
+  @keyframes stOn { 0%, 10% { fill: #24303a; } 15%, 90% { fill: #3ddc84; } 100% { fill: #24303a; } }
+  @keyframes stBad { 0%, 45% { fill: #24303a; } 50%, 90% { fill: #ff5a5a; } 100% { fill: #24303a; } }
+  .rw { animation: rw 3s infinite; } .rwx { opacity: 0; animation: late 3s infinite; }
+  @keyframes rw { 0%, 15%, 30%, 45% { opacity: 1; } 8%, 23%, 38% { opacity: .2; } 55%, 100% { opacity: .08; } }
+  .sheet p.also { font-size: 14px; margin-top: 12px; }
+
+  /* water controller: modes */
+  .modes { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
+  .md { background: var(--card2); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; }
+  .mtag { display: inline-block; font: 700 12px Consolas, "Courier New", monospace; letter-spacing: 1px; color: var(--green); border: 1px solid rgba(61,220,132,.45); border-radius: 6px; padding: 3px 8px; }
+  .mtag.gold { color: var(--gold); border-color: rgba(242,193,78,.5); }
+  .sheet .md p { font-size: 14px; margin-top: 8px; }
   .feat { list-style: none; margin-top: 12px; display: grid; gap: 6px; font-size: 14px; }
   .feat li { padding-left: 22px; position: relative; }
   .feat li::before { content: ""; position: absolute; left: 4px; top: 8px; width: 8px; height: 8px; border-radius: 2px; background: var(--green); box-shadow: 0 0 6px var(--green); }
@@ -176,7 +302,7 @@
   footer img { width: 80px; }
   footer .slogan { font-family: "Brush Script MT", "Segoe Script", cursive; color: var(--gold); font-size: 26px; }
 
-  @media (prefers-reduced-motion: reduce) { .traces .sig, .led, .water { animation: none; } .p { transition: none; } }
+  @media (prefers-reduced-motion: reduce) { .traces .sig, .led, .water, .sheet { animation: none; } .tile { transition: none; } }
 </style>
 </head>
 <body>
@@ -184,7 +310,7 @@
 <div class="nav"><div class="wrap">
   <img src="logo.png" alt="DJ Tech">
   <div class="brand">DJ Tech <span>Innovation</span></div>
-  <nav class="links"><a href="#products">Products</a><a href="#demo">Demo</a><a href="#why">Why DJ Tech</a><a href="#support">Support</a><a href="#contact">Contact</a></nav>
+  <nav class="links"><a href="#products">Products</a><a href="#why">Why DJ Tech</a><a href="#support">Support</a><a href="#contact">Contact</a></nav>
   <a class="call-mini" href="tel:+918098888255">📞 Call</a>
 </div></div>
 
@@ -226,7 +352,7 @@
   <!-- Always the newest app: the file name in each GitHub release must stay the same -->
   <a class="q1" href="https://github.com/djtechinnovation/djtechinnovation.in/releases/latest/download/DJ-Schedule-Bell.apk">⬇ Download the app</a>
   <a class="q2" href="manual/">📖 User manual</a>
-  <a class="q2" href="#demo">▶ Demo video</a>
+  <a class="q2" href="#timer">▶ Demo video</a>
 </div></div>
 
 <main>
@@ -235,101 +361,48 @@
   <div class="head">
     <span class="tag mono">// our products</span>
     <h2>Built for real work</h2>
-    <p>Designed, assembled and supported by DJ Tech.</p>
+    <p>Tap a product to see its details.</p>
   </div>
 
-  <div class="products">
+  <div class="tiles">
 
-    <article class="p">
+    <a class="tile" href="#timer">
       <div class="pic bellpic"><span class="badge">Android app</span><div class="lcd">08:59:57 ID6 MTWTF--
 16/10/2026 FRI NET
 ACTIVE: NORMAL
 NEXT: 09:00 (3s)</div></div>
-      <div class="body">
+      <div class="tb">
         <h3>Schedule Timer</h3>
         <div class="sub">Automatic bell controller</div>
-        <p>Rings school and office bells on time, every day, by itself. Set the bell times from your phone.</p>
-        <ul class="feat">
-          <li>5 timetables, up to 30 bells each, day by day</li>
-          <li>Control from your phone over the unit's own WiFi</li>
-          <li>PRO: control from anywhere through the internet</li>
-          <li>Built-in clock keeps the time during power cuts</li>
-        </ul>
-        <div class="acts two">
-          <a class="a1" href="https://github.com/djtechinnovation/djtechinnovation.in/releases/latest/download/DJ-Schedule-Bell.apk">Download app</a>
-          <a class="a2" href="manual/">User manual</a>
-        </div>
-        <details class="inst">
-          <summary>How to install the app</summary>
-          <ol>
-            <li>Tap <b>Download app</b> and wait for the download to finish.</li>
-            <li>Open the downloaded file.</li>
-            <li>If the phone asks, tap <b>Settings</b> and switch on <b>Allow from this source</b>, then go back.</li>
-            <li>Tap <b>Install</b>, then <b>Open</b>.</li>
-          </ol>
-        </details>
+        <p>Rings school and office bells on time, every day, by itself.</p>
+        <span class="go">View details →</span>
       </div>
-    </article>
+    </a>
 
-    <article class="p">
+    <a class="tile" href="#adk">
       <div class="pic"><span class="badge">30 features</span><img src="adk/img/board.jpg" alt="DJ Tech Arduino Uno + Nano Development Board" loading="lazy"></div>
-      <div class="body">
+      <div class="tb">
         <h3>Arduino Development Kit</h3>
         <div class="sub">Arduino Uno + Nano development board</div>
-        <p>Build Arduino projects without messy breadboard wiring. Modules plug straight into the board.</p>
-        <ul class="feat">
-          <li>Works with Arduino Uno and Arduino Nano</li>
-          <li>Sockets for displays, sensors, radio and more</li>
-          <li>Colour-coded power pins: 12 V, 5 V, 3.3 V</li>
-          <li>15 V / 1 A adapter and acrylic base included</li>
-        </ul>
-        <div class="acts">
-          <a class="a2" href="adk/">User manual</a>
-        </div>
+        <p>Build Arduino projects without messy breadboard wiring.</p>
+        <span class="go">View details →</span>
       </div>
-    </article>
+    </a>
 
-    <article class="p">
-      <div class="pic tankpic"><span class="badge soon">Details soon</span>
-        <div class="tankrow"><div class="tank"><div class="water"></div></div><span class="wire"></span><div class="ctrl"><i></i><i class="off"></i></div></div>
+    <a class="tile" href="#water">
+      <div class="pic tankpic"><span class="badge">Wired &amp; wireless</span>
+        <div class="tankrow"><div class="tank"><div class="water"></div></div><span class="wave">)))</span><div class="ctrl"><i></i><i class="off"></i></div></div>
       </div>
-      <div class="body">
+      <div class="tb">
         <h3>Water Level Controller</h3>
-        <div class="sub">Wired model</div>
-        <p>Automatic water tank level control, connected to the tank by wire.</p>
-        <div class="acts">
-          <a class="a3" href="#contact">Ask us about it</a>
-        </div>
+        <div class="sub">Automatic motor control with protection</div>
+        <p>Starts the motor when the tank is low and stops it when the tank is full.</p>
+        <span class="go">View details →</span>
       </div>
-    </article>
-
-    <article class="p">
-      <div class="pic tankpic"><span class="badge soon">Details soon</span>
-        <div class="tankrow"><div class="tank"><div class="water" style="animation-delay:-3s"></div></div><span class="wave">)))</span><div class="ctrl"><i></i><i class="off"></i></div></div>
-      </div>
-      <div class="body">
-        <h3>Water Level Controller</h3>
-        <div class="sub">Wireless model</div>
-        <p>Automatic water tank level control, with no wires to run to the tank.</p>
-        <div class="acts">
-          <a class="a3" href="#contact">Ask us about it</a>
-        </div>
-      </div>
-    </article>
+    </a>
 
   </div>
-</div></section>
-
-<section class="sec" id="demo" style="padding-top:10px"><div class="wrap">
-  <div class="head">
-    <span class="tag mono">// see it work</span>
-    <h2>Schedule Timer in 100 seconds</h2>
-    <p>Pairing, timetables, ringing by hand, and the PRO features.</p>
-  </div>
-  <div class="vid">
-    <video class="v-wide" controls playsinline preload="none" poster="video/schedule-timer-demo.jpg"><source src="video/schedule-timer-demo.mp4" type="video/mp4"></video>
-    <video class="v-tall" controls playsinline preload="none" poster="video/schedule-timer-demo-vertical.jpg"><source src="video/schedule-timer-demo-vertical.mp4" type="video/mp4"></video>
-  </div>
+  <p class="swipe">Swipe to see all products →</p>
 </div></section>
 
 <section class="sec" id="why" style="background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)"><div class="wrap">
@@ -377,6 +450,400 @@ NEXT: 09:00 (3s)</div></div>
   <div class="slogan">Striking with differences</div>
   <p>© 2026 DJ Tech Innovation · djtechinnovation.in</p>
 </div></footer>
+
+
+<!-- Product details: one window per product. It opens when the address ends in #timer, #adk or #water,
+     so the phone's Back button closes it and a link like djtechinnovation.in/#water opens it directly. -->
+<div class="sheet-bg" id="sheets">
+
+  <article class="sheet" data-id="timer" role="dialog" aria-modal="true" aria-label="Schedule Timer" hidden>
+    <div class="sheet-bar"><button class="back" data-close>← All products</button><button class="x" data-close aria-label="Close">✕</button></div>
+    <div class="pic bellpic"><span class="badge">Android app</span><div class="lcd">08:59:57 ID6 MTWTF--
+16/10/2026 FRI NET
+ACTIVE: NORMAL
+NEXT: 09:00 (3s)</div></div>
+    <div class="body">
+      <h3>Schedule Timer</h3>
+      <div class="sub">Automatic bell controller</div>
+      <p>Rings school and office bells on time, every day, by itself. Set the bell times from your phone.</p>
+      <ul class="feat">
+        <li>5 timetables, up to 30 bells each, day by day</li>
+        <li>Control from your phone over the unit's own WiFi</li>
+        <li>PRO: control from anywhere through the internet</li>
+        <li>Built-in clock keeps the time during power cuts</li>
+      </ul>
+      <div class="acts two">
+        <a class="a1" href="https://github.com/djtechinnovation/djtechinnovation.in/releases/latest/download/DJ-Schedule-Bell.apk">Download app</a>
+        <a class="a2" href="manual/">User manual</a>
+      </div>
+      <details class="inst">
+        <summary>How to install the app</summary>
+        <ol>
+          <li>Tap <b>Download app</b> and wait for the download to finish.</li>
+          <li>Open the downloaded file.</li>
+          <li>If the phone asks, tap <b>Settings</b> and switch on <b>Allow from this source</b>, then go back.</li>
+          <li>Tap <b>Install</b>, then <b>Open</b>.</li>
+        </ol>
+      </details>
+      <h4 class="part">Schedule Timer in 100 seconds</h4>
+      <!-- landscape on computers, vertical on phones (only the one shown is downloaded, on play) -->
+      <div class="vid">
+        <video class="v-wide" controls playsinline preload="none" poster="video/schedule-timer-demo.jpg"><source src="video/schedule-timer-demo.mp4" type="video/mp4"></video>
+        <video class="v-tall" controls playsinline preload="none" poster="video/schedule-timer-demo-vertical.jpg"><source src="video/schedule-timer-demo-vertical.mp4" type="video/mp4"></video>
+      </div>
+    </div>
+  </article>
+
+  <article class="sheet" data-id="adk" role="dialog" aria-modal="true" aria-label="Arduino Development Kit" hidden>
+    <div class="sheet-bar"><button class="back" data-close>← All products</button><button class="x" data-close aria-label="Close">✕</button></div>
+    <div class="pic"><span class="badge">30 features</span><img src="adk/img/board.jpg" alt="DJ Tech Arduino Uno + Nano Development Board" loading="lazy"></div>
+    <div class="body">
+      <h3>Arduino Development Kit</h3>
+      <div class="sub">Arduino Uno + Nano development board</div>
+      <p>Build Arduino projects without messy breadboard wiring. Modules plug straight into the board.</p>
+      <ul class="feat">
+        <li>Works with Arduino Uno and Arduino Nano</li>
+        <li>Sockets for displays, sensors, radio and more</li>
+        <li>Colour-coded power pins: 12 V, 5 V, 3.3 V</li>
+        <li>15 V / 1 A adapter and acrylic base included</li>
+      </ul>
+      <div class="acts">
+        <a class="a2" href="adk/">User manual</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="sheet" data-id="water" role="dialog" aria-modal="true" aria-label="Water Level Controller" hidden>
+    <div class="sheet-bar"><button class="back" data-close>← All products</button><button class="x" data-close aria-label="Close">✕</button></div>
+    <div class="body">
+      <h3>Water Level Controller</h3>
+      <div class="sub">Automatic motor control with protection</div>
+      <p>Starts the motor when the tank is low and stops it when the tank is full. It also protects your motor from bad voltage, overload and dry running. Tap a model to see it work.</p>
+
+      <div class="mtabs" role="tablist" aria-label="Models">
+        <button class="mt" role="tab" data-m="w1" aria-selected="true"><b>Wired</b><span>1 motor</span></button>
+        <button class="mt" role="tab" data-m="w2" aria-selected="false"><b>Wired</b><span>2 motors</span></button>
+        <button class="mt" role="tab" data-m="r1" aria-selected="false"><b>Wireless</b><span>1 motor</span></button>
+        <button class="mt" role="tab" data-m="r2" aria-selected="false"><b>Wireless</b><span>2 motors</span></button>
+      </div>
+      <div class="minfo"><h5><span id="mName">Wired · 1 motor</span><small id="mCode">DJ-W1</small></h5><p id="mDesc"></p></div>
+
+      <!-- working animation: the steps are played by the script at the end of the page -->
+      <div class="stage">
+        <svg class="scene" id="scene" viewBox="0 0 640 360" role="img" aria-label="Animation: the controller fills the overhead tank and stops the motor when it is full">
+          <defs><linearGradient id="wg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#33d2f0"/><stop offset="1" stop-color="#0a7fb3"/></linearGradient></defs>
+          <rect x="0" y="262" width="640" height="98" fill="#0d1216"/>
+          <line x1="0" y1="262" x2="640" y2="262" stroke="#2f3b46" stroke-width="2"/>
+          <!-- house with the overhead tank on the roof -->
+          <rect x="440" y="150" width="150" height="112" fill="#121920" stroke="#2a3540"/>
+          <rect x="460" y="172" width="28" height="24" rx="3" fill="#1b2630"/><rect x="542" y="172" width="28" height="24" rx="3" fill="#1b2630"/>
+          <rect x="500" y="214" width="30" height="48" rx="3" fill="#1b2630"/>
+          <rect x="455" y="52" width="120" height="92" rx="8" fill="#0a1218" stroke="#5f7180" stroke-width="4"/>
+          <rect id="ohW" class="lvl" x="459" y="56" width="112" height="84" fill="url(#wg)"/>
+          <circle id="ohF" class="fl" cx="560" cy="134" r="6" fill="#f2c14e"/>
+          <text x="495" y="40" class="lab" text-anchor="middle">OVERHEAD TANK</text>
+          <!-- sump under the ground -->
+          <rect x="250" y="272" width="130" height="70" rx="6" fill="#0a1218" stroke="#5f7180" stroke-width="4"/>
+          <rect id="spW" class="lvl" x="254" y="276" width="122" height="62" fill="url(#wg)"/>
+          <circle id="spF" class="fl" cx="362" cy="332" r="6" fill="#f2c14e"/>
+          <text x="242" y="312" class="lab" text-anchor="end">SUMP TANK</text>
+          <g class="two-only">
+            <rect x="113" y="262" width="14" height="96" fill="#0a1218" stroke="#5f7180" stroke-width="2"/>
+            <rect x="115" y="322" width="10" height="36" fill="url(#wg)"/>
+            <text x="104" y="300" class="lab" text-anchor="end">BOREWELL</text>
+          </g>
+          <!-- pipes and moving water -->
+          <path class="pipe" d="M300 330 V240 H425 V70 H462"/>
+          <path class="pipe two-only" d="M120 350 V240 H210 V200 H425"/>
+          <path id="p1" class="flow" d="M300 330 V240 H425 V70 H462"/>
+          <path id="p2" class="flow" d="M120 350 V240 H210 V200 H425 V70 H462"/>
+          <path class="pour" d="M466 72 V138"/>
+          <!-- motor power cables -->
+          <path class="cable" d="M160 135 V170 H300 V224"/>
+          <path class="cable two-only" d="M120 135 V224"/>
+          <!-- motors -->
+          <g id="m1" class="motor" transform="translate(300 240)"><circle r="16"/><path class="fan" d="M0 0 V-11 M0 0 L9.5 5.5 M0 0 L-9.5 5.5"/></g>
+          <text id="m1lbl" x="322" y="228" class="lab">MOTOR</text>
+          <g id="m2" class="motor two-only" transform="translate(120 240)"><circle r="16"/><path class="fan" d="M0 0 V-11 M0 0 L9.5 5.5 M0 0 L-9.5 5.5"/></g>
+          <text x="142" y="228" class="lab two-only">BORE MOTOR</text>
+          <!-- controller -->
+          <rect x="30" y="40" width="150" height="95" rx="10" fill="#1a2128" stroke="#2f3b46"/>
+          <rect x="44" y="54" width="88" height="34" rx="3" fill="#1637c9"/>
+          <circle cx="152" cy="62" r="5" fill="#3ddc84"/><circle class="ledm" cx="152" cy="80" r="5"/>
+          <text x="105" y="118" class="lab" text-anchor="middle">CONTROLLER</text>
+          <g class="buzz"><path d="M188 70 q8 10 0 20"/><path d="M196 64 q12 16 0 32"/></g>
+          <!-- wired models: float cables -->
+          <g class="wired-only">
+            <path class="sig" d="M180 48 H560 V56"/>
+            <path class="sig" d="M180 122 H232 V268 H362 V276"/>
+          </g>
+          <!-- wireless models: solar tank units send the level by radio -->
+          <g class="radio-only">
+            <line x1="170" y1="40" x2="170" y2="22" stroke="#93a1ad" stroke-width="2"/><circle cx="170" cy="20" r="3" fill="#00d4e6"/>
+            <path d="M540 30 l14 -10 h28 l-14 10z" fill="#1c3a6b" stroke="#5f7180"/>
+            <rect x="546" y="31" width="26" height="18" rx="3" fill="#1a2128" stroke="#5f7180"/>
+            <path d="M378 246 l10 -8 h22 l-10 8z" fill="#1c3a6b" stroke="#5f7180"/>
+            <rect x="384" y="247" width="22" height="15" rx="3" fill="#1a2128" stroke="#5f7180"/>
+            <path class="air" d="M546 36 Q360 -10 176 26"/>
+            <path class="air" d="M384 250 Q300 120 176 28"/>
+          </g>
+        </svg>
+        <div class="stage-bot">
+          <div class="lcd" id="wlcd" aria-label="Controller display"></div>
+          <div>
+            <ol class="wsteps" id="wsteps"></ol>
+            <button class="pz" id="wpause" type="button">⏸ Pause</button>
+          </div>
+        </div>
+      </div>
+
+      <h4 class="part">Protection for your motor</h4>
+      <div class="prot">
+        <div class="pc">
+          <svg viewBox="0 0 60 60" aria-hidden="true"><path d="M10 42 A20 20 0 0 1 50 42" fill="none" stroke="#33414d" stroke-width="6"/>
+            <path d="M10 42 A20 20 0 0 1 14.7 29.1 M45.3 29.1 A20 20 0 0 1 50 42" fill="none" stroke="#ff5a5a" stroke-width="6"/>
+            <line class="needle" x1="30" y1="42" x2="30" y2="25" stroke="#eef3f6" stroke-width="3" stroke-linecap="round"/><circle cx="30" cy="42" r="3.5" fill="#f2c14e"/>
+            <text x="30" y="55" text-anchor="middle" class="ico-t">VOLT</text></svg>
+          <div><h5>High &amp; low voltage</h5><p>The motor stops when the voltage is too high or too low (for example above 270 V or below 180 V). It starts again by itself when the voltage is normal.</p></div>
+        </div>
+        <div class="pc">
+          <svg viewBox="0 0 60 60" aria-hidden="true"><rect x="21" y="8" width="18" height="42" rx="4" fill="none" stroke="#5f7180" stroke-width="2.5"/>
+            <rect class="amp" x="24.5" y="11.5" width="11" height="35" rx="2"/><text x="30" y="58" text-anchor="middle" class="ico-t">AMP</text></svg>
+          <div><h5>Overload &amp; jammed motor</h5><p>If the motor takes too much current, it is stopped at once. This saves the motor winding from burning.</p></div>
+        </div>
+        <div class="pc">
+          <svg viewBox="0 0 60 60" aria-hidden="true"><path d="M6 18 H38 V26" fill="none" stroke="#5f7180" stroke-width="7" stroke-linejoin="round"/>
+            <circle class="drop" cx="38" cy="32" r="3"/><circle class="drop d2" cx="38" cy="32" r="3"/><circle class="drop d3" cx="38" cy="32" r="3"/>
+            <path class="dryx" d="M44 40 l10 10 M54 40 l-10 10" stroke="#ff5a5a" stroke-width="3.5" stroke-linecap="round"/></svg>
+          <div><h5>Dry run</h5><p>No water coming? The controller sees it from the motor current. It stops the motor, waits, and tries again up to 3 times.</p></div>
+        </div>
+        <div class="pc">
+          <svg viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="21" fill="none" stroke="#5f7180" stroke-width="3"/>
+            <line class="hand" x1="30" y1="30" x2="30" y2="14" stroke="#f2c14e" stroke-width="3" stroke-linecap="round"/><circle cx="30" cy="30" r="3" fill="#f2c14e"/></svg>
+          <div><h5>Maximum run time</h5><p>If the motor runs for too long (for example a burst pipe or a leaking tank), it is stopped.</p></div>
+        </div>
+        <div class="pc">
+          <svg viewBox="0 0 60 60" aria-hidden="true"><rect class="st1" x="8" y="22" width="9" height="16" rx="2"/><rect class="st1 s2" x="20" y="22" width="9" height="16" rx="2"/>
+            <rect class="st1 s3" x="32" y="22" width="9" height="16" rx="2"/><rect class="st4" x="44" y="22" width="9" height="16" rx="2"/>
+            <text x="30" y="52" text-anchor="middle" class="ico-t">STARTS</text></svg>
+          <div><h5>Too many starts</h5><p>Stops the motor from switching ON and OFF again and again. A start delay also protects it after a power cut.</p></div>
+        </div>
+        <div class="pc">
+          <svg viewBox="0 0 60 60" aria-hidden="true"><line x1="22" y1="50" x2="22" y2="22" stroke="#93a1ad" stroke-width="3"/><circle cx="22" cy="20" r="3.5" fill="#00d4e6"/>
+            <path class="rw" d="M30 14 q6 6 0 12 M36 9 q11 11 0 22" fill="none" stroke="#00d4e6" stroke-width="2.5" stroke-linecap="round"/>
+            <path class="rwx" d="M38 38 l10 10 M48 38 l-10 10" stroke="#ff5a5a" stroke-width="3.5" stroke-linecap="round"/></svg>
+          <div><h5>Sensor &amp; radio check</h5><p>If a float or a wireless tank unit stops working, the motor is stopped safely and the display shows why.</p></div>
+        </div>
+      </div>
+      <p class="also">All protections work in Auto and in Manual mode. The display shows the voltage, current and the last faults.</p>
+
+      <h4 class="part">Two easy modes</h4>
+      <div class="modes">
+        <div class="md"><span class="mtag">AUTO</span><p>The motor starts when the tank is low and stops when it is full. After a power cut, the controller always starts in Auto.</p></div>
+        <div class="md"><span class="mtag gold">MANUAL ON · AUTO OFF</span><p>Press to fill the tank before a power cut. The motor stops by itself when the tank is full. After 30 minutes, the controller goes back to Auto.</p></div>
+      </div>
+
+      <h4 class="part">Options</h4>
+      <ul class="feat">
+        <li>230 V solenoid valve control</li>
+        <li>Solar-powered tank units (wireless models)</li>
+        <li>Big 4-line display: volts, amps, tank and motor status</li>
+      </ul>
+
+      <div class="acts two">
+        <a class="a1" href="#contact">Ask us about it</a>
+        <a class="a2" href="https://wa.me/918098888255?text=I%20want%20details%20of%20the%20DJ%20Tech%20Water%20Level%20Controller">💬 WhatsApp us</a>
+      </div>
+    </div>
+  </article>
+
+</div>
+
+<script>
+(function () {
+  var bg = document.getElementById('sheets');
+  var sheets = bg.querySelectorAll('.sheet');
+  var ids = [];
+  sheets.forEach(function (s) { ids.push(s.dataset.id); });
+  var openedHere = false;   /* true when a card on this page opened the window, so Back can close it */
+  var jump = false;         /* true when a link inside the window (e.g. #contact) closes it */
+  var lastTile = null;
+
+  function show(id) {
+    var cur = null;
+    sheets.forEach(function (s) { s.hidden = s.dataset.id !== id; if (!s.hidden) cur = s; });
+    bg.classList.add('open');
+    document.body.classList.add('locked');
+    cur.scrollTop = 0;
+    cur.querySelector('.x').focus({ preventScroll: true });
+  }
+
+  function hide() {
+    if (!bg.classList.contains('open')) return false;
+    bg.classList.remove('open');
+    document.body.classList.remove('locked');
+    bg.querySelectorAll('video').forEach(function (v) { v.pause(); });
+    if (lastTile) lastTile.focus({ preventScroll: true });
+    return true;
+  }
+
+  function route() {
+    var h = location.hash.slice(1);
+    if (ids.indexOf(h) >= 0) { show(h); return; }
+    if (hide() && jump && h) {
+      var el = document.getElementById(h);
+      if (el) el.scrollIntoView();
+    }
+    jump = false; openedHere = false;
+  }
+
+  function close() {
+    if (openedHere) { history.back(); return; }
+    history.replaceState(null, '', location.pathname + location.search + '#products');
+    hide();
+  }
+
+  document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+    var h = a.getAttribute('href').slice(1);
+    if (ids.indexOf(h) >= 0) a.addEventListener('click', function () { openedHere = true; lastTile = a; });
+    else if (bg.contains(a)) a.addEventListener('click', function () { jump = true; });
+  });
+  bg.querySelectorAll('[data-close]').forEach(function (b) { b.addEventListener('click', close); });
+  bg.addEventListener('click', function (e) { if (e.target === bg) close(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && bg.classList.contains('open')) close(); });
+  window.addEventListener('hashchange', route);
+  route();
+})();
+
+/* Water Level Controller: plays the working steps of the chosen model.
+   The display lines copy the real 20x4 LCD of the controller (firmware V4.0). */
+(function () {
+  var MODELS = {
+    w1: { two: false, radio: false, name: 'Wired · 1 motor', code: 'DJ-W1',
+          desc: 'One motor fills the overhead tank. The float switches in the tanks are connected to the controller by cable.' },
+    w2: { two: true, radio: false, name: 'Wired · 2 motors', code: 'DJ-W2',
+          desc: 'A sump motor and a bore motor. The sump motor fills the tank first. When the sump is empty, the bore motor takes over by itself.' },
+    r1: { two: false, radio: true, name: 'Wireless · 1 motor', code: 'DJ-R1',
+          desc: 'Solar-powered tank units send the water level to the controller by long-range radio (LoRa). No long cables to the roof.' },
+    r2: { two: true, radio: true, name: 'Wireless · 2 motors', code: 'DJ-R2',
+          desc: 'Sump motor + bore motor, and both tanks send their level by radio. Best when the tanks are far from the motors.' }
+  };
+  /* oh / sp = water level in the overhead tank / sump (0..1); of / sf = float reads full / has water;
+     m1 = sump motor, m2 = bore motor: 0 off, 1 starting (beeps), 2 running; t = step time in ms */
+  var ONE = [
+    { oh: .88, sp: .75, m1: 0, of: 1, sf: 1, st: 'OVER HEAD TANK FULL', cap: 'Tank is full. The motor is OFF.', t: 2800 },
+    { oh: .22, sp: .8, of: 0, st: 'STATUS: NORMAL', cap: 'People use water. The level goes down.', t: 3200 },
+    { m1: 1, beep: 'MOTOR', cap: 'Tank is low. 5 beeps, then the motor starts.', t: 3000 },
+    { oh: .88, sp: .55, m1: 2, st: 'FILLING TANK', cap: 'Motor ON. Water goes up to the tank.', t: 5500 },
+    { m1: 0, of: 1, st: 'OVER HEAD TANK FULL', cap: 'Tank is full. The motor stops by itself.', t: 3000 }
+  ];
+  var TWO = [
+    { oh: .88, sp: .7, m1: 0, m2: 0, of: 1, sf: 1, st: 'OVER HEAD TANK FULL', cap: 'Overhead tank is full. Both motors are OFF.', t: 2800 },
+    { oh: .22, of: 0, st: 'STATUS: NORMAL', cap: 'People use water. The level goes down.', t: 3200 },
+    { m1: 1, beep: 'SUMP', cap: 'Tank is low. 5 beeps, then the sump motor starts first.', t: 3000 },
+    { oh: .55, sp: .04, m1: 2, st: 'FILLING: SUMP MOTOR', cap: 'The sump motor fills the overhead tank.', t: 5000 },
+    { m1: 0, m2: 1, sf: 0, beep: 'BORE', cap: 'The sump is empty, so the sump motor stops. 5 beeps, then the bore motor starts.', t: 3400 },
+    { oh: .88, m2: 2, st: 'FILLING: BORE MOTOR', cap: 'The bore motor fills the tank until it is full.', t: 4500 },
+    { m2: 0, of: 1, st: 'OVER HEAD TANK FULL', cap: 'Tank is full. All motors stop.', t: 2800 },
+    { sp: .7, sf: 1, cap: 'Water comes into the sump again. Next time, the sump motor runs first.', t: 3500 }
+  ];
+  /* each step only lists what changes, so fill in the rest from the step before */
+  function expand(list) {
+    var out = [], prev = { m2: 0 };
+    list.forEach(function (s) { var x = Object.assign({}, prev, s); if (!s.beep) delete x.beep; out.push(x); prev = x; });
+    return out;
+  }
+  ONE = expand(ONE); TWO = expand(TWO);
+
+  var $ = function (id) { return document.getElementById(id); };
+  var scene = $('scene'), sheet = scene.closest('.sheet'), bg = $('sheets');
+  var lcd = $('wlcd'), list = $('wsteps'), pauseBtn = $('wpause');
+  var tabs = document.querySelectorAll('.mt');
+  var cur = 'w1', idx = 0, paused = false, timer = null, sub = null, wasVisible = false, l3 = '';
+
+  function steps() { return MODELS[cur].two ? TWO : ONE; }
+  function ms(m) { return m === 2 ? 'ON ' : (m === 1 ? 'ST ' : 'OFF'); }
+  function visible() { return bg.classList.contains('open') && !sheet.hidden; }
+
+  function draw(s) {
+    var two = MODELS[cur].two, run = s.m1 === 2 || s.m2 === 2;
+    var amps = s.m2 === 2 ? '6.1' : '4.2';
+    var lines = [
+      run ? 'V:230 A:' + amps + '  PF:0.86' : 'V:230 A:0.0  PF:0.00',
+      '(A) OF:' + (s.of ? 'HIGH' : 'LOW ') + ' SF:' + (s.sf ? 'HIGH' : 'LOW '),
+      two ? 'SMP:' + ms(s.m1) + ' BOR:' + ms(s.m2) : 'MOTOR:' + ms(s.m1),
+      l3
+    ];
+    lcd.textContent = lines.map(function (x) { return (x + '                    ').slice(0, 20); }).join('\n');
+  }
+
+  function apply(s) {
+    var d = (s.t / 1000) + 's';
+    ['ohW', 'spW', 'ohF', 'spF'].forEach(function (id) { $(id).style.transitionDuration = d; });
+    $('ohW').style.transform = 'scaleY(' + s.oh + ')';
+    $('spW').style.transform = 'scaleY(' + s.sp + ')';
+    $('ohF').style.transform = 'translateY(' + (-84 * s.oh) + 'px)';
+    $('spF').style.transform = 'translateY(' + (-62 * Math.max(s.sp, .06)) + 'px)';
+    $('m1').classList.toggle('on', s.m1 === 2); $('m1').classList.toggle('st', s.m1 === 1);
+    $('m2').classList.toggle('on', s.m2 === 2); $('m2').classList.toggle('st', s.m2 === 1);
+    $('p1').classList.toggle('on', s.m1 === 2);
+    $('p2').classList.toggle('on', s.m2 === 2);
+    scene.classList.toggle('filling', s.m1 === 2 || s.m2 === 2);
+    scene.classList.toggle('beep', !!s.beep);
+    list.querySelectorAll('li').forEach(function (li, i) { li.classList.toggle('on', i === idx); });
+  }
+
+  function play() {
+    clearTimeout(timer); clearInterval(sub);
+    var vis = visible();
+    if (!vis) { wasVisible = false; timer = setTimeout(play, 600); return; }
+    if (!wasVisible) { wasVisible = true; idx = 0; instant(); }
+    var s = steps()[idx];
+    apply(s);
+    if (s.beep) {
+      var n = 5;
+      l3 = 'STARTING ' + s.beep + ' ' + n; draw(s);
+      sub = setInterval(function () { n--; if (n > 0) { l3 = 'STARTING ' + s.beep + ' ' + n; draw(s); } else clearInterval(sub); }, s.t / 6);
+    } else { l3 = s.st; draw(s); }
+    if (!paused) timer = setTimeout(function () { idx = (idx + 1) % steps().length; play(); }, s.t);
+    else timer = setTimeout(function wait() { if (visible()) timer = setTimeout(wait, 600); else play(); }, 600);
+  }
+
+  /* jump to the first step with no slow filling, e.g. when the model changes */
+  function instant() {
+    scene.classList.add('instant');
+    apply(steps()[idx]);
+    void scene.getBoundingClientRect();
+    scene.classList.remove('instant');
+  }
+
+  function setModel(m) {
+    cur = m;
+    var md = MODELS[m];
+    tabs.forEach(function (t) { t.setAttribute('aria-selected', t.dataset.m === m ? 'true' : 'false'); });
+    $('mName').textContent = md.name; $('mCode').textContent = md.code; $('mDesc').textContent = md.desc;
+    scene.classList.toggle('two', md.two); scene.classList.toggle('radio', md.radio);
+    $('m1lbl').textContent = md.two ? 'SUMP MOTOR' : 'MOTOR';
+    list.innerHTML = '';
+    steps().forEach(function (s, i) {
+      var li = document.createElement('li'); li.textContent = s.cap;
+      li.addEventListener('click', function () { idx = i; play(); });
+      list.appendChild(li);
+    });
+    idx = 0;
+    if (visible()) instant();
+  }
+
+  tabs.forEach(function (t) { t.addEventListener('click', function () { setModel(t.dataset.m); play(); }); });
+  pauseBtn.addEventListener('click', function () {
+    paused = !paused;
+    pauseBtn.textContent = paused ? '▶ Play' : '⏸ Pause';
+    play();
+  });
+  setModel('w1');
+  play();
+})();
+</script>
 
 </body>
 </html>
