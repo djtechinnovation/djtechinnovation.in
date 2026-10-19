@@ -428,6 +428,7 @@ NEXT: 09:00 (3s)</div></div>
     <a class="s" href="https://github.com/djtechinnovation/djtechinnovation.in/releases/latest/download/DJ-Schedule-Bell.apk"><small>Schedule Timer · Android</small><b>⬇ Download the app</b></a>
     <a class="s" href="manual/"><small>Schedule Timer</small><b>📖 User manual</b></a>
     <a class="s" href="adk/"><small>Arduino Development Kit</small><b>📖 User manual</b></a>
+    <a class="s" href="water-manual/"><small>Water Level Controller</small><b>📖 User manual</b></a>
   </div>
 </div></section>
 
@@ -654,6 +655,9 @@ NEXT: 09:00 (3s)</div></div>
         <a class="a1" href="#contact">Ask us about it</a>
         <a class="a2" href="https://wa.me/918098888255?text=I%20want%20details%20of%20the%20DJ%20Tech%20Water%20Level%20Controller">💬 WhatsApp us</a>
       </div>
+      <div class="acts" style="padding-top:10px">
+        <a class="a2" id="wmanual" href="water-manual/">📖 User manual</a>
+      </div>
     </div>
   </article>
 
@@ -824,6 +828,7 @@ NEXT: 09:00 (3s)</div></div>
     $('mName').textContent = md.name; $('mCode').textContent = md.code; $('mDesc').textContent = md.desc;
     scene.classList.toggle('two', md.two); scene.classList.toggle('radio', md.radio);
     $('m1lbl').textContent = md.two ? 'SUMP MOTOR' : 'MOTOR';
+    $('wmanual').href = 'water-manual/?model=' + m;           /* the manual opens for this model */
     list.innerHTML = '';
     steps().forEach(function (s, i) {
       var li = document.createElement('li'); li.textContent = s.cap;
