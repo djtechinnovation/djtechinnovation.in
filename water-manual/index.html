@@ -65,6 +65,30 @@
   .mb.wired { color: #bcaaa4; border-color: rgba(188,170,164,.6); }
   .mb.opt { color: var(--violet); border-color: rgba(179,136,255,.6); }
 
+  /* model comparison: tick / cross table */
+  .cmp th:not(:first-child), .cmp td:not(:first-child) { text-align: center; width: 52px; }
+  .cmp td:first-child { font-weight: 400; }
+  .cmp i, .legend i { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; font-style: normal; font-weight: 800; font-size: 14px; }
+  .y { background: rgba(76,175,80,.18); color: #7bd67f; }
+  .n { background: rgba(244,67,54,.12); color: #ef7a70; }
+  .h { background: rgba(242,193,78,.16); color: var(--gold); }
+  .legend { font-size: 14px; color: var(--muted); }
+  .legend i { width: 20px; height: 20px; font-size: 12px; margin-right: 2px; }
+
+  /* all set-ups: one card each */
+  .setups { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); margin: 12px 0; }
+  .su { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; }
+  .su-h { display: flex; align-items: center; gap: 8px; }
+  .su-h b { flex: 1; font-family: Consolas, "Courier New", monospace; font-size: 15px; color: var(--gold); }
+  .su-n { width: 24px; height: 24px; border-radius: 8px; display: grid; place-items: center; background: var(--card2); border: 1px solid var(--line); font-size: 12px; font-weight: 800; color: var(--muted); }
+  .su h4 { font-size: 16px; margin: 8px 0 8px; }
+  .su-r { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 14px; color: var(--muted); margin-top: 6px; }
+  .chip { display: inline-block; font-size: 13px; font-weight: 700; padding: 2px 9px; border-radius: 999px; border: 1px solid; white-space: nowrap; }
+  .chip.cable { color: #e0b98a; border-color: rgba(224,185,138,.5); background: rgba(224,185,138,.08); }
+  .chip.radio { color: var(--cyan); border-color: rgba(0,188,212,.55); background: rgba(0,188,212,.08); }
+  .chip.none { color: var(--muted); border-color: var(--line); }
+  @media print { .su { break-inside: avoid; } .y, .n, .h { background: none; } }
+
   /* contents */
   .toc { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 16px; margin: 6px 0 10px; }
   .toc h2 { font-size: 16px; margin-bottom: 10px; color: var(--muted); font-weight: 600; }
@@ -230,7 +254,47 @@
     <tr class="x-radio x-one"><td>Wireless · 1 motor <span class="mono">DJ-R1</span></td><td>1 motor</td><td>Radio, from solar tank units</td></tr>
     <tr class="x-radio x-two"><td>Wireless · 2 motors <span class="mono">DJ-R2</span></td><td>Sump motor + bore motor</td><td>Radio, from solar tank units</td></tr>
   </table></div>
-  <p class="muted">Some wireless units use radio for one tank and a cable for the other tank. Your installer sets this.</p>
+
+  <h3>What each model can do</h3>
+  <div class="table cmp"><table>
+    <tr><th>Feature</th><th class="x-wired x-one">W1</th><th class="x-wired x-two">W2</th><th class="x-radio x-one">R1</th><th class="x-radio x-two">R2</th></tr>
+    <tr><td>Fills the overhead tank by itself</td><td class="x-wired x-one"><i class="y">✓</i></td><td class="x-wired x-two"><i class="y">✓</i></td><td class="x-radio x-one"><i class="y">✓</i></td><td class="x-radio x-two"><i class="y">✓</i></td></tr>
+    <tr><td>Voltage, overload, dry run and other motor protections</td><td class="x-wired x-one"><i class="y">✓</i></td><td class="x-wired x-two"><i class="y">✓</i></td><td class="x-radio x-one"><i class="y">✓</i></td><td class="x-radio x-two"><i class="y">✓</i></td></tr>
+    <tr><td>Display, Auto / Manual mode, motor test</td><td class="x-wired x-one"><i class="y">✓</i></td><td class="x-wired x-two"><i class="y">✓</i></td><td class="x-radio x-one"><i class="y">✓</i></td><td class="x-radio x-two"><i class="y">✓</i></td></tr>
+    <tr><td>Controls 2 motors (sump + bore)</td><td class="x-wired x-one"><i class="n">✗</i></td><td class="x-wired x-two"><i class="y">✓</i></td><td class="x-radio x-one"><i class="n">✗</i></td><td class="x-radio x-two"><i class="y">✓</i></td></tr>
+    <tr><td>Bore motor takes over when the sump is empty</td><td class="x-wired x-one"><i class="n">✗</i></td><td class="x-wired x-two"><i class="y">✓</i></td><td class="x-radio x-one"><i class="n">✗</i></td><td class="x-radio x-two"><i class="y">✓</i></td></tr>
+    <tr><td>Works with a borewell only (no sump)</td><td class="x-wired x-one"><i class="y">✓</i></td><td class="x-wired x-two"><i class="n">✗</i></td><td class="x-radio x-one"><i class="y">✓</i></td><td class="x-radio x-two"><i class="n">✗</i></td></tr>
+    <tr><td>No cable to the roof tank (radio)</td><td class="x-wired x-one"><i class="n">✗</i></td><td class="x-wired x-two"><i class="n">✗</i></td><td class="x-radio x-one"><i class="h">◐</i></td><td class="x-radio x-two"><i class="h">◐</i></td></tr>
+    <tr><td>Solar-powered tank unit</td><td class="x-wired x-one"><i class="n">✗</i></td><td class="x-wired x-two"><i class="n">✗</i></td><td class="x-radio x-one"><i class="y">✓</i></td><td class="x-radio x-two"><i class="y">✓</i></td></tr>
+    <tr><td>Solenoid valve option</td><td class="x-wired x-one"><i class="y">✓</i></td><td class="x-wired x-two"><i class="y">✓</i></td><td class="x-radio x-one"><i class="y">✓</i></td><td class="x-radio x-two"><i class="y">✓</i></td></tr>
+  </table></div>
+  <p class="legend"><i class="y">✓</i> Yes &nbsp; <i class="n">✗</i> No &nbsp; <i class="h">◐</i> In some set-ups (see the cards below)</p>
+
+  <h3>All set-ups <span class="muted" style="font-size:15px;font-weight:400">(<span id="sucount">10</span> shown)</span></h3>
+  <p>Your installer chooses the set-up that fits your building. Each tank gets its level by <span class="chip cable">🔌 Cable</span> or by <span class="chip radio">📡 Radio</span>.</p>
+  <div class="setups">
+    <div class="su x-wired x-one"><div class="su-h"><span class="su-n">1</span><b>DJ-W1</b><span class="mb one">1 motor</span></div><h4>Borewell → roof tank</h4>
+      <div class="su-r"><span>Roof tank</span><span class="chip cable">🔌 Cable</span></div><div class="su-r"><span>Sump</span><span class="chip none">— No sump</span></div></div>
+    <div class="su x-wired x-one"><div class="su-h"><span class="su-n">2</span><b>DJ-W1</b><span class="mb one">1 motor</span></div><h4>Sump → roof tank</h4>
+      <div class="su-r"><span>Roof tank</span><span class="chip cable">🔌 Cable</span></div><div class="su-r"><span>Sump</span><span class="chip cable">🔌 Cable</span></div></div>
+    <div class="su x-radio x-one"><div class="su-h"><span class="su-n">3</span><b>DJ-R1</b><span class="mb one">1 motor</span></div><h4>Borewell → far roof tank</h4>
+      <div class="su-r"><span>Roof tank</span><span class="chip radio">📡 Radio</span></div><div class="su-r"><span>Sump</span><span class="chip none">— No sump</span></div></div>
+    <div class="su x-radio x-one"><div class="su-h"><span class="su-n">4</span><b>DJ-R1</b><span class="mb one">1 motor</span></div><h4>Sump near, roof tank far</h4>
+      <div class="su-r"><span>Roof tank</span><span class="chip radio">📡 Radio</span></div><div class="su-r"><span>Sump</span><span class="chip cable">🔌 Cable</span></div></div>
+    <div class="su x-radio x-one"><div class="su-h"><span class="su-n">5</span><b>DJ-R1</b><span class="mb one">1 motor</span></div><h4>Roof tank near, sump far</h4>
+      <div class="su-r"><span>Roof tank</span><span class="chip cable">🔌 Cable</span></div><div class="su-r"><span>Sump</span><span class="chip radio">📡 Radio</span></div></div>
+    <div class="su x-radio x-one"><div class="su-h"><span class="su-n">6</span><b>DJ-R1</b><span class="mb one">1 motor</span></div><h4>Both tanks far</h4>
+      <div class="su-r"><span>Roof tank</span><span class="chip radio">📡 Radio</span></div><div class="su-r"><span>Sump</span><span class="chip radio">📡 Radio</span></div></div>
+    <div class="su x-wired x-two"><div class="su-h"><span class="su-n">7</span><b>DJ-W2</b><span class="mb two">2 motors</span></div><h4>Sump + borewell → roof tank</h4>
+      <div class="su-r"><span>Roof tank</span><span class="chip cable">🔌 Cable</span></div><div class="su-r"><span>Sump</span><span class="chip cable">🔌 Cable</span></div></div>
+    <div class="su x-radio x-two"><div class="su-h"><span class="su-n">8</span><b>DJ-R2</b><span class="mb two">2 motors</span></div><h4>Sump far, roof tank near</h4>
+      <div class="su-r"><span>Roof tank</span><span class="chip cable">🔌 Cable</span></div><div class="su-r"><span>Sump</span><span class="chip radio">📡 Radio</span></div></div>
+    <div class="su x-radio x-two"><div class="su-h"><span class="su-n">9</span><b>DJ-R2</b><span class="mb two">2 motors</span></div><h4>Roof tank far, sump near</h4>
+      <div class="su-r"><span>Roof tank</span><span class="chip radio">📡 Radio</span></div><div class="su-r"><span>Sump</span><span class="chip cable">🔌 Cable</span></div></div>
+    <div class="su x-radio x-two"><div class="su-h"><span class="su-n">10</span><b>DJ-R2</b><span class="mb two">2 motors</span></div><h4>Both tanks far</h4>
+      <div class="su-r"><span>Roof tank</span><span class="chip radio">📡 Radio</span></div><div class="su-r"><span>Sump</span><span class="chip radio">📡 Radio</span></div></div>
+  </div>
+  <p class="muted">The model name shows the motors and whether radio is used, but not which tank uses radio. The installer writes the set-up on the box label.</p>
   <h3>Words used in this manual</h3>
   <div class="table"><table>
     <tr><td>Overhead tank</td><td>The tank on the roof. The controller fills it.</td></tr>
@@ -697,6 +761,9 @@ MODEL : DJ-W2</div><p class="lcd-cap">Power now, total energy used, mains freque
     opts.forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.m === m ? 'true' : 'false'); });
     document.getElementById('showing').textContent = NAMES[m];
     document.getElementById('printfor').textContent = 'This copy is for: ' + NAMES[m];
+    var n = 0;
+    document.querySelectorAll('.su').forEach(function (c) { if (getComputedStyle(c).display !== 'none') n++; });
+    document.getElementById('sucount').textContent = n;
     if (keep) {
       try { localStorage.setItem('djwlc-model', m); } catch (e) {}
       try { var u = new URL(location.href); u.searchParams.set('model', m); history.replaceState(null, '', u); } catch (e) {}
