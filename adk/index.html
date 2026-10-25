@@ -72,11 +72,18 @@
   .pics { display: grid; gap: 10px; margin: 12px 0; grid-template-columns: 1fr; }
   .pics.two { grid-template-columns: 1fr 1fr; }
   .pics.three { grid-template-columns: 1fr 1fr 1fr; }
-  .pics figure { margin: 0; text-align: center; }
-  .pics img { width: 100%; max-height: 420px; object-fit: contain; border-radius: 12px; background: #000; display: block; }
-  .pics figcaption { font-size: 13px; color: var(--muted); margin-top: 4px; }
-  .pics.one img { max-height: 360px; }
-  @media (max-width: 520px) { .pics.three { grid-template-columns: 1fr 1fr; } }
+  /* every photo keeps its own shape (nothing is cut off) and gets the same rounded corners;
+     photos side by side are centred on one line */
+  .pics { align-items: center; justify-items: center; }
+  .pics figure { margin: 0; text-align: center; display: flex; flex-direction: column; align-items: center; }
+  .pics img { display: block; width: auto; height: auto; max-width: 100%; max-height: 340px; border-radius: 16px;
+    border: 1px solid var(--line); box-shadow: 0 6px 18px rgba(0,0,0,.35); }
+  /* side by side: equal rounded squares, so the row is even */
+  .pics.two, .pics.three { align-items: start; }
+  .pics.two figure, .pics.three figure { width: 100%; }
+  .pics.two img, .pics.three img { width: 100%; max-height: none; aspect-ratio: 1; object-fit: cover; }
+  .pics figcaption { font-size: 13px; color: var(--muted); margin-top: 6px; }
+  @media (max-width: 520px) { .pics.three { gap: 6px; } .pics.three img { border-radius: 12px; } }
 
   footer { text-align: center; color: var(--muted); padding: 30px 0 40px; border-top: 1px solid var(--line); margin-top: 20px; }
   footer .slogan { font-family: "Brush Script MT", "Segoe Script", cursive; color: #e0524a; font-size: 30px; }
@@ -90,7 +97,7 @@
     body { font-size: 12pt; }
     .bar, .top, .noprint { display: none !important; }
     .pics, .box, .table { break-inside: avoid; }
-    .pics img { background: #fff; }
+    .pics img { box-shadow: none; }
     a { color: #111; text-decoration: none; }
   }
 </style>
