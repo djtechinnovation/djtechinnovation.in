@@ -3,19 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>User Manual · DJ Tech Water Level Controller</title>
-<meta name="description" content="How to use the DJ Tech Intelligent Water Level Controller (firmware V4.0): wired and wireless, 1 motor and 2 motors.">
+<title>User Manual · DJ Tech Schedule Timer</title>
+<meta name="description" content="How to set up and use the DJ Tech Schedule Timer v2.0: app, bell unit, BASIC and PRO.">
 <link rel="icon" href="../logo.png">
 <style>
   :root {
     --bg: #0b0b0d; --card: #16171a; --card2: #1d1f23; --line: #2c2e33; --text: #f2f2f3; --muted: #a8a8b0;
-    --gold: #f2c14e; --gold2: #d99a1f; --cyan: #00bcd4; --green: #4caf50; --red: #f44336; --orange: #ff9800; --violet: #b388ff;
+    --gold: #f2c14e; --gold2: #d99a1f; --cyan: #00bcd4; --green: #4caf50; --red: #f44336; --orange: #ff9800;
     --lcd: #1637c9; --lcd-text: #f4f8ff;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; scroll-padding-top: 70px; }
   body { background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    font-size: 17px; line-height: 1.6; counter-reset: sec; }
+    font-size: 17px; line-height: 1.6; }
   a { color: var(--gold); }
   .wrap { max-width: 760px; margin: 0 auto; padding: 0 16px; }
 
@@ -23,89 +23,36 @@
   .bar { position: sticky; top: 0; z-index: 5; background: rgba(11,11,13,.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
   .bar .wrap { display: flex; align-items: center; gap: 10px; height: 56px; }
   .bar img { height: 38px; }
-  .bar b { flex: 1; font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bar b { flex: 1; font-size: 16px; }
   .btn { display: inline-flex; align-items: center; gap: 6px; border: 1.5px solid var(--gold); color: var(--gold); background: rgba(242,193,78,.1);
-    padding: 7px 12px; border-radius: 10px; font-size: 14px; font-weight: 700; text-decoration: none; cursor: pointer; font-family: inherit; white-space: nowrap; }
-  .bar select { font: inherit; font-size: 14px; font-weight: 700; color: var(--text); background: var(--card2); border: 1px solid var(--line); border-radius: 10px; padding: 7px 8px; max-width: 150px; }
-  @media (max-width: 480px) { .bar .pdf-t { display: none; } }
+    padding: 7px 12px; border-radius: 10px; font-size: 14px; font-weight: 700; text-decoration: none; cursor: pointer; font-family: inherit; }
 
   /* hero */
-  .hero { text-align: center; padding: 30px 0 22px; background: radial-gradient(600px 300px at 50% 0, rgba(0,188,212,.16), transparent 70%); }
-  .hero img { width: 130px; }
+  .hero { text-align: center; padding: 34px 0 26px; background: radial-gradient(600px 300px at 50% 0, rgba(242,193,78,.16), transparent 70%); }
+  .hero img { width: 150px; }
   .hero h1 { font-size: 30px; line-height: 1.15; margin-top: 8px; }
   .hero h1 span { color: var(--gold); }
   .hero p { color: var(--muted); margin-top: 6px; }
   .tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 14px; }
   .tag { font-size: 13px; padding: 4px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); color: var(--muted); }
 
-  /* model chooser */
-  .chooser { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 16px; margin: 6px 0 14px; }
-  .chooser h2 { font-size: 18px; }
-  .chooser p { color: var(--muted); font-size: 15px; margin: 4px 0 12px; }
-  .mgrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
-  .mopt { font: inherit; cursor: pointer; text-align: left; padding: 10px 12px; border-radius: 12px; background: var(--card2); border: 1.5px solid var(--line); color: var(--text); }
-  .mopt b { display: block; font-size: 15px; }
-  .mopt span { font-size: 13px; color: var(--muted); }
-  .mopt.all { grid-column: 1 / -1; }
-  .mopt[aria-pressed="true"] { border-color: var(--gold); background: rgba(242,193,78,.1); }
-  .mopt[aria-pressed="true"] span { color: var(--gold); }
-  .showing { margin-top: 10px; font-size: 14px; color: var(--muted); }
-  .showing b { color: var(--gold); }
-
-  /* parts for one kind of model only. The chooser hides the parts that do not fit. */
-  body[data-model="w1"] .x-two, body[data-model="w1"] .x-radio,
-  body[data-model="w2"] .x-one, body[data-model="w2"] .x-radio,
-  body[data-model="r1"] .x-two, body[data-model="r1"] .x-wired,
-  body[data-model="r2"] .x-one, body[data-model="r2"] .x-wired { display: none !important; }
-  body:not([data-model="all"]) .sep { display: none; }
-  .mb { display: inline-block; font-size: 11.5px; font-weight: 800; letter-spacing: .5px; padding: 1px 7px; border-radius: 6px; vertical-align: middle; white-space: nowrap; border: 1px solid; }
-  .mb.two { color: var(--orange); border-color: rgba(255,152,0,.6); }
-  .mb.one { color: #9ccc65; border-color: rgba(156,204,101,.6); }
-  .mb.radio { color: var(--cyan); border-color: rgba(0,188,212,.6); }
-  .mb.wired { color: #bcaaa4; border-color: rgba(188,170,164,.6); }
-  .mb.opt { color: var(--violet); border-color: rgba(179,136,255,.6); }
-
-  /* model comparison: tick / cross table */
-  .cmp th:not(:first-child), .cmp td:not(:first-child) { text-align: center; width: 52px; }
-  .cmp td:first-child { font-weight: 400; }
-  .cmp i, .legend i { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; font-style: normal; font-weight: 800; font-size: 14px; }
-  .y { background: rgba(76,175,80,.18); color: #7bd67f; }
-  .n { background: rgba(244,67,54,.12); color: #ef7a70; }
-  .h { background: rgba(242,193,78,.16); color: var(--gold); }
-  .legend { font-size: 14px; color: var(--muted); }
-  .legend i { width: 20px; height: 20px; font-size: 12px; margin-right: 2px; }
-
-  /* all set-ups: one card each */
-  .setups { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); margin: 12px 0; }
-  .su { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; }
-  .su-h { display: flex; align-items: center; gap: 8px; }
-  .su-h b { flex: 1; font-family: Consolas, "Courier New", monospace; font-size: 15px; color: var(--gold); }
-  .su-n { width: 24px; height: 24px; border-radius: 8px; display: grid; place-items: center; background: var(--card2); border: 1px solid var(--line); font-size: 12px; font-weight: 800; color: var(--muted); }
-  .su h4 { font-size: 16px; margin: 8px 0 8px; }
-  .su-r { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 14px; color: var(--muted); margin-top: 6px; }
-  .chip { display: inline-block; font-size: 13px; font-weight: 700; padding: 2px 9px; border-radius: 999px; border: 1px solid; white-space: nowrap; }
-  .chip.cable { color: #e0b98a; border-color: rgba(224,185,138,.5); background: rgba(224,185,138,.08); }
-  .chip.radio { color: var(--cyan); border-color: rgba(0,188,212,.55); background: rgba(0,188,212,.08); }
-  .chip.none { color: var(--muted); border-color: var(--line); }
-  @media print { .su { break-inside: avoid; } .y, .n, .h { background: none; } }
-
   /* contents */
   .toc { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 16px; margin: 6px 0 10px; }
   .toc h2 { font-size: 16px; margin-bottom: 10px; color: var(--muted); font-weight: 600; }
-  .toc ol { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 14px; counter-reset: toc; }
-  .toc li { counter-increment: toc; }
+  .toc ol { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 14px; }
   .toc a { color: var(--text); text-decoration: none; font-size: 15px; }
-  .toc a::before { content: counter(toc); color: var(--gold); font-weight: 700; margin-right: 8px; }
+  .toc a span { color: var(--gold); font-weight: 700; margin-right: 6px; }
   @media (max-width: 520px) { .toc ol { grid-template-columns: 1fr; } }
 
-  /* sections: numbers count only the sections that are shown */
-  section { padding: 26px 0 8px; border-top: 1px solid var(--line); counter-increment: sec; }
-  section > h2 { display: flex; align-items: center; gap: 12px; font-size: 24px; line-height: 1.2; margin-bottom: 12px; flex-wrap: wrap; }
-  .num { flex: none; width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; font-size: 18px; font-weight: 800; color: #111; background: var(--gold); }
-  .num::before { content: counter(sec); }
+  /* sections */
+  section { padding: 26px 0 8px; border-top: 1px solid var(--line); }
+  section > h2 { display: flex; align-items: center; gap: 12px; font-size: 24px; line-height: 1.2; margin-bottom: 12px; }
+  .num { flex: none; width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; font-size: 18px; font-weight: 800; color: #111; }
   h3 { font-size: 19px; margin: 20px 0 8px; }
   p { margin: 8px 0; }
   .muted { color: var(--muted); }
+  .pro-badge { font-size: 12px; font-weight: 800; letter-spacing: 1px; padding: 2px 8px; border-radius: 6px; background: linear-gradient(180deg, #ffe08a, #e0a526); color: #1a1305; vertical-align: middle; }
+  .basic-badge { font-size: 12px; font-weight: 800; letter-spacing: 1px; padding: 2px 8px; border-radius: 6px; border: 1px solid #888; color: #ddd; vertical-align: middle; }
 
   /* numbered steps */
   ol.steps { list-style: none; counter-reset: s; margin: 10px 0; }
@@ -122,8 +69,6 @@
   .tip::before { content: "💡"; }
   .warn { background: rgba(255,152,0,.09); border-color: rgba(255,152,0,.55); }
   .warn::before { content: "⚠️"; }
-  .danger { background: rgba(244,67,54,.09); border-color: rgba(244,67,54,.55); }
-  .danger::before { content: "⛔"; }
   .good { background: rgba(76,175,80,.09); border-color: rgba(76,175,80,.5); }
   .good::before { content: "✅"; }
 
@@ -133,651 +78,445 @@
   th, td { text-align: left; padding: 9px 12px; vertical-align: top; border-bottom: 1px solid var(--line); }
   th { background: var(--card2); color: var(--muted); font-weight: 600; }
   tr:last-child td { border-bottom: 0; }
-  td:first-child { font-weight: 600; }
-  td code, .mono { font-family: Consolas, "Courier New", monospace; font-size: 14px; }
-  td code { background: #11234f; color: #dfe8ff; padding: 1px 5px; border-radius: 4px; white-space: nowrap; }
+  td:first-child { font-weight: 600; width: 38%; }
 
   /* the unit's 20x4 display */
-  .lcd { background: var(--lcd); border: 6px solid #08090b; border-radius: 10px; padding: 10px 12px; margin: 12px 0; max-width: 340px;
-    font-family: Consolas, "Courier New", monospace; color: var(--lcd-text); font-size: 16px; line-height: 1.45; white-space: pre;
+  .lcd { background: var(--lcd); border: 6px solid #08090b; border-radius: 10px; padding: 10px 12px; margin: 12px 0; max-width: 360px;
+    font-family: Consolas, "Courier New", monospace; color: var(--lcd-text); font-size: 17px; line-height: 1.45; white-space: pre;
     text-shadow: 0 0 6px rgba(200,225,255,.7); box-shadow: 0 0 24px rgba(60,110,255,.35); overflow-x: auto; }
   .lcd-cap { font-size: 14px; color: var(--muted); margin-top: -6px; }
-  .lcds { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 0 16px; }
 
-  /* front panel drawing */
-  .panel { background: #1a1d22; border: 1px solid #333840; border-radius: 18px; padding: 18px; margin: 14px 0; max-width: 460px; }
-  .panel .lcd { margin: 0 auto 14px; font-size: 14px; }
-  .panel .row { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }
-  .key { min-width: 64px; text-align: center; padding: 8px 10px; border-radius: 10px; background: #2a2e35; border: 1px solid #444b55; font-weight: 800; font-size: 14px; box-shadow: 0 3px 0 #111; }
-  .lamp { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--muted); margin: 0 6px; }
-  .lamp i { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
-  .k { display: inline-block; padding: 0 7px; border-radius: 6px; border: 1px solid var(--line); background: var(--card2); font-weight: 700; font-size: 14px; white-space: nowrap; }
+  /* colour dots and keys */
+  .dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; vertical-align: middle; margin-right: 6px; }
+  .k { display: inline-block; padding: 0 7px; border-radius: 6px; border: 1px solid var(--line); background: var(--card2); font-weight: 700; font-size: 14px; }
+
+  /* screenshots: each one shows only when its picture file is there */
+  figure.shot { margin: 14px auto; max-width: 300px; text-align: center; }
+  figure.shot img { width: 100%; border-radius: 22px; border: 6px solid #1d1e21; box-shadow: 0 10px 30px rgba(0,0,0,.5); }
+  figure.shot figcaption { font-size: 14px; color: var(--muted); margin-top: 6px; }
+  figure.photo { max-width: 520px; }
+  figure.photo img { border-radius: 14px; border: 0; }
 
   footer { text-align: center; color: var(--muted); padding: 30px 0 40px; border-top: 1px solid var(--line); margin-top: 20px; }
   footer .call { display: inline-block; margin-top: 10px; padding: 12px 26px; border-radius: 999px; background: linear-gradient(180deg, #ffe08a, #e0a526);
     color: #1a1305; font-weight: 800; font-size: 22px; text-decoration: none; }
   .top { position: fixed; right: 14px; bottom: 16px; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center;
     background: var(--gold); color: #111; text-decoration: none; font-size: 22px; font-weight: 800; box-shadow: 0 6px 18px rgba(0,0,0,.5); }
-  .printfor { display: none; }
 
   /* print / save as PDF: light paper, no bar */
   @media print {
-    :root { --bg: #fff; --card: #fff; --card2: #f2f2f2; --line: #ccc; --text: #111; --muted: #555; --gold: #a86f00; --cyan: #00838f; }
+    :root { --bg: #fff; --card: #fff; --card2: #f2f2f2; --line: #ccc; --text: #111; --muted: #555; --gold: #a86f00; }
     body { font-size: 12pt; }
-    .bar, .top, .noprint, .chooser { display: none !important; }
-    .printfor { display: block; text-align: center; font-weight: 700; margin: 6px 0 12px; }
+    .bar, .top, .noprint { display: none !important; }
     section { break-inside: auto; }
-    ol.steps > li, .box, .table, .lcd, .panel { break-inside: avoid; }
+    ol.steps > li, .box, .table, .lcd, figure { break-inside: avoid; }
     .lcd { box-shadow: none; text-shadow: none; }
-    .panel { background: #fff; }
-    .key { background: #eee; box-shadow: none; }
     a { color: #111; text-decoration: none; }
   }
 </style>
+<!-- Google Analytics (visitor numbers, only the owner sees them) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-K4ZW6385B9"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-K4ZW6385B9');</script>
 </head>
-<body data-model="all">
+<body>
 
 <div class="bar noprint"><div class="wrap">
-  <a href="../#water" aria-label="Back to the product" style="color:var(--muted);text-decoration:none;font-size:22px;padding:0 4px">←</a>
+  <a href="../" aria-label="All products" style="color:var(--muted);text-decoration:none;font-size:22px;padding:0 4px">←</a>
   <img src="../logo.png" alt="DJ Tech">
   <b>User Manual</b>
-  <select id="msel" aria-label="Your model">
-    <option value="all">All models</option>
-    <option value="w1">Wired · 1 motor</option>
-    <option value="w2">Wired · 2 motors</option>
-    <option value="r1">Wireless · 1 motor</option>
-    <option value="r2">Wireless · 2 motors</option>
-  </select>
-  <button class="btn" onclick="window.print()">⎙<span class="pdf-t"> Save as PDF</span></button>
+  <button class="btn" onclick="window.print()">⎙ Save as PDF</button>
 </div></div>
 
 <header class="hero"><div class="wrap">
   <img src="../logo.png" alt="DJ Tech logo">
-  <h1>DJ Tech <span>Water Level Controller</span></h1>
-  <p>Automatic motor control with protection.</p>
-  <div class="tags"><span class="tag">Firmware V4.0</span><span class="tag">Wired &amp; wireless</span><span class="tag">1 or 2 motors</span></div>
+  <h1>DJ Tech <span>Schedule Timer</span></h1>
+  <p>Automatic bells. Zero manual work.</p>
+  <div class="tags"><span class="tag">App v2.0</span><span class="tag">Bell unit software v2.2</span><span class="tag">Android</span></div>
 </div></header>
 
 <main class="wrap">
 
-<p class="printfor" id="printfor">This copy is for: All models</p>
-
-<div class="chooser" id="choose">
-  <h2>Choose your model</h2>
-  <p>The manual then shows only the parts for your model. The model name is on the box and on the display when you switch on (for example <span class="mono">DJ-W2</span>).</p>
-  <div class="mgrid">
-    <button class="mopt all" data-m="all" aria-pressed="true"><b>All models</b><span>Show everything</span></button>
-    <button class="mopt" data-m="w1" aria-pressed="false"><b>Wired · 1 motor</b><span>DJ-W1</span></button>
-    <button class="mopt" data-m="w2" aria-pressed="false"><b>Wired · 2 motors</b><span>DJ-W2</span></button>
-    <button class="mopt" data-m="r1" aria-pressed="false"><b>Wireless · 1 motor</b><span>DJ-R1</span></button>
-    <button class="mopt" data-m="r2" aria-pressed="false"><b>Wireless · 2 motors</b><span>DJ-R2</span></button>
-  </div>
-  <div class="showing">Showing: <b id="showing">All models</b>. Parts for some models only have a tag, for example <span class="mb two">2 motors</span> <span class="mb radio">Wireless</span> <span class="mb opt">Option</span>.</div>
-</div>
-
 <nav class="toc">
   <h2>Contents</h2>
   <ol>
-    <li><a href="#models">Know the models</a></li>
-    <li><a href="#safety">Safety first</a></li>
-    <li><a href="#panel">The front panel</a></li>
-    <li><a href="#poweron">Switching on</a></li>
-    <li><a href="#main">The main screen</a></li>
-    <li><a href="#auto">Auto mode: how it works</a></li>
-    <li><a href="#buttons">Buttons at a glance</a></li>
-    <li><a href="#manual">Manual mode</a></li>
-    <li><a href="#test">Motor test</a></li>
-    <li><a href="#protect">Protections</a></li>
-    <li><a href="#reset">Fault reset</a></li>
-    <li><a href="#settings">Settings menu</a></li>
-    <li><a href="#pages">Information pages</a></li>
-    <li><a href="#messages">Display messages</a></li>
-    <li class="x-radio"><a href="#wireless">Wireless tank units</a></li>
-    <li><a href="#valve">Solenoid valve (option)</a></li>
-    <li><a href="#care">Care and FAQ</a></li>
-    <li><a href="#help">Help and support</a></li>
+    <li><a href="#unit"><span>1</span>Know your bell unit</a></li>
+    <li><a href="#install"><span>2</span>Install the app</a></li>
+    <li><a href="#setup"><span>3</span>First-time setup and pairing</a></li>
+    <li><a href="#home"><span>4</span>The home screen</a></li>
+    <li><a href="#times"><span>5</span>Set bell times</a></li>
+    <li><a href="#onoff"><span>6</span>Switch a timetable on or off</a></li>
+    <li><a href="#ring"><span>7</span>Ring the bell by hand</a></li>
+    <li><a href="#alerts"><span>8</span>Bell alerts on your phone</a></li>
+    <li><a href="#tools"><span>9</span>Tools and keeping in step</a></li>
+    <li><a href="#phones"><span>10</span>Phones and unit ID</a></li>
+    <li><a href="#upgrade"><span>11</span>Upgrade to PRO</a></li>
+    <li><a href="#internet"><span>12</span>PRO: control from anywhere</a></li>
+    <li><a href="#users"><span>13</span>PRO: master, users and record</a></li>
+    <li><a href="#help"><span>14</span>If something goes wrong</a></li>
   </ol>
 </nav>
 
-<!-- ============================================================ -->
-<section id="models">
-  <h2><span class="num"></span>Know the models</h2>
-  <p>All models use the same controller. They differ in two things:</p>
-  <ul class="dots">
-    <li><b>Wired or wireless:</b> how the controller knows the water level in the tanks.</li>
-    <li><b>1 motor or 2 motors:</b> how many motors it controls.</li>
-  </ul>
-  <div class="table"><table>
-    <tr><th>Model</th><th>Motors</th><th>Tank level comes by</th></tr>
-    <tr class="x-wired x-one"><td>Wired · 1 motor <span class="mono">DJ-W1</span></td><td>1 motor</td><td>Float switch cables</td></tr>
-    <tr class="x-wired x-two"><td>Wired · 2 motors <span class="mono">DJ-W2</span></td><td>Sump motor + bore motor</td><td>Float switch cables</td></tr>
-    <tr class="x-radio x-one"><td>Wireless · 1 motor <span class="mono">DJ-R1</span></td><td>1 motor</td><td>Radio, from solar tank units</td></tr>
-    <tr class="x-radio x-two"><td>Wireless · 2 motors <span class="mono">DJ-R2</span></td><td>Sump motor + bore motor</td><td>Radio, from solar tank units</td></tr>
-  </table></div>
+<!-- 1 -->
+<section id="unit">
+  <h2><span class="num" style="background:#64b5f6">1</span>Know your bell unit</h2>
+  <p>The bell unit keeps its own clock and stores your bell times. Once a timetable is sent to it and switched on, it rings the bell by itself, every day. Your phone does not need to stay nearby.</p>
+  <figure class="shot photo"><img src="img/unit-front.jpg" alt="The bell unit" onerror="this.parentElement.remove()"><figcaption>The bell unit</figcaption></figure>
 
-  <h3>What each model can do</h3>
-  <div class="table cmp"><table>
-    <tr><th>Feature</th><th class="x-wired x-one">W1</th><th class="x-wired x-two">W2</th><th class="x-radio x-one">R1</th><th class="x-radio x-two">R2</th></tr>
-    <tr><td>Fills the overhead tank by itself</td><td class="x-wired x-one"><i class="y">✓</i></td><td class="x-wired x-two"><i class="y">✓</i></td><td class="x-radio x-one"><i class="y">✓</i></td><td class="x-radio x-two"><i class="y">✓</i></td></tr>
-    <tr><td>Voltage, overload, dry run and other motor protections</td><td class="x-wired x-one"><i class="y">✓</i></td><td class="x-wired x-two"><i class="y">✓</i></td><td class="x-radio x-one"><i class="y">✓</i></td><td class="x-radio x-two"><i class="y">✓</i></td></tr>
-    <tr><td>Display, Auto / Manual mode, motor test</td><td class="x-wired x-one"><i class="y">✓</i></td><td class="x-wired x-two"><i class="y">✓</i></td><td class="x-radio x-one"><i class="y">✓</i></td><td class="x-radio x-two"><i class="y">✓</i></td></tr>
-    <tr><td>Controls 2 motors (sump + bore)</td><td class="x-wired x-one"><i class="n">✗</i></td><td class="x-wired x-two"><i class="y">✓</i></td><td class="x-radio x-one"><i class="n">✗</i></td><td class="x-radio x-two"><i class="y">✓</i></td></tr>
-    <tr><td>Bore motor takes over when the sump is empty</td><td class="x-wired x-one"><i class="n">✗</i></td><td class="x-wired x-two"><i class="y">✓</i></td><td class="x-radio x-one"><i class="n">✗</i></td><td class="x-radio x-two"><i class="y">✓</i></td></tr>
-    <tr><td>Works with a borewell only (no sump)</td><td class="x-wired x-one"><i class="y">✓</i></td><td class="x-wired x-two"><i class="n">✗</i></td><td class="x-radio x-one"><i class="y">✓</i></td><td class="x-radio x-two"><i class="n">✗</i></td></tr>
-    <tr><td>No cable to the roof tank (radio)</td><td class="x-wired x-one"><i class="n">✗</i></td><td class="x-wired x-two"><i class="n">✗</i></td><td class="x-radio x-one"><i class="h">◐</i></td><td class="x-radio x-two"><i class="h">◐</i></td></tr>
-    <tr><td>Solar-powered tank unit</td><td class="x-wired x-one"><i class="n">✗</i></td><td class="x-wired x-two"><i class="n">✗</i></td><td class="x-radio x-one"><i class="y">✓</i></td><td class="x-radio x-two"><i class="y">✓</i></td></tr>
-    <tr><td>Solenoid valve option</td><td class="x-wired x-one"><i class="y">✓</i></td><td class="x-wired x-two"><i class="y">✓</i></td><td class="x-radio x-one"><i class="y">✓</i></td><td class="x-radio x-two"><i class="y">✓</i></td></tr>
-  </table></div>
-  <p class="legend"><i class="y">✓</i> Yes &nbsp; <i class="n">✗</i> No &nbsp; <i class="h">◐</i> In some set-ups (see the cards below)</p>
-
-  <h3>All set-ups <span class="muted" style="font-size:15px;font-weight:400">(<span id="sucount">10</span> shown)</span></h3>
-  <p>Your installer chooses the set-up that fits your building. Each tank gets its level by <span class="chip cable">🔌 Cable</span> or by <span class="chip radio">📡 Radio</span>.</p>
-  <div class="setups">
-    <div class="su x-wired x-one"><div class="su-h"><span class="su-n">1</span><b>DJ-W1</b><span class="mb one">1 motor</span></div><h4>Borewell → roof tank</h4>
-      <div class="su-r"><span>Roof tank</span><span class="chip cable">🔌 Cable</span></div><div class="su-r"><span>Sump</span><span class="chip none">— No sump</span></div></div>
-    <div class="su x-wired x-one"><div class="su-h"><span class="su-n">2</span><b>DJ-W1</b><span class="mb one">1 motor</span></div><h4>Sump → roof tank</h4>
-      <div class="su-r"><span>Roof tank</span><span class="chip cable">🔌 Cable</span></div><div class="su-r"><span>Sump</span><span class="chip cable">🔌 Cable</span></div></div>
-    <div class="su x-radio x-one"><div class="su-h"><span class="su-n">3</span><b>DJ-R1</b><span class="mb one">1 motor</span></div><h4>Borewell → far roof tank</h4>
-      <div class="su-r"><span>Roof tank</span><span class="chip radio">📡 Radio</span></div><div class="su-r"><span>Sump</span><span class="chip none">— No sump</span></div></div>
-    <div class="su x-radio x-one"><div class="su-h"><span class="su-n">4</span><b>DJ-R1</b><span class="mb one">1 motor</span></div><h4>Sump near, roof tank far</h4>
-      <div class="su-r"><span>Roof tank</span><span class="chip radio">📡 Radio</span></div><div class="su-r"><span>Sump</span><span class="chip cable">🔌 Cable</span></div></div>
-    <div class="su x-radio x-one"><div class="su-h"><span class="su-n">5</span><b>DJ-R1</b><span class="mb one">1 motor</span></div><h4>Roof tank near, sump far</h4>
-      <div class="su-r"><span>Roof tank</span><span class="chip cable">🔌 Cable</span></div><div class="su-r"><span>Sump</span><span class="chip radio">📡 Radio</span></div></div>
-    <div class="su x-radio x-one"><div class="su-h"><span class="su-n">6</span><b>DJ-R1</b><span class="mb one">1 motor</span></div><h4>Both tanks far</h4>
-      <div class="su-r"><span>Roof tank</span><span class="chip radio">📡 Radio</span></div><div class="su-r"><span>Sump</span><span class="chip radio">📡 Radio</span></div></div>
-    <div class="su x-wired x-two"><div class="su-h"><span class="su-n">7</span><b>DJ-W2</b><span class="mb two">2 motors</span></div><h4>Sump + borewell → roof tank</h4>
-      <div class="su-r"><span>Roof tank</span><span class="chip cable">🔌 Cable</span></div><div class="su-r"><span>Sump</span><span class="chip cable">🔌 Cable</span></div></div>
-    <div class="su x-radio x-two"><div class="su-h"><span class="su-n">8</span><b>DJ-R2</b><span class="mb two">2 motors</span></div><h4>Sump far, roof tank near</h4>
-      <div class="su-r"><span>Roof tank</span><span class="chip cable">🔌 Cable</span></div><div class="su-r"><span>Sump</span><span class="chip radio">📡 Radio</span></div></div>
-    <div class="su x-radio x-two"><div class="su-h"><span class="su-n">9</span><b>DJ-R2</b><span class="mb two">2 motors</span></div><h4>Roof tank far, sump near</h4>
-      <div class="su-r"><span>Roof tank</span><span class="chip radio">📡 Radio</span></div><div class="su-r"><span>Sump</span><span class="chip cable">🔌 Cable</span></div></div>
-    <div class="su x-radio x-two"><div class="su-h"><span class="su-n">10</span><b>DJ-R2</b><span class="mb two">2 motors</span></div><h4>Both tanks far</h4>
-      <div class="su-r"><span>Roof tank</span><span class="chip radio">📡 Radio</span></div><div class="su-r"><span>Sump</span><span class="chip radio">📡 Radio</span></div></div>
-  </div>
-  <p class="muted">The model name shows the motors and whether radio is used, but not which tank uses radio. The installer writes the set-up on the box label.</p>
-  <h3>Words used in this manual</h3>
-  <div class="table"><table>
-    <tr><td>Overhead tank</td><td>The tank on the roof. The controller fills it.</td></tr>
-    <tr><td>Sump</td><td>The tank at ground level or under the ground. The motor takes water from it.</td></tr>
-    <tr class="x-two"><td>Bore motor <span class="mb two">2 motors</span></td><td>The motor in the borewell. It fills the overhead tank when the sump is empty.</td></tr>
-    <tr><td>Float switch</td><td>A switch in the tank that tells the controller "full" or "not full".</td></tr>
-    <tr class="x-radio"><td>Tank unit <span class="mb radio">Wireless</span></td><td>A small solar-powered box on the tank. It sends the level to the controller by radio.</td></tr>
-    <tr><td>Trip</td><td>The controller stops the motor because of a fault, to protect it.</td></tr>
-  </table></div>
-</section>
-
-<!-- ============================================================ -->
-<section id="safety">
-  <h2><span class="num"></span>Safety first</h2>
-  <div class="box danger">The controller works with <b>230 V mains</b>. Only a trained electrician should install it, open it or change its wiring.</div>
-  <ul class="dots">
-    <li>Switch off the mains before you touch any wire.</li>
-    <li>The motor must have its own MCB (circuit breaker) and a good earth connection.</li>
-    <li>Keep the controller indoors, away from water, rain and direct sun.</li>
-    <li>Do not block the air holes of the box.</li>
-    <li>If you see smoke, smell burning or hear clicking that does not stop: switch off the mains and call us.</li>
-  </ul>
-</section>
-
-<!-- ============================================================ -->
-<section id="panel">
-  <h2><span class="num"></span>The front panel</h2>
-  <div class="panel">
-    <div class="lcd">V:231 A:0.0  PF:0.00
-(A) OF:HIGH SF:HIGH
-MOTOR:OFF
-OVER HEAD TANK FULL</div>
-    <div class="row"><span class="key">MENU</span><span class="key">UP</span><span class="key">DOWN</span><span class="key">ENTER</span></div>
-    <div class="row" style="margin-top:12px"><span class="lamp"><i style="background:var(--green)"></i>MOTOR ON light</span><span class="lamp"><i style="background:var(--red)"></i>FAULT light</span></div>
-  </div>
-  <div class="table"><table>
-    <tr><th>Part</th><th>What it does</th></tr>
-    <tr><td>Display (4 lines)</td><td>Shows the voltage, current, tank levels, motor state and messages.</td></tr>
-    <tr><td><span class="k">MENU</span> <span class="k">UP</span> <span class="k">DOWN</span> <span class="k">ENTER</span></td><td>The 4 buttons. See <a href="#buttons">Buttons at a glance</a>.</td></tr>
-    <tr><td>MOTOR ON light</td><td>On while a motor is running.</td></tr>
-    <tr><td>FAULT light</td><td>On when there is a fault: a trip, bad voltage<span class="x-radio">, a lost tank unit</span> or too many starts.</td></tr>
-    <tr><td>Buzzer</td><td>A short beep for each button press. 5 beeps before a motor starts. Beeps for 10 seconds when a motor trips.</td></tr>
-  </table></div>
-  <div class="box tip">To save power, the display light goes off after 5 minutes. Press any button to light it again. This first press only lights the display. It does nothing else.</div>
-</section>
-
-<!-- ============================================================ -->
-<section id="poweron">
-  <h2><span class="num"></span>Switching on</h2>
-  <p>When the power comes on, the display shows the name and the model for 3 seconds:</p>
+  <h3>The display</h3>
+  <p>At power-on, for about 3 seconds, with one short beep:</p>
   <div class="lcd">      DJ TECH
- INTELLIGENT WATER
-  LEVEL CONTROLLER
- V4.0   DJ-W2</div>
-  <p class="lcd-cap">Last line: firmware version and model name. <span class="x-radio">Wireless models also show the network number, for example <span class="mono">DJ-R2 N3</span>.</span></p>
-  <ol class="steps">
-    <li>The controller always starts in <b>Auto mode</b>, even if it was in Manual mode before the power cut.</li>
-    <li>It waits for the <b>restart delay</b> (60 seconds from the factory) before a motor can start. The display shows <span class="mono">RESTART DELAY 45s</span>. This protects the motor when the power is not stable.</li>
-    <li class="x-radio">Wireless models: the controller waits up to 40 seconds for the tank units. The display shows <span class="mono">WAITING FOR TANKS</span>. <span class="mb radio">Wireless</span></li>
-    <li>Then it works by itself.</li>
-  </ol>
-</section>
+   SMART WIRELESS
+   SCHEDULE TIMER
+  Version 2.2 BASIC</div>
+  <p class="lcd-cap">A PRO unit shows <b>Version 2.2 PRO</b>.</p>
 
-<!-- ============================================================ -->
-<section id="main">
-  <h2><span class="num"></span>The main screen</h2>
-  <div class="lcds">
-    <div class="x-one">
-      <div class="lcd">V:231 A:4.2  PF:0.86
-(A) OF:LOW  SF:HIGH
-MOTOR:ON
-FILLING TANK</div>
-      <p class="lcd-cap">Example, 1 motor <span class="mb one">1 motor</span></p>
-    </div>
-    <div class="x-two">
-      <div class="lcd">V:231 A:4.2  PF:0.86
-(A) OF:LOW  SF:HIGH
-SMP:ON  BOR:OFF
-FILLING: SUMP MOTOR</div>
-      <p class="lcd-cap">Example, 2 motors <span class="mb two">2 motors</span></p>
-    </div>
-  </div>
+  <p>Normal running screen:</p>
+  <div class="lcd">14:01:00 ID6 MTWTF--
+14/10/2026 WED LOCAL
+ACTIVE: NORMAL
+NEXT: 15:30 (3s)</div>
   <div class="table"><table>
-    <tr><th>Line</th><th>What it shows</th></tr>
-    <tr><td>Line 1</td><td><span class="mono">V</span> = mains voltage. <span class="mono">A</span> = motor current in amps. <span class="mono">PF</span> = power factor (how well the motor uses power; about 0.7 to 0.9 when it pumps water).</td></tr>
-    <tr><td>Line 2</td><td><span class="mono">(A)</span> = Auto mode, <span class="mono">(M)</span> = Manual mode.<br>
-      <span class="mono">OF</span> = overhead tank float: <span class="mono">HIGH</span> = full, <span class="mono">LOW</span> = needs water.<br>
-      <span class="mono">SF</span> = sump float: <span class="mono">HIGH</span> = water is there, <span class="mono">LOW</span> = sump empty, <span class="mono">---</span> = no sump sensor.<br>
-      <span class="mono">ERR</span> = the level is not known yet<span class="x-radio"> or the tank unit is lost</span>.</td></tr>
-    <tr><td>Line 3</td><td>Motor state. <span class="x-two">SMP = sump motor, BOR = bore motor.</span><br>
-      <span class="mono">ON</span> running · <span class="mono">ST</span> starting (beeping) · <span class="mono">WT</span> waiting to try again (dry run) · <span class="mono">OFF</span> off.<br>
-      On the right a countdown can show: <span class="mono">OT:05</span> = overload, the motor stops in 5 s if it continues. <span class="mono">DT:05</span> = dry run, the motor stops in 5 s if it continues.</td></tr>
-    <tr><td>Line 4</td><td>Status message. See <a href="#messages">Display messages</a>.</td></tr>
+    <tr><th>On the screen</th><th>Meaning</th></tr>
+    <tr><td>14:01:00</td><td>The unit's clock. It is set from your phone every time you upload, or when you tap Sync clock.</td></tr>
+    <tr><td>ID6</td><td>This unit's ID number (0 to 7), set by the three small switches inside the unit.</td></tr>
+    <tr><td>MTWTF--</td><td>The days the running timetable rings on, Monday first. A dash means that day is off.</td></tr>
+    <tr><td>LOCAL</td><td>How the unit is linked: <b>LOCAL</b> = the app is connected on the unit's own WiFi. PRO only: <b>NET</b> = online, control from anywhere is ready; <b>WIFI</b> = joined the internet WiFi, not online yet; <b>SRCH</b> = looking for the internet WiFi; <b>PASS</b> = the WiFi password was refused. Empty = no phone connected.</td></tr>
+    <tr><td>ACTIVE</td><td>The timetable that is running now, by its name, or NONE.</td></tr>
+    <tr><td>NEXT</td><td>The next bell and how long it rings. When no more bells are due today, it shows the day, for example <b>NEXT: TUE 09:00 (3s)</b>.</td></tr>
   </table></div>
-  <p>A small ↑ arrow at the top right means there are more pages. Press <span class="k">UP</span> or <span class="k">DOWN</span> to see them (<a href="#pages">Information pages</a>).</p>
-</section>
 
-<!-- ============================================================ -->
-<section id="auto">
-  <h2><span class="num"></span>Auto mode: how it works</h2>
-  <p>In Auto mode you do nothing. The controller watches the tanks and runs the motor.</p>
-
-  <div class="x-one">
-  <h3>1 motor <span class="mb one">1 motor</span></h3>
-  <ol class="steps">
-    <li>The overhead tank is full. The motor is off. Line 4: <span class="mono">OVER HEAD TANK FULL</span>.</li>
-    <li>People use water. The level goes down. The float shows <span class="mono">OF:LOW</span>.</li>
-    <li>The controller beeps <b>5 times</b>, then one long beep. Line 4 counts down: <span class="mono">STARTING MOTOR 5</span> … <span class="mono">1</span>. This warns people near the motor.</li>
-    <li>The motor starts. Line 4: <span class="mono">FILLING TANK</span>. The MOTOR ON light is on.</li>
-    <li>The tank becomes full. The motor stops by itself.</li>
-  </ol>
-  <p>If the sump is empty, the motor does not start. Line 4 shows <span class="mono">SUMP LOW - WAITING</span>. When water comes back into the sump, the motor starts again by itself.</p>
-  </div>
-
-  <div class="x-two">
-  <h3>2 motors: sump motor first, then bore motor <span class="mb two">2 motors</span></h3>
-  <ol class="steps">
-    <li>The overhead tank is full. Both motors are off.</li>
-    <li>People use water. The level goes down.</li>
-    <li>5 beeps, then the <b>sump motor</b> starts. Line 4: <span class="mono">FILLING: SUMP MOTOR</span>.</li>
-    <li>If the sump becomes empty, the sump motor stops. 5 beeps, then the <b>bore motor</b> starts. Line 4: <span class="mono">FILLING: BORE MOTOR</span>.</li>
-    <li>The bore motor keeps filling until the overhead tank is full, even if water comes back into the sump.</li>
-    <li>The tank is full. All motors stop. Next time, the sump motor runs first again.</li>
-  </ol>
-  <div class="box tip">The bore motor also takes over when the sump motor has tripped (for example an overload). The water supply does not stop because one motor has a problem.</div>
-  <p>Only one motor runs at a time. The controller never switches on both motors together.</p>
-  </div>
-
-  <div class="x-radio">
-  <h3>Wireless models <span class="mb radio">Wireless</span></h3>
-  <p>The tank units send the level every 3 to 4 seconds. When a level changes, they send it at once. If the controller hears nothing from a tank unit for 12 seconds, it stops the motor to be safe and shows <span class="mono">LoRa: OH TANK LOST</span> or <span class="mono">LoRa: SUMP LOST</span>.</p>
-  </div>
-</section>
-
-<!-- ============================================================ -->
-<section id="buttons">
-  <h2><span class="num"></span>Buttons at a glance</h2>
-  <div class="table"><table>
-    <tr><th>Press</th><th>What happens</th></tr>
-    <tr><td><span class="k">UP</span> or <span class="k">DOWN</span> (short)</td><td>Next / previous information page.</td></tr>
-    <tr><td><span class="k">MENU</span> + <span class="k">ENTER</span> together</td><td>Open the settings menu.</td></tr>
-    <tr><td><span class="k">MENU</span> hold 5 s</td><td>Change between Auto mode and Manual mode.</td></tr>
-    <tr><td><span class="k">ENTER</span> (short), in Manual mode</td><td>Motor ON / OFF (Manual mode, main screen).</td></tr>
-    <tr><td><span class="k">UP</span> hold 3 s, in Manual mode</td><td>Open the motor test screen.</td></tr>
-    <tr><td><span class="k">ENTER</span> hold 5 s</td><td>Fault reset (after a trip).</td></tr>
-    <tr><td>Any button, display dark</td><td>Lights the display only.</td></tr>
-  </table></div>
-  <div class="box warn">On the 3 service pages (the last pages), holding <span class="k">ENTER</span> for 5 s clears the run hours and fault counters. Do not do this. Your technician uses these numbers.</div>
-</section>
-
-<!-- ============================================================ -->
-<section id="manual">
-  <h2><span class="num"></span>Manual mode: "Manual ON, Auto OFF"</h2>
-  <p>Use Manual mode when you want to fill the tank <b>now</b>. Example: the power will be cut at 10:00. At 9:00 you fill the tank by hand.</p>
-  <ol class="steps">
-    <li>Hold <span class="k">MENU</span> for 5 seconds. The display shows <span class="mono">MANUAL MODE</span> and line 2 shows <span class="mono">(M)</span>.</li>
-    <li>Press <span class="k">ENTER</span> once. The display shows <span class="mono">MANUAL: MOTOR ON</span>. After 5 beeps the motor starts.</li>
-    <li>Line 4 shows the time left before Auto mode, for example <span class="mono">MANUAL ON  AUTO:25m</span>.</li>
-    <li>When the tank is full, the motor stops <b>by itself</b> and the controller goes back to Auto mode: <span class="mono">TANK FULL-AUTO MODE</span>.</li>
-  </ol>
-  <div class="table"><table>
-    <tr><th>Situation</th><th>What happens</th></tr>
-    <tr><td>You press <span class="k">ENTER</span> again</td><td>Motor off: <span class="mono">MANUAL: MOTOR OFF</span>.</td></tr>
-    <tr><td>30 minutes pass (setting <span class="mono">MANUAL-&gt;AUTO</span>)</td><td>Back to Auto: <span class="mono">TIMER: AUTO MODE</span>. If the motor is running and the tank is not full, it keeps running until the tank is full.</td></tr>
-    <tr><td>Power cut</td><td>The controller starts again in Auto mode.</td></tr>
-    <tr><td>Hold <span class="k">MENU</span> 5 s</td><td>Back to Auto at once: <span class="mono">AUTO MODE</span>.</td></tr>
-  </table></div>
-  <h3>When the motor does not start in Manual mode</h3>
-  <div class="table"><table>
-    <tr><th>Message</th><th>Why</th></tr>
-    <tr><td><code>TANK FULL-USE TEST</code></td><td>The tank is already full. To check the motor anyway, use the <a href="#test">motor test</a>.</td></tr>
-    <tr><td><code>VOLTAGE NOT OK</code></td><td>The mains voltage is too high or too low.</td></tr>
-    <tr><td><code>SUMP EMPTY</code></td><td>No water in the sump<span class="x-two">, and the bore motor cannot run</span>.</td></tr>
-    <tr><td><code>MOTOR TRIPPED</code></td><td>A motor has a trip. Fix the cause, then do a <a href="#reset">fault reset</a>.</td></tr>
-  </table></div>
-  <div class="box good">All protections stay on in Manual mode, including "stop when the tank is full".</div>
-</section>
-
-<!-- ============================================================ -->
-<section id="test">
-  <h2><span class="num"></span>Motor test</h2>
-  <p>Use this screen to check <span class="x-two">each motor one by one</span><span class="x-one">the motor</span>, for example after a repair.</p>
-  <ol class="steps">
-    <li>Go to Manual mode (hold <span class="k">MENU</span> 5 s).</li>
-    <li>Hold <span class="k">UP</span> for 3 seconds. The motor test screen opens.</li>
-    <li class="x-two">Choose the motor: <span class="k">UP</span> = sump motor, <span class="k">DOWN</span> = bore motor. The arrow ► shows your choice. <span class="mb two">2 motors</span></li>
-    <li>Press <span class="k">ENTER</span> to switch the motor ON. Press <span class="k">ENTER</span> again to switch it OFF.</li>
-    <li>Press <span class="k">MENU</span> to go back to Manual mode. Hold <span class="k">MENU</span> 5 s to go straight to Auto mode.</li>
-  </ol>
-  <div class="lcd">MOTOR TEST AUTO:28m
-V:231 A:4.2  PF:0.86
-W:965     RUN:01:15
-►SUMP:ON   BORE:OFF</div>
-  <p class="lcd-cap">Line 3: power in watts and the run time. Line 4: the chosen motor and its state.</p>
-  <ul class="dots">
-    <li>Only one motor runs at a time. All protections stay on.</li>
-    <li>If the tank is full, the test can still run, but only for 2 minutes (setting <span class="mono">TEST TANK FULL</span>). Line 1 counts down: <span class="mono">MOTOR TEST FULL 01:45</span>. Then: <span class="mono">TEST TIME OVER</span>.</li>
-    <li>The controller goes back to Auto by itself after 30 minutes.</li>
-  </ul>
-</section>
-
-<!-- ============================================================ -->
-<section id="protect">
-  <h2><span class="num"></span>Protections</h2>
-  <p>The controller measures the voltage and the motor current all the time. It protects the motor in Auto mode, Manual mode and Motor test.</p>
-  <div class="table"><table>
-    <tr><th>Protection</th><th>When it acts</th><th>After that</th></tr>
-    <tr><td>High voltage</td><td>Voltage above <b>270 V</b> for 5 s. <code>HIGH VOLTAGE TRIP</code></td><td rowspan="2">Restarts <b>by itself</b> when the voltage is good again, after the restart delay.</td></tr>
-    <tr><td>Low voltage</td><td>Voltage below <b>180 V</b> for 5 s. <code>LOW VOLTAGE TRIP</code></td></tr>
-    <tr><td>Overload</td><td>Current above the overload limit for 3 s. <code>OVERLOAD TRIP</code></td><td>Stays off. Needs a <a href="#reset">fault reset</a>.</td></tr>
-    <tr><td>Jammed motor</td><td>Current more than 2 times the overload limit. Stops at once. <code>OVERLOAD TRIP</code></td><td>Stays off. Needs a fault reset.</td></tr>
-    <tr><td>Dry run</td><td>Current too low (no water in the pipe) for 5 s.</td><td>Waits 30 s and tries again, up to 3 times. Then <code>DRY RUN TRIP</code>. See below.</td></tr>
-    <tr><td>Maximum run time</td><td>Motor runs longer than 90 minutes<span class="x-two"> (bore: 120 minutes)</span>. <code>MAX RUN TRIP</code></td><td>Stays off. Needs a fault reset.</td></tr>
-    <tr><td>Too many starts</td><td>More than 6 starts in one hour. <code>TOO MANY STARTS 12m</code></td><td>Waits, then works again by itself.</td></tr>
-    <tr><td>Stuck relay</td><td>Current flows while the controller has switched the motor off. <code>RELAY STUCK-CHECK!!</code></td><td>Alarm beeps. Switch off the mains and call service.</td></tr>
-    <tr class="x-radio"><td>Tank unit lost <span class="mb radio">Wireless</span></td><td>No radio message for 12 s.</td><td>Motor stops. Works again by itself when the signal comes back.</td></tr>
-  </table></div>
-  <p class="muted">The numbers above are the factory settings. Your installer may have changed them for your motor (<a href="#settings">Settings menu</a>).</p>
-
-  <h3>Voltage: an example</h3>
-  <p>High voltage limit 270 V, restart gap 8 V. At 9:00 the voltage goes to 275 V. After 5 s the motor stops. At 9:20 the voltage is 265 V: still too close to the limit, so the motor waits. At 9:30 the voltage is 255 V (below 270 − 8 = 262 V). The restart delay of 60 s runs. At 9:31 the motor may start again.</p>
-
-  <h3>Dry run: step by step</h3>
-  <ol class="steps">
-    <li>The motor runs, but the current is too low. The countdown <span class="mono">DT:05</span> shows on line 3.</li>
-    <li>After 5 s the motor stops. Line 4: <span class="mono">DRY RETRY 1 WAIT 25s</span>.</li>
-    <li>After 30 s it tries again. This can happen 3 times.</li>
-    <li>If there is still no water: <span class="mono">DRY RUN TRIP</span>. The FAULT light comes on and the buzzer beeps for 10 s.</li>
-    <li>In Auto mode the controller tries again by itself after 30 minutes. Line 4 shows the time left: <span class="mono">DRY RUN TRIP R:25m</span>. It does this up to 3 times. After the 3rd time, you must do a fault reset.</li>
-  </ol>
-  <div class="box tip">This is useful for a borewell: when the water comes back into the well, the controller starts again without you.</div>
-</section>
-
-<!-- ============================================================ -->
-<section id="reset">
-  <h2><span class="num"></span>Fault reset</h2>
-  <p>Overload, dry run and maximum run time trips keep the motor off until you reset them. This makes you check the problem first.</p>
-  <ol class="steps">
-    <li>Read the message on line 4<span class="x-two"> (it shows SMP or BOR: which motor tripped)</span>.</li>
-    <li>Find and fix the cause. Examples: closed valve, no water, blocked pipe, burst pipe, jammed pump.</li>
-    <li>Hold <span class="k">ENTER</span> for 5 seconds. The display shows <span class="mono">FAULT RESET DONE</span>.</li>
-  </ol>
-  <div class="box warn">If the same trip comes back again and again, do not keep resetting. Call your technician. The motor may be damaged.</div>
-</section>
-
-<!-- ============================================================ -->
-<section id="settings">
-  <h2><span class="num"></span>Settings menu</h2>
-  <div class="box warn">Your installer sets these values for your motor. Change them only if you know what they do. Wrong values can damage the motor.</div>
-  <h3>How to change a setting</h3>
-  <ol class="steps">
-    <li>Press <span class="k">MENU</span> and <span class="k">ENTER</span> together. The list opens.</li>
-    <li>Use <span class="k">UP</span> / <span class="k">DOWN</span> to move the arrow ►. Press <span class="k">ENTER</span> to open the item.</li>
-    <li>Use <span class="k">UP</span> / <span class="k">DOWN</span> to change the value. Hold the button to change faster.</li>
-    <li>Some items also have a <b>Delay</b>: how long the problem must last before the motor stops. Press <span class="k">ENTER</span> to move the arrow between Value and Delay.</li>
-    <li>Press <span class="k">MENU</span> to <b>save</b> and go back to the list. Press <span class="k">MENU</span> again to leave the menu.</li>
-  </ol>
-  <div class="lcds">
-    <div><div class="lcd">►HIGH VOLT CUT
- LOW VOLT CUT
- VOLT RESTART GAP
- RESTART DELAY</div><p class="lcd-cap">The list</p></div>
-    <div><div class="lcd">HIGH VOLT CUT
-► Value: 270 V
-  Delay: 5 s
-ENT:select MENU:save</div><p class="lcd-cap">One item, with value and delay</p></div>
-  </div>
-  <ul class="dots">
-    <li>If you press no button for 60 seconds, the menu closes <b>without saving</b>.</li>
-    <li>The dry run limit must be lower than the overload limit. If not, the display shows <span class="mono">DRY &gt;= OVERLOAD !</span> and does not save.</li>
-    <li>Items for parts you do not have are hidden<span class="x-one"> (for example the bore motor items)</span>.</li>
-    <li>On 1-motor models, motor items start with <span class="mono">MTR</span>. <span class="x-two">On 2-motor models they start with <span class="mono">SMP</span> (sump motor) or <span class="mono">BOR</span> (bore motor).</span></li>
-  </ul>
-
-  <h3>All settings</h3>
-  <div class="table"><table>
-    <tr><th>On the display</th><th>Factory value</th><th>Range</th><th>What it does</th></tr>
-    <tr><td>HIGH VOLT CUT</td><td>270 V<br><span class="muted">delay 5 s</span></td><td>250–300 V</td><td>Motor stops when the voltage stays above this.</td></tr>
-    <tr><td>LOW VOLT CUT</td><td>180 V<br><span class="muted">delay 5 s</span></td><td>150–210 V</td><td>Motor stops when the voltage stays below this.</td></tr>
-    <tr><td>VOLT RESTART GAP</td><td>8 V</td><td>0–30 V</td><td>The voltage must come this far back inside the limits before the motor may start again.</td></tr>
-    <tr><td>RESTART DELAY</td><td>60 s</td><td>5–600 s</td><td>Wait time after power-on or after the voltage becomes good.</td></tr>
-    <tr><td><span class="x-one">MTR</span><span class="sep"> / </span><span class="x-two">SMP</span> OVERLOAD CUT</td><td>10.0 A<br><span class="muted">delay 3 s</span></td><td>0.5–30.0 A</td><td>Motor stops when the current stays above this.</td></tr>
-    <tr><td><span class="x-one">MTR</span><span class="sep"> / </span><span class="x-two">SMP</span> DRY RUN CUT</td><td>1.0 A<br><span class="muted">delay 5 s</span></td><td>OFF–15.0 A</td><td>Dry run when the current stays below this.</td></tr>
-    <tr><td><span class="x-one">MTR</span><span class="sep"> / </span><span class="x-two">SMP</span> DRY RUN PF</td><td>OFF</td><td>OFF–0.95</td><td>Extra dry run check by power factor. Your installer may use it.</td></tr>
-    <tr class="x-two"><td>BOR OVERLOAD CUT <span class="mb two">2 motors</span></td><td>15.0 A<br><span class="muted">delay 3 s</span></td><td>0.5–30.0 A</td><td>Same, for the bore motor.</td></tr>
-    <tr class="x-two"><td>BOR DRY RUN CUT <span class="mb two">2 motors</span></td><td>1.0 A<br><span class="muted">delay 5 s</span></td><td>OFF–15.0 A</td><td>Same, for the bore motor.</td></tr>
-    <tr class="x-two"><td>BOR DRY RUN PF <span class="mb two">2 motors</span></td><td>OFF</td><td>OFF–0.95</td><td>Same, for the bore motor.</td></tr>
-    <tr><td><span class="x-one">MTR</span><span class="sep"> / </span><span class="x-two">SMP</span> MAX RUN TIME</td><td>90 min</td><td>OFF–240 min</td><td>Motor stops if it runs longer than this in one go (for example a burst pipe).</td></tr>
-    <tr class="x-two"><td>BOR MAX RUN TIME <span class="mb two">2 motors</span></td><td>120 min</td><td>OFF–240 min</td><td>Same, for the bore motor.</td></tr>
-    <tr><td>START IGNORE</td><td>3 s</td><td>1–15 s</td><td>The current is not checked in the first seconds after a start. A motor takes a high current when it starts.</td></tr>
-    <tr><td>STARTS PER HOUR</td><td>6</td><td>OFF–20</td><td>The most starts allowed in one hour.</td></tr>
-    <tr><td>DRY RETRY WAIT</td><td>30 s</td><td>5–300 s</td><td>Wait time between dry run tries.</td></tr>
-    <tr><td>DRY AUTO RESET</td><td>30 min</td><td>OFF–240 min</td><td>After a dry run trip, try again by itself after this time (Auto mode, up to 3 times).</td></tr>
-    <tr><td>MANUAL-&gt;AUTO</td><td>30 min</td><td>5–120 min</td><td>Manual mode goes back to Auto after this time.</td></tr>
-    <tr><td>TEST TANK FULL</td><td>2 min</td><td>1–10 min</td><td>Longest motor test when the tank is full.</td></tr>
-    <tr><td>VALVE OPEN DELAY <span class="mb opt">Valve option</span></td><td>3 s</td><td>1–30 s</td><td>The valve opens this long before the motor starts.</td></tr>
-    <tr><td>REMOTE CONTROL <span class="mb opt">Smart option</span></td><td>OFF</td><td>ON / OFF</td><td>Allows control from the phone app (Smart add-on only).</td></tr>
-  </table></div>
-  <p class="muted">Delays can be set from 0 to 60 seconds.</p>
-  <div class="box tip"><b>How installers set the current limits.</b> Look at <span class="mono">A:</span> on line 1 while the motor pumps water normally. Example: the motor runs at 4.2 A. The installer sets the overload a little above it (for example 5.0 A) and the dry run limit below it (for example 2.8 A). Every motor is different, so ask your installer.</div>
-</section>
-
-<!-- ============================================================ -->
-<section id="pages">
-  <h2><span class="num"></span>Information pages</h2>
-  <p>Press <span class="k">UP</span> (next) or <span class="k">DOWN</span> (previous) to see these pages. They only show information. You cannot change anything here.</p>
-  <div class="lcds">
-    <div><div class="lcd">HV:270V T:5s
-LV:180V T:5s
-GAP:8V RST:60s
-STARTS/H:6 IGN:3s</div><p class="lcd-cap">Voltage settings, starts per hour, start ignore</p></div>
-    <div><div class="lcd">MTR OL:10.0 A T:3s
-MTR DR:1.0 A T:5s
-MTR DRY PF:OFF
-MTR MAX RUN:90 min</div><p class="lcd-cap">Motor settings: overload, dry run, max run time<span class="x-two">. 2 motors: one page for SMP, one page for BOR</span></p></div>
-    <div class="x-radio"><div class="lcd">LoRa NET ID: 3
-OH:HIGH  3s 4.1V
-SP:LOW   2s 3.9V
-RX OH:  152 SP:  148</div><p class="lcd-cap">Wireless page <span class="mb radio">Wireless</span>: level, seconds since the last message, battery voltage of each tank unit</p></div>
-    <div><div class="lcd">POWER : 965 W
-ENERGY: 152.4 kWh
-FREQ  : 50.0 Hz
-MODEL : DJ-W2</div><p class="lcd-cap">Power now, total energy used, mains frequency, model</p></div>
-  </div>
-  <p>The last 3 pages are <b>service pages</b> for your technician: run hours, number of starts, and how many times each fault happened. <span class="muted">Do not hold <span class="k">ENTER</span> on these pages: it clears the counters.</span></p>
-</section>
-
-<!-- ============================================================ -->
-<section id="messages">
-  <h2><span class="num"></span>Display messages</h2>
-  <h3>Normal messages</h3>
+  <h3>Other messages on the display</h3>
   <div class="table"><table>
     <tr><th>Message</th><th>Meaning</th></tr>
-    <tr><td><code>OVER HEAD TANK FULL</code></td><td>Tank full. Motor off.</td></tr>
-    <tr><td><code>STATUS: NORMAL</code></td><td>All good.</td></tr>
-    <tr><td><code>STARTING MOTOR 3</code><span class="x-two"><br><code>STARTING SUMP 3</code><br><code>STARTING BORE 3</code></span></td><td>Beeping before the start. The number counts down.</td></tr>
-    <tr><td><code>FILLING TANK</code><span class="x-two"><br><code>FILLING: SUMP MOTOR</code><br><code>FILLING: BORE MOTOR</code></span></td><td>A motor is filling the tank.</td></tr>
-    <tr class="x-one"><td><code>SUMP LOW - WAITING</code> <span class="mb one">1 motor</span></td><td>The sump is empty. The motor waits for water.</td></tr>
-    <tr class="x-two"><td><code>SUMP LOW-BORE MODE</code> <span class="mb two">2 motors</span></td><td>The sump is empty. The bore motor fills the tank.</td></tr>
-    <tr><td><code>RESTART DELAY 45s</code></td><td>Waiting after power-on or after bad voltage.</td></tr>
-    <tr><td><code>MANUAL ON  AUTO:25m</code></td><td>Manual mode, motor on. Back to Auto in 25 minutes.</td></tr>
-    <tr><td><code>MANUAL OFF AUTO:30m</code></td><td>Manual mode, motor off.</td></tr>
-    <tr class="x-radio"><td><code>WAITING FOR TANKS</code> <span class="mb radio">Wireless</span></td><td>First 40 s after power-on. No message from a tank unit yet.</td></tr>
+    <tr><td>BELL RINGING!</td><td>A bell from the timetable is ringing.</td></tr>
+    <tr><td>EMERGENCY ALARM</td><td>The bell is being rung by hand from a phone.</td></tr>
+    <tr><td>PAIRING CODE</td><td>A phone tapped SEARCH UNIT. Type the 6 digits in the app (section 3).</td></tr>
+    <tr><td>Data Received!</td><td>A timetable arrived from the app. Its name is shown below.</td></tr>
+    <tr><td>Clock Updated!</td><td>The clock was set from the app.</td></tr>
+    <tr><td>PHONE PAIRED</td><td>A phone was paired with the unit.</td></tr>
   </table></div>
 
-  <h3>Fault messages</h3>
+  <h3>The status light</h3>
   <div class="table"><table>
-    <tr><th>Message</th><th>Meaning</th><th>What to do</th></tr>
-    <tr><td><code>HIGH VOLTAGE TRIP</code><br><code>LOW VOLTAGE TRIP</code></td><td>The mains voltage is too high or too low.</td><td>Nothing. It restarts by itself when the voltage is good.</td></tr>
-    <tr><td><code>OVERLOAD TRIP</code></td><td>The motor took too much current, or it is jammed.</td><td>Check the pump and the motor. Then fault reset.</td></tr>
-    <tr><td><code>DRY RUN TRIP</code></td><td>No water was pumped.</td><td>Check the water source, valves and pipe. Then fault reset, or wait for the auto reset (<span class="mono">R:25m</span>).</td></tr>
-    <tr><td><code>MAX RUN TRIP</code></td><td>The motor ran too long.</td><td>Look for a leak or a burst pipe, and check the float. Then fault reset.</td></tr>
-    <tr><td><code>DRY RETRY 1 WAIT 25s</code></td><td>No water felt. Waiting to try again.</td><td>Wait.</td></tr>
-    <tr><td><code>TOO MANY STARTS 12m</code></td><td>Too many starts in one hour. Waiting 12 minutes.</td><td>Wait. If it happens often, check the float switch.</td></tr>
-    <tr class="x-two"><td><code>SUMP LOW-BORE TRIP</code> <span class="mb two">2 motors</span></td><td>The sump is empty and the bore motor has a trip.</td><td>Fix the bore motor problem. Then fault reset.</td></tr>
-    <tr><td><code>RELAY STUCK-CHECK!!</code></td><td>Current flows while the motor should be off.</td><td>Switch off the mains. Call service. (Fault reset stops the beeping.)</td></tr>
-    <tr><td><code>PZEM ERROR-CHECK</code><br><code>PZEM / MAINS FAIL</code></td><td>The power meter inside the controller does not answer. The motor cannot start.</td><td>If the mains is on, call service.</td></tr>
-    <tr class="x-radio"><td><code>LoRa: OH TANK LOST</code><br><code>LoRa: SUMP LOST</code><br><code>LoRa: BOTH LOST</code> <span class="mb radio">Wireless</span></td><td>No message from the tank unit for 12 s.</td><td>See <a href="#wireless">Wireless tank units</a>.</td></tr>
-    <tr class="x-radio"><td><code>TANK UNIT BATT LOW</code> <span class="mb radio">Wireless</span></td><td>A tank unit battery is low.</td><td>Clean the solar panel. Check it gets sun.</td></tr>
+    <tr><th>Light</th><th>Meaning</th></tr>
+    <tr><td>Short flash every 10 s</td><td>The unit is on and working. No phone is connected.</td></tr>
+    <tr><td>Even blinking</td><td>A phone has joined the unit's WiFi, but the app is closed or not paired with this unit.</td></tr>
+    <tr><td>Steady on</td><td>The app is connected. Ready to receive bell times.</td></tr>
+    <tr><td>Off</td><td>No power to the unit.</td></tr>
   </table></div>
 
-  <h3>Short messages (2 to 3 seconds)</h3>
+  <h3>The buzzer</h3>
   <div class="table"><table>
-    <tr><th>Message</th><th>Meaning</th></tr>
-    <tr><td><code>MANUAL MODE</code> / <code>AUTO MODE</code></td><td>The mode has changed.</td></tr>
-    <tr><td><code>TANK FULL-AUTO MODE</code></td><td>Manual fill done. Back to Auto.</td></tr>
-    <tr><td><code>TIMER: AUTO MODE</code></td><td>The Manual time is over. Back to Auto.</td></tr>
-    <tr><td><code>FAULT RESET DONE</code></td><td>Trips cleared.</td></tr>
-    <tr><td><code>DRY TRIP AUTO RESET</code></td><td>The controller cleared a dry run trip by itself.</td></tr>
-    <tr><td><code>NO MOTOR AVAILABLE</code></td><td>No motor can run now.</td></tr>
-    <tr><td><code>TEST TIME OVER</code></td><td>The motor test stopped because the tank is full.</td></tr>
+    <tr><th>Sound</th><th>Meaning</th></tr>
+    <tr><td>One short beep</td><td>The unit received something from the app, or the app connected.</td></tr>
+    <tr><td>Two short beeps</td><td>A timetable was switched off, or the app disconnected.</td></tr>
+    <tr><td>Continuous sound</td><td>The bell is ringing. The buzzer sounds with it.</td></tr>
+    <tr><td>No beep</td><td>The unit did not accept the command.</td></tr>
   </table></div>
+
+  <h3>The display light</h3>
+  <p>To save power, the display light switches off 3 minutes after the last activity. The unit still works and bells still ring. The light comes back by itself when a bell rings, when the app connects or sends something, or when a phone joins the unit's WiFi.</p>
 </section>
 
-<!-- ============================================================ -->
-<section id="wireless" class="x-radio">
-  <h2><span class="num"></span>Wireless tank units <span class="mb radio">Wireless</span></h2>
-  <p>A tank unit is a small box on the tank. It has a float switch, a solar panel, a battery and a radio. It sends the tank level to the controller.</p>
-  <ul class="dots">
-    <li>The solar panel charges the battery. Keep the panel <b>clean</b> and in the <b>sun</b>, facing south if possible.</li>
-    <li>The battery voltage shows on the wireless page (for example <span class="mono">4.1V</span>). Below 3.5 V the controller shows <span class="mono">TANK UNIT BATT LOW</span>.</li>
-    <li>The unit sends a message every 3 to 4 seconds, and at once when the level changes.</li>
-  </ul>
-  <h3>If a tank unit is lost</h3>
+<!-- 2 -->
+<section id="install">
+  <h2><span class="num" style="background:#81c784">2</span>Install the app</h2>
+  <p>The app is for <b>Android</b> phones. It is not in the Play Store; you get it from the QR code on the bell unit.</p>
   <ol class="steps">
-    <li>Look at the wireless page. <span class="mono">LOST</span> = it was working before. <span class="mono">NOT SEEN</span> = no message since power-on.</li>
-    <li>Check the solar panel and the battery voltage.</li>
-    <li>Check that nothing new blocks the radio path, for example a new metal sheet or a new wall.</li>
-    <li>If it does not come back, call service.</li>
+    <li><b>Scan the QR code</b> on the bell unit with the phone camera.</li>
+    <li>On the page that opens, tap <b>Download the app</b>.</li>
+    <li>Open the downloaded file.</li>
+    <li>If the phone asks, tap <b>Settings</b>, switch on <b>Allow from this source</b>, and go back.</li>
+    <li>Tap <b>Install</b>, then <b>Open</b>.</li>
+    <li>The first time, <b>allow notifications and alarms</b> when the app asks.</li>
   </ol>
-  <div class="box good">When a tank unit is lost, the motor stops. This is safe: the controller never runs the motor without knowing the tank level.</div>
+  <div class="tip">To update the app later, scan the same QR code and install again. Your timetables stay on the phone.</div>
 </section>
 
-<!-- ============================================================ -->
-<section id="valve">
-  <h2><span class="num"></span>Solenoid valve <span class="mb opt">Option</span></h2>
-  <p>Some installations have a 230 V solenoid valve (an electric water valve) in the pipe. The controller works it automatically:</p>
+<!-- 3 -->
+<section id="setup">
+  <h2><span class="num" style="background:#ffd54f">3</span>First-time setup and pairing</h2>
+  <p>Each phone must be <b>paired</b> with the unit once. Pairing needs the code shown on the unit's display, so only someone standing at the unit can add a phone.</p>
   <ol class="steps">
-    <li>After the 5 beeps, the valve opens first. Line 4 shows <span class="mono">STARTING MOTOR VLV</span>.</li>
-    <li>3 seconds later the motor starts (setting <span class="mono">VALVE OPEN DELAY</span>).</li>
-    <li>When the motor stops, the valve closes 3 seconds later.</li>
+    <li><b>Power on the unit.</b> After the welcome screen, note the ID on the top line, for example <b>ID6</b>.</li>
+    <li><b>Join the unit's WiFi.</b> In the phone's WiFi settings choose <b>DJ TECH Bell v2.2</b>. The password is <b>12304560</b>.</li>
+    <li><b>Stay connected.</b> The phone will say this WiFi has no internet. That is correct. Choose to keep the connection. Keep <b>mobile data ON</b> too. If the phone's screen locks by itself, that is not harmful: see <a href="#offline-lock">"Screen was auto-locked"</a>.</li>
+    <li><b>Open the app.</b> On the home screen, <b>press and hold RING for 5 seconds</b>. The Device ID Configuration page opens.</li>
+    <li><b>Set the ID.</b> Tap the three switches until the large number equals the unit's ID.</li>
+    <li><b>Tap SEARCH UNIT.</b> The unit beeps and its display shows <b>PAIRING CODE</b> with 6 digits, for 1 minute.</li>
+    <li><b>Type the code</b> in the app and tap <b>Pair</b>. The unit shows <b>PHONE PAIRED</b> and beeps once.</li>
+    <li><b>Done.</b> The app shows <span class="dot" style="background:var(--green)"></span><b>Connected</b>, and the unit's light is steady.</li>
   </ol>
-  <p>The model name ends with <span class="mono">-V</span> when the valve option is fitted, for example <span class="mono">DJ-W2-V</span>.</p>
+  <div class="lcd">PAIRING CODE
+       482913
+
+Type it in the app</div>
+  <p class="lcd-cap">Example only. The code is random and different every time.</p>
+  <figure class="shot"><img src="img/device-id.jpg" alt="Device ID Configuration page" onerror="this.parentElement.remove()"><figcaption>Device ID Configuration page</figcaption></figure>
+  <h3>One code, one phone</h3>
+  <p>Each code works for <b>one phone only</b>. As soon as a phone is paired, the unit makes a new random code. The next phone must read the new code from the display.</p>
+  <div class="table"><table>
+    <tr><th>What happens</th><th>Code on the display</th></tr>
+    <tr><td>Phone A taps SEARCH UNIT</td><td>482913</td></tr>
+    <tr><td>Phone A pairs with 482913</td><td>Changes to 739201</td></tr>
+    <tr><td>Phone B taps SEARCH UNIT and pairs with 739201</td><td>Changes to 058463</td></tr>
+    <tr><td>Someone tries 482913 again</td><td><b>Refused</b>, it is an old code</td></tr>
+  </table></div>
+  <div class="tip">Pairing is needed only once per phone. A paired phone never types the code again, also when used through the internet.</div>
+  <div class="tip">After a <b>factory reset</b>, all paired phones are removed and the unit makes a new code. Every phone, the primary and all others, must pair again.</div>
+  <div class="warn">Wrong code 5 times locks pairing for 5 minutes, and the unit makes a new code. Wait, then tap SEARCH UNIT again and read the new code.</div>
 </section>
 
-<!-- ============================================================ -->
-<section id="care">
-  <h2><span class="num"></span>Care and FAQ</h2>
-  <h3>Care</h3>
+<!-- 4 -->
+<section id="home">
+  <h2><span class="num" style="background:#4dd0e1">4</span>The home screen</h2>
+  <figure class="shot"><img src="img/home.jpg" alt="Home screen" onerror="this.parentElement.remove()"><figcaption>Home screen</figcaption></figure>
   <ul class="dots">
-    <li>Clean the float switches when you clean the tanks.</li>
-    <li>Wipe the controller with a dry cloth only.</li>
-    <li class="x-radio">Clean the solar panels every few months.</li>
+    <li><b>Clock.</b> The time on your phone. The unit's clock is set to this time whenever you upload.</li>
+    <li><b>Five timetable buttons.</b> Each shows its name (for example NORMAL or EXAM, or TIMER 1 if it has no name). The small line, for example <b>8 Sch/6 Days</b>, means 8 bell times on 6 days. <b>NO Sch</b> means nothing is set.</li>
+    <li><b>RING (Manual).</b> Tap to ring the bell by hand. Hold for 5 seconds to open the Device ID page.</li>
+    <li><b>Next Bell.</b> The next bell of the running timetable, with a countdown. <span class="muted">09:45.03 means 9:45, ringing for 3 seconds.</span></li>
+    <li><b>Bell icon</b> at the right of Next Bell: opens the phone alert settings.</li>
+    <li><b>… Schedule.</b> Tap to see all bell times of the running timetable in one list.</li>
+    <li><b>Connection bar.</b> <span class="dot" style="background:var(--green)"></span>Connected, <span class="dot" style="background:#ffeb3b"></span>Searching or <span class="dot" style="background:var(--red)"></span>Disconnected.</li>
+    <li><b>Three-dot button</b> at the right of the connection bar: opens <b>Tools</b>.</li>
   </ul>
-  <h3>Questions</h3>
+  <h3>Timetable button colours</h3>
   <div class="table"><table>
-    <tr><th>Question</th><th>Answer</th></tr>
-    <tr><td>The controller beeps 5 times. Is this a problem?</td><td>No. It warns people before the motor starts.</td></tr>
-    <tr><td>After a power cut the motor waits. Why?</td><td>The restart delay (60 s) protects the motor from unstable power.</td></tr>
-    <tr><td>The tank is empty but the motor does not start.</td><td>Read line 4 of the display and look in <a href="#messages">Display messages</a>.</td></tr>
-    <tr><td>The display is dark.</td><td>The light switches off after 5 minutes. Press any button. If it stays dark, check the mains.</td></tr>
-    <tr><td>I was in Manual mode and the power went off.</td><td>The controller always starts again in Auto mode.</td></tr>
-    <tr><td>The motor starts and stops very often.</td><td>The float switch may be dirty or loose. The controller allows only 6 starts per hour to protect the motor.</td></tr>
-    <tr class="x-two"><td>The bore motor runs, but the sump has water again. <span class="mb two">2 motors</span></td><td>Normal. Once the bore motor has started, it fills the tank completely. Next time, the sump motor runs first.</td></tr>
+    <tr><th>Colour</th><th>Meaning</th></tr>
+    <tr><td><span class="dot" style="background:var(--green)"></span>Green, glowing</td><td>This timetable is running.</td></tr>
+    <tr><td><span class="dot" style="background:var(--red)"></span>Red</td><td>Bell times are saved, but it is switched off.</td></tr>
+    <tr><td><span class="dot" style="background:#9e9e9e"></span>Grey</td><td>No bell times set yet.</td></tr>
   </table></div>
 </section>
 
-<!-- ============================================================ -->
+<!-- 5 -->
+<section id="times">
+  <h2><span class="num" style="background:#f06292">5</span>Set bell times</h2>
+  <p>Each of the five timetables is separate, for example one for normal days, one for exam days and one for half days. Each holds up to <b>30 bell times</b>. A bell time is called a <b>preset</b>.</p>
+  <ol class="steps">
+    <li><b>Tap a timetable button</b> on the home screen. The page opens <b>locked</b>, so nothing changes by accident.</li>
+    <li><b>Tap MODIFY</b> (pink). The page unlocks.</li>
+    <li><b>Choose the days.</b> Tap MO to SU at the top. Green days are on. At least one day is needed.</li>
+    <li><b>Set each preset.</b> Slide the Hour, Minute and Duration wheels. Duration is the ring length, 1 to 5 seconds. A preset you change gets an <b style="color:var(--orange)">orange border</b> until you save.</li>
+    <li><b>Tap SAVE.</b> A green message says "Presets saved successfully", and the page locks again.</li>
+    <li><b>Send it to the unit.</b> With the app Connected, move the slide switch to <b>UPLOAD</b> and tap <b>UPLOAD</b>. The unit shows <b>Data Received!</b> and beeps once.</li>
+  </ol>
+  <figure class="shot"><img src="img/timer-view.jpg" alt="Timetable page, locked" onerror="this.parentElement.remove()"><figcaption>Locked (view)</figcaption></figure>
+  <figure class="shot"><img src="img/timer-edit.jpg" alt="Timetable page, editing" onerror="this.parentElement.remove()"><figcaption>After MODIFY (edit)</figcaption></figure>
+  <div class="tip">Uploading also <b>sets the unit's clock</b> from your phone and makes that timetable the running one. Make sure the phone's time is right.</div>
+
+  <h3>Give a timetable a name</h3>
+  <p>Hold the name at the top of the page for <b>5 seconds</b>. A text box appears. Type up to 12 letters or digits, for example <b>EXAM</b>, then tap Done. The name shows in the app and on the unit's display after the next upload.</p>
+
+  <h3>Clear a timetable</h3>
+  <p>After MODIFY, <b>hold SAVE for 5 seconds</b>. It turns red and reads RESETTING. All presets, days and the name are cleared, on the phone and on the unit.</p>
+
+  <div class="warn">The app will not save when no day is selected, a preset has a time but duration 0, a preset has a duration but time 00:00, or every preset is empty. An orange <b>Cannot Save</b> box tells you which preset to fix. To leave a preset unused, set all three values to 00.</div>
+</section>
+
+<!-- 6 -->
+<section id="onoff">
+  <h2><span class="num" style="background:#a5d6a7">6</span>Switch a timetable on or off</h2>
+  <ol class="steps">
+    <li><b>Press and hold</b> the timetable button for <b>3 seconds</b>. A ring fills up around your finger.</li>
+    <li>It turns <b>green</b> and glows. The unit beeps once and shows <b>ACTIVE:</b> with its name.</li>
+    <li>To switch it off, hold the green button for 3 seconds. The unit beeps twice.</li>
+  </ol>
+  <p>Only one timetable runs at a time. Switching another one on replaces it. The unit remembers the running timetable through a power cut.</p>
+  <div class="warn">If the phone is not connected, the timetable is switched on in the app only, and the app tells you. Connect and hold the button again.</div>
+</section>
+
+<!-- 7 -->
+<section id="ring">
+  <h2><span class="num" style="background:#ff8a65">7</span>Ring the bell by hand</h2>
+  <ol class="steps">
+    <li>On the home screen, <b>tap RING</b>.</li>
+    <li><b>Press and hold</b> the round orange button. It turns red and reads <b>RINGING</b>, and the unit shows <b>EMERGENCY ALARM</b>.</li>
+    <li><b>Let go</b> to stop.</li>
+  </ol>
+  <figure class="shot"><img src="img/emergency.jpg" alt="RING page" onerror="this.parentElement.remove()"><figcaption>The RING page</figcaption></figure>
+  <div class="good">For safety, the bell stops by itself after <b>5 seconds</b>, even if the phone loses the connection. It can never stay on.</div>
+  <p class="muted">A quick tap does nothing, so the bell cannot ring by a slip of the finger. Timetable bells are not affected.</p>
+</section>
+
+<!-- 8 -->
+<section id="alerts">
+  <h2><span class="num" style="background:#ce93d8">8</span>Bell alerts on your phone</h2>
+  <p>When a bell is due, your phone alerts you too, even away from the unit.</p>
+  <div class="table"><table>
+    <tr><th>Your phone is</th><th>What you get</th></tr>
+    <tr><td>Showing the app</td><td>A banner "Bell Ringing!" with tone and vibration.</td></tr>
+    <tr><td>Showing another app</td><td>A pop-up notification with tone.</td></tr>
+    <tr><td>Locked</td><td>The screen lights up and shows the notification with tone.</td></tr>
+  </table></div>
+  <h3>Alert settings</h3>
+  <p>Tap the <b>bell icon</b> beside Next Bell:</p>
+  <ul class="dots">
+    <li><b>Push Notification</b>: switches phone alerts on or off.</li>
+    <li><b>Notification Sound</b> and <b>Vibrate</b>.</li>
+    <li><b>Bell Sound Selection</b>: the phone's own sound, or your own MP3 file. <b>Test Sound</b> plays it.</li>
+    <li>Allow these once: <b>Banner &amp; Lock Screen</b>, <b>Display Over Other Apps</b>, <b>Run in Background</b>.</li>
+  </ul>
+  <div class="tip">On OPPO, Vivo, Xiaomi and similar phones, also allow <b>Auto-launch</b> for the app in the phone's settings, or alerts may stop when the app is closed.</div>
+</section>
+
+<!-- 9 -->
+<section id="tools">
+  <h2><span class="num" style="background:#4db6ac">9</span>Tools and keeping in step</h2>
+  <p>Tap the <b>three-dot button</b> on the connection bar.</p>
+  <div class="table"><table>
+    <tr><th>Tool</th><th>What it does</th></tr>
+    <tr><td>Sync clock</td><td>Sets the unit's clock to the phone's time. Use it after the unit's clock battery is changed, or when it shows CLOCK NOT SET.</td></tr>
+    <tr><td>Sync schedules</td><td>Copies all 5 timetables from the unit to this phone.</td></tr>
+    <tr><td>Features</td><td>What the schedule timer can do, BASIC and PRO.</td></tr>
+    <tr><td>User manual</td><td>Opens this page.</td></tr>
+    <tr><td>Export timers <span class="pro-badge">PRO</span></td><td>Saves all 5 timetables to a file and shares it (WhatsApp, email, Drive).</td></tr>
+    <tr><td>Import timers <span class="pro-badge">PRO</span></td><td>Loads all 5 timetables from such a file. Then upload each one to the unit.</td></tr>
+  </table></div>
+  <h3>When more than one phone is used</h3>
+  <p>Every time your phone connects, the app checks the unit. A small window shows the result:</p>
+  <ul class="dots">
+    <li><b>Timers up to date</b>: nothing to do.</li>
+    <li><b>Update completed</b>: another phone had changed timetables; they were copied to your phone.</li>
+    <li><b>Send your changes?</b>: your phone has saved changes the unit does not have. Choose Send now or Later.</li>
+  </ul>
+  <p>An orange bar "Timers on the bell were changed" means your copy is old. Tap it to sync.</p>
+</section>
+
+<!-- 10 -->
+<section id="phones">
+  <h2><span class="num" style="background:#90a4ae">10</span>Phones and unit ID</h2>
+  <h3>Phones on a BASIC unit <span class="basic-badge">BASIC</span></h3>
+  <p>Up to <b>3 phones</b> can use a BASIC unit: one <b>primary</b> (the first one paired) and two <b>secondary</b>. The list is on the Device ID page. The primary phone can <b>REMOVE</b> a phone or <b>MAKE PRIMARY</b> another one.</p>
+  <p>To take your own phone off the unit, hold <b>RESET</b> on the Device ID page for 5 seconds.</p>
+  <h3>Unit ID and more units</h3>
+  <p>Every unit has an ID from <b>0 to 7</b>, set by three small switches. Up to <b>8 units</b> can work in one building. The app controls only the unit whose ID it is paired with, so units are never mixed up.</p>
+  <ol class="steps">
+    <li>Move the three switches inside the unit to the new position.</li>
+    <li>Wait 3 seconds. The unit shows <b>ID CHANGED TO</b> and restarts with the new ID.</li>
+    <li>In the app, set the same ID on the Device ID page and tap <b>SEARCH UNIT</b>.</li>
+  </ol>
+  <p class="muted">Up to 4 phones can be on the unit's WiFi at the same time.</p>
+</section>
+
+<!-- 11 -->
+<section id="upgrade">
+  <h2><span class="num" style="background:linear-gradient(180deg,#ffe08a,#e0a526)">11</span>Upgrade to PRO</h2>
+  <p>A BASIC unit becomes PRO with <b>one code</b>. Same unit, no new hardware. PRO adds control from anywhere, master and users with PINs, the record of changes, and saving timetables to a file.</p>
+  <ol class="steps">
+    <li>On the Device ID page, find the gold card <b>Upgrade to PRO</b>.</li>
+    <li>Give the <b>Serial</b> number on the card to your dealer (tap the copy icon to copy it).</li>
+    <li>The dealer gives you an <b>8-digit code</b> made for this unit only.</li>
+    <li>With the phone on the unit's WiFi, tap <b>ENTER UNLOCK CODE</b>, type the code and tap <b>Send</b>.</li>
+    <li>The app says <b>This bell unit is now PRO.</b> The unit shows <b>PRO UNLOCKED</b>.</li>
+  </ol>
+  <figure class="shot"><img src="img/upgrade.jpg" alt="Upgrade to PRO card" onerror="this.parentElement.remove()"><figcaption>The Upgrade to PRO card</figcaption></figure>
+</section>
+
+<!-- 12 -->
+<section id="internet">
+  <h2><span class="num" style="background:linear-gradient(180deg,#ffe08a,#e0a526)">12</span>PRO: control from anywhere <span class="pro-badge">PRO</span></h2>
+  <p>The unit can join a WiFi with internet (campus WiFi or a phone hotspot). Then the app works from anywhere: timetables, switching, clock and ringing by hand.</p>
+  <ol class="steps">
+    <li>With the phone on the unit's WiFi, open the Device ID page and find <b>Remote Access (Internet)</b>.</li>
+    <li>Type the <b>WiFi name</b> and <b>WiFi password</b> of the internet WiFi.</li>
+    <li>Tap <b>SEND WIFI TO BELL</b>. The unit shows <b>Internet WiFi Set!</b></li>
+    <li>Wait about a minute. The unit's display shows <b>NET</b> when it is online, and the card says <b>Remote access is ready</b>.</li>
+    <li>Now the app works on mobile data too, away from the unit.</li>
+  </ol>
+  <figure class="shot"><img src="img/remote.jpg" alt="Remote Access card" onerror="this.parentElement.remove()"><figcaption>Remote Access card</figcaption></figure>
+  <div class="good">If the internet goes down, the bells still ring on time as usual.</div>
+  <p class="muted">To remove the internet WiFi, hold REMOVE on the card for 5 seconds.</p>
+</section>
+
+<!-- 13 -->
+<section id="users">
+  <h2><span class="num" style="background:linear-gradient(180deg,#ffe08a,#e0a526)">13</span>PRO: master, users and record <span class="pro-badge">PRO</span></h2>
+  <p>On a PRO unit, one <b>master</b> and up to <b>5 users</b> can change the bells, each with their own mobile number and <b>4-digit PIN</b>.</p>
+  <div class="warn">Set a master on the first day. Until a master is set, any paired phone can change the bells.</div>
+  <h3>Set the master</h3>
+  <ol class="steps">
+    <li>On the Device ID page, tap <b>USERS &amp; ACCESS</b>.</li>
+    <li>Type your <b>mobile number</b> and a <b>4-digit PIN</b>.</li>
+    <li>Tap <b>SET AS MASTER</b> (on the unit's WiFi). The boxes turn green.</li>
+  </ol>
+  <h3>Add users</h3>
+  <ol class="steps">
+    <li>Logged in as master, find <b>Users List</b>.</li>
+    <li>Type each user's mobile number and a PIN for them.</li>
+    <li>Tap <b>SAVE USERS</b>. Saved users turn green. Clear a number to remove that user.</li>
+  </ol>
+  <p>Saving a user's number does <b>not</b> pair their phone. Each user does this once, on their own phone, standing near the unit:</p>
+  <ol class="steps">
+    <li>Join the unit's WiFi and tap <b>SEARCH UNIT</b> (see section 3).</li>
+    <li>Type the 6-digit code from the unit's display. The unit shows <b>PHONE PAIRED</b>.</li>
+    <li>Under <b>USERS &amp; ACCESS</b>, type their own number and PIN, then tap <b>LOG IN</b>.</li>
+  </ol>
+  <div class="good">Two checks keep the unit safe: the <b>phone</b> must be paired with the display code, and the <b>person</b> must know a number and PIN. A stolen PIN alone does not work on an unpaired phone.</div>
+  <figure class="shot"><img src="img/users.jpg" alt="Users and Access page" onerror="this.parentElement.remove()"><figcaption>Users &amp; Access</figcaption></figure>
+  <h3>Record of changes</h3>
+  <p>The master sees the <b>Last 25 Changes</b>: what was changed, the date and time, whose number did it, and whether it was done near the unit (local) or through the internet. Wrong PIN tries are shown in orange.</p>
+  <div class="warn">5 wrong PINs in a row lock the unit for 5 minutes.</div>
+  <h3>Forgot the master PIN?</h3>
+  <ol class="steps">
+    <li>Switch the unit off and on.</li>
+    <li>Within 1 minute, flip one of the ID switches back and forth <b>6 times</b>.</li>
+    <li>The unit shows <b>USERS RESET</b>. Timetables are kept. Pair and set a new master.</li>
+  </ol>
+  <h3>Master reset</h3>
+  <p>Hold <b>MASTER RESET</b> on the Device ID page for 5 seconds (master only, on the unit's WiFi). It clears the users, the internet WiFi and the paired phones, for a new owner. The timetables stay.</p>
+</section>
+
+<!-- 14 -->
 <section id="help">
-  <h2><span class="num"></span>Help and support</h2>
-  <p>Before you call, please note:</p>
-  <ul class="dots">
-    <li>The model name (shown when you switch on, and on the energy page).</li>
-    <li>The message on line 4 of the display.</li>
-    <li>What happened just before the problem.</li>
-  </ul>
-  <p>For warranty terms, see the warranty card supplied with your controller.</p>
+  <h2><span class="num" style="background:#e57373">14</span>If something goes wrong</h2>
+  <div class="table"><table>
+    <tr><th>What you see</th><th>What to do</th></tr>
+    <tr><td>"Not paired"</td><td>Hold RING 5 s, tap SEARCH UNIT and type the code shown on the unit's display.</td></tr>
+    <tr><td>"No unit registered"</td><td>Do the first-time setup in section 3.</td></tr>
+    <tr><td>Disconnected, unit light blinking</td><td>Check the phone is still on the unit's WiFi, and that the ID in the app matches the unit.</td></tr>
+    <tr><td>"This bell already has 3 phones"</td><td>Ask the primary phone to remove one (section 10).</td></tr>
+    <tr><td>Bell does not ring at the set time</td><td>Check ACTIVE shows the right timetable, today's letter is on the top line, and the clock is right. Upload again, or use Sync clock.</td></tr>
+    <tr><td>NEXT shows --:--</td><td>No timetable is running. Hold a timetable button for 3 s.</td></tr>
+    <tr><td>"… is not on the bell unit yet"</td><td>Open that timetable, UPLOAD it, then hold its button again.</td></tr>
+    <tr><td>CLOCK NOT SET</td><td>The clock battery was flat or removed. Use Sync clock.</td></tr>
+    <tr><td>RTC NOT FOUND</td><td>The clock part is not responding and bells are stopped. Call service.</td></tr>
+    <tr><td>CHECK POWER at start</td><td>The power dipped and the unit restarted. If it happens often, have the power supply checked.</td></tr>
+    <tr><td>CALL SERVICE at start</td><td>The unit found a fault and restarted itself. It keeps working; call service if you see it again.</td></tr>
+    <tr><td>Display is dark</td><td>Normal. It lights up again at the next bell or when the app connects.</td></tr>
+    <tr><td>No phone alerts when the app is closed</td><td>Allow Run in Background and Auto-launch (section 8).</td></tr>
+    <tr><td>PRO: display shows SRCH or PASS</td><td>SRCH: the internet WiFi is not found; check its name and signal. PASS: the password is wrong; send the WiFi again.</td></tr>
+    <tr><td>PRO: "Access refused"</td><td>Log in under USERS &amp; ACCESS with your number and PIN.</td></tr>
+    <tr><td>Phone screen locked by itself: "Screen was auto-locked, Offline Device Lock"</td><td>Not harmful. See below.</td></tr>
+  </table></div>
+
+  <h3 id="offline-lock">"Screen was auto-locked" message</h3>
+  <p>While your phone is on the unit's WiFi, the screen may lock by itself, and this message appears:</p>
+  <div style="background:#2b2d31;border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:10px 0">
+    <div style="color:var(--muted);font-size:13px">Security and privacy</div>
+    <div style="font-weight:700">Screen was auto-locked</div>
+    <div>Offline Device Lock detected your device was offline for a while</div>
+  </div>
+  <p class="lcd-cap">The message on the phone (not on the bell unit).</p>
+  <div class="good"><b>This is not harmful.</b> Nothing is wrong with your phone, the app or the bell unit. Your data is safe. Just unlock the phone as usual and carry on.</div>
+  <p><b>Why it happens:</b> this is an anti-theft feature of Android, made by Google. It locks the screen when the phone has had no internet for a while. The unit's WiFi has no internet, by design, so Android thinks the phone went offline. The DJ Tech app <b>cannot</b> lock your screen; it does not have that permission.</p>
+  <p><b>How to stop it:</b></p>
+  <ol class="steps">
+    <li><b>Best:</b> keep <b>mobile data ON</b> while you use the unit's WiFi. Then the phone still has internet and does not lock.</li>
+    <li><b>Or:</b> open <b>Settings → Google → All services → Theft protection</b> and switch off <b>Offline Device Lock</b>. The names may differ a little on your phone's brand. This lowers your phone's theft protection, so the first way is better.</li>
+  </ol>
 </section>
 
 </main>
 
-<footer>
-  <img src="../logo.png" alt="DJ Tech" style="width:70px">
-  <div>DJ Tech Innovation · Striking with differences</div>
+<footer><div class="wrap">
+  <img src="../logo.png" alt="DJ Tech" style="width:90px">
+  <p>DJ Tech Schedule Timer · App v2.0 · Bell unit software v2.2</p>
+  <p>Need help? Call</p>
   <a class="call" href="tel:+918098888255">📞 80988 88255</a>
-  <p style="margin-top:10px"><a href="https://wa.me/918098888255">💬 WhatsApp us</a> · <a href="../">djtechinnovation.in</a></p>
-  <p style="font-size:13px;margin-top:8px">Water Level Controller user manual · Firmware V4.0</p>
-</footer>
+</div></footer>
 
 <a class="top noprint" href="#" aria-label="Back to top">↑</a>
-
-<script>
-/* Model chooser: hides the parts for other models. The choice is kept in the
-   address (?model=w2) and, when the browser allows it, remembered for next time. */
-(function () {
-  var NAMES = { all: 'All models', w1: 'Wired · 1 motor (DJ-W1)', w2: 'Wired · 2 motors (DJ-W2)', r1: 'Wireless · 1 motor (DJ-R1)', r2: 'Wireless · 2 motors (DJ-R2)' };
-  var sel = document.getElementById('msel');
-  var opts = document.querySelectorAll('.mopt');
-
-  function setModel(m, keep) {
-    if (!NAMES[m]) m = 'all';
-    document.body.setAttribute('data-model', m);
-    sel.value = m;
-    opts.forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.m === m ? 'true' : 'false'); });
-    document.getElementById('showing').textContent = NAMES[m];
-    document.getElementById('printfor').textContent = 'This copy is for: ' + NAMES[m];
-    var n = 0;
-    document.querySelectorAll('.su').forEach(function (c) { if (getComputedStyle(c).display !== 'none') n++; });
-    document.getElementById('sucount').textContent = n;
-    if (keep) {
-      try { localStorage.setItem('djwlc-model', m); } catch (e) {}
-      try { var u = new URL(location.href); u.searchParams.set('model', m); history.replaceState(null, '', u); } catch (e) {}
-    }
-  }
-
-  opts.forEach(function (b) { b.addEventListener('click', function () { setModel(b.dataset.m, true); }); });
-  sel.addEventListener('change', function () { setModel(sel.value, true); });
-
-  var start = 'all';
-  try { start = new URL(location.href).searchParams.get('model') || localStorage.getItem('djwlc-model') || 'all'; } catch (e) {}
-  setModel(start, false);
-})();
-</script>
-
 </body>
 </html>
