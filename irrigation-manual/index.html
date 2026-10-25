@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DJ Irrigation – User Manual</title>
+<meta name="description" content="How to use the DJ Irrigation app: link your phone, run timers, read alerts, protect your motor. English and Tamil.">
+<style>
+  :root {
+    --bg: #eef6f0; --card: #ffffff; --text: #17242b; --mid: #4f5f66; --dim: #7b8a90;
+    --green: #2f7d4f; --green-soft: #d9efe0; --red: #c62828; --red-soft: #fbe4e4;
+    --blue: #0d6e8f; --gold: #b8860b; --border: #cfe3d6;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+         font: 17px/1.6 "Segoe UI", Roboto, "Noto Sans Tamil", "Nirmala UI", Arial, sans-serif; }
+  header { background: #0f2a1c; color: #fff; padding: 18px 16px 22px; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 16px; }
+  .top { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .top img { height: 64px; }
+  .top h1 { margin: 0; font-size: 26px; line-height: 1.2; }
+  .top p { margin: 2px 0 0; color: #b9d8c4; }
+  .lang { margin-left: auto; display: flex; border: 1px solid #6fa985; border-radius: 999px; overflow: hidden; }
+  .lang button { background: transparent; color: #d7eadd; border: 0; padding: 8px 18px; font: inherit; cursor: pointer; }
+  .lang button.on { background: #6fa985; color: #0f2a1c; font-weight: 700; }
+  nav.toc { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 14px 18px; margin: 20px 0; }
+  nav.toc h2 { margin: 0 0 6px; font-size: 18px; }
+  nav.toc ol { margin: 0; padding-left: 22px; columns: 2; column-gap: 28px; }
+  nav.toc a { color: var(--green); text-decoration: none; }
+  section { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 20px; margin: 18px 0; }
+  section h2 { margin: 0 0 10px; font-size: 22px; color: var(--green); }
+  section h2 .n { display: inline-block; min-width: 34px; height: 34px; border-radius: 50%; background: var(--green-soft);
+                  text-align: center; line-height: 34px; margin-right: 8px; font-size: 18px; }
+  .row { display: grid; grid-template-columns: 1fr 260px; gap: 22px; align-items: start; }
+  .row.two { grid-template-columns: 1fr 220px 220px; }
+  .shot { width: 100%; border-radius: 22px; border: 6px solid #1d2b24; background: #1d2b24; display: block; }
+  figure { margin: 0; } figcaption { text-align: center; color: var(--dim); font-size: 14px; margin-top: 6px; }
+  ol.steps { padding-left: 22px; margin: 6px 0; } ol.steps li { margin: 6px 0; }
+  .tip, .warn { border-radius: 12px; padding: 10px 14px; margin: 12px 0; }
+  .tip { background: var(--green-soft); }
+  .warn { background: var(--red-soft); color: #6b1111; }
+  table { border-collapse: collapse; width: 100%; margin: 8px 0; font-size: 16px; }
+  th, td { border-bottom: 1px solid var(--border); padding: 8px 6px; text-align: left; vertical-align: top; }
+  th { color: var(--mid); font-weight: 600; }
+  b.btn { background: #e6f2ea; border: 1px solid #9cc7ab; border-radius: 8px; padding: 0 6px; white-space: nowrap; }
+  footer { text-align: center; color: var(--mid); padding: 24px 16px 40px; }
+  footer a { color: var(--green); }
+  [data-lang="ta"] .en, [data-lang="en"] .ta { display: none; }
+  @media (max-width: 720px) {
+    .row, .row.two { grid-template-columns: 1fr; }
+    .row figure { max-width: 300px; margin: 0 auto; }
+    nav.toc ol { columns: 1; }
+    .lang { margin-left: 0; }
+  }
+  @media print {
+    header { background: #fff; color: #000; } .lang { display: none; }
+    section { break-inside: avoid; } .shot { border-width: 2px; }
+  }
+</style>
+</head>
+<body data-lang="en">
+
+<header>
+  <div class="wrap top">
+    <img src="img/logo.png" alt="DJ Tech">
+    <div>
+      <h1><span class="en">DJ Irrigation – User Manual</span><span class="ta">DJ Irrigation – பயனர் கையேடு</span></h1>
+      <p><span class="en">Remote motor &amp; valve controller · App version 3.14</span><span class="ta">தொலைவிலிருந்து மோட்டார் &amp; வால்வு கட்டுப்பாடு · ஆப் பதிப்பு 3.14</span></p>
+    </div>
+    <div class="lang" role="group" aria-label="Language">
+      <button id="b-en" class="on" onclick="setLang('en')">English</button>
+      <button id="b-ta" onclick="setLang('ta')">தமிழ்</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ============================================================ ENGLISH -->
+<div class="en" lang="en">
+
+<nav class="toc">
+  <h2>Contents</h2>
+  <ol>
+    <li><a href="#e1">Install the app</a></li>
+    <li><a href="#e2">Link your phone (first time)</a></li>
+    <li><a href="#e3">Turn on alerts</a></li>
+    <li><a href="#e4">Home page</a></li>
+    <li><a href="#e5">Timers</a></li>
+    <li><a href="#e6">Logs</a></li>
+    <li><a href="#e7">Settings and PIN</a></li>
+    <li><a href="#e8">Motor protection</a></li>
+    <li><a href="#e9">Alert settings</a></li>
+    <li><a href="#e10">Add family members</a></li>
+    <li><a href="#e11">DJ Tech service</a></li>
+    <li><a href="#e12">Emergency stop</a></li>
+    <li><a href="#e13">Problems and answers</a></li>
+  </ol>
+</nav>
+
+<section id="e1">
+  <h2><span class="n">1</span>Install the app</h2>
+  <ol class="steps">
+    <li>On your Android phone, open <b>djtechinnovation.in/app</b> and download the DJ Irrigation app.</li>
+    <li>Tap the downloaded file and tap <b class="btn">Install</b>.</li>
+    <li>If the phone asks, allow <b>"Install unknown apps"</b> for your browser or WhatsApp.</li>
+    <li>Open the app. Choose <b>English</b> or <b>தமிழ்</b> at the top.</li>
+  </ol>
+  <div class="tip">You need: an Android phone (Android 7 or newer), internet on the phone, and your DJ Irrigation controller box.</div>
+</section>
+
+<section id="e2">
+  <h2><span class="n">2</span>Link your phone (first time)</h2>
+  <div class="row two">
+    <div>
+      <p>The <b>first phone</b> that links to the box becomes the <b>Admin</b> (owner). Nobody can control your motor without scanning the QR on your box.</p>
+      <ol class="steps">
+        <li>Tap <b class="btn">I am the owner</b>.</li>
+        <li>On the controller screen open <b>Settings → Pairing</b>. A QR code appears.</li>
+        <li>Point your phone camera at the QR. <br><i>Camera not working?</i> Type the <b>Controller ID</b> and the <b>Pairing code</b> shown under the QR, and tap <b class="btn">Continue</b>.</li>
+        <li>Type your <b>name</b>, <b>email</b>, <b>mobile number</b> and <b>farm location</b>, then tap <b class="btn">Become owner</b>.</li>
+      </ol>
+      <div class="tip">Family members do <b>not</b> scan the box. The Admin invites them (see <a href="#e10">section 10</a>).</div>
+    </div>
+    <figure><img class="shot" src="img/en/01_welcome.png" alt="Welcome page"><figcaption>First page</figcaption></figure>
+    <figure><img class="shot" src="img/en/02_pair_code.png" alt="Type the code"><figcaption>Typing the code</figcaption></figure>
+  </div>
+</section>
+
+<section id="e3">
+  <h2><span class="n">3</span>Turn on alerts</h2>
+  <div class="row">
+    <div>
+      <p>Right after linking, the app shows a page with a big bell.</p>
+      <ol class="steps">
+        <li>Tap <b class="btn">Turn on alerts</b>.</li>
+        <li>Android asks "Allow DJ Irrigation to send notifications?" – tap <b class="btn">Allow</b>.</li>
+        <li>Next it asks to <b>run in the background</b> – tap <b class="btn">Allow</b> again. (Oppo, Vivo, Realme and Xiaomi phones stop apps to save battery. Then alerts come late.)</li>
+      </ol>
+      <p>You then get an alert for a <b>motor trip, power failure, rain, timer start/end</b> and <b>controller offline</b> – even when the phone is locked and the app is closed.</p>
+      <div class="warn">If you tapped "Later", a <b>red strip "Alerts are OFF – tap to turn on"</b> stays on top of Home. Tap it to turn alerts on.</div>
+    </div>
+    <figure><img class="shot" src="img/en/04_alerts_intro.png" alt="Turn on alerts"><figcaption>Alerts page</figcaption></figure>
+  </div>
+</section>
+
+<section id="e4">
+  <h2><span class="n">4</span>Home page</h2>
+  <div class="row two">
+    <div>
+      <table>
+        <tr><th>Part</th><th>What it shows</th></tr>
+        <tr><td>Top</td><td>Greeting, your name, farm name and controller ID.</td></tr>
+        <tr><td>Dots</td><td><b>Server</b> and <b>Controller</b>: green = connected. <b>Auto</b> = timers run the motor. <b>Admin</b> = your role.</td></tr>
+        <tr><td>Motor</td><td><b>RUNNING</b> (green) or <b>STOPPED</b> (red), with current (A) and voltage (V).</td></tr>
+        <tr><td>Emergency stop</td><td>Red button – stops the motor and closes the valves at once.</td></tr>
+        <tr><td>Field &amp; Valves</td><td>Picture of your field. Blue = water flowing. V1–V10 show <b>ON</b> / <b>OFF</b>.</td></tr>
+        <tr><td>Power</td><td>Solar panel and battery voltage and current.</td></tr>
+        <tr><td>Motor protection</td><td><b>OK</b>, or the reason of a trip (shown in red).</td></tr>
+        <tr><td>Rainfall</td><td>Rain now and today's rain in mm.</td></tr>
+        <tr><td>Next timer</td><td>The next time the motor starts. Tap to open Timers.</td></tr>
+        <tr><td>Wi-Fi</td><td>The controller's internet and signal strength.</td></tr>
+      </table>
+      <div class="tip">The motor runs <b>only by timers</b>. Use the app to set timers – not to switch the motor by hand.</div>
+    </div>
+    <figure><img class="shot" src="img/en/05_home_top.png" alt="Home top"><figcaption>Home – top</figcaption></figure>
+    <figure><img class="shot" src="img/en/07_home_bottom.png" alt="Home bottom"><figcaption>Home – bottom</figcaption></figure>
+  </div>
+</section>
+
+<section id="e5">
+  <h2><span class="n">5</span>Timers</h2>
+  <div class="row two">
+    <div>
+      <ol class="steps">
+        <li>Tap <b class="btn">Timer</b> at the bottom, then <b class="btn">+ Add timer</b>.</li>
+        <li><b>On time</b>: tap the pencil and pick the start time.</li>
+        <li><b>Duration</b>: choose hours and minutes. The app shows "Until …".</li>
+        <li><b>Start the motor</b>: keep it on. Turn it off only when water flows by gravity or from a tank.</li>
+        <li>Choose the <b>valves</b> (V1–V10) to open.</li>
+        <li>Tap <b class="btn">Save timer</b>.</li>
+      </ol>
+      <p>Each timer has a switch to turn it on or off, and a <b>⋮</b> menu to edit or delete it. Timers repeat <b>every day</b>.</p>
+      <div class="warn"><b>"Cannot save: already in use at this time"</b> means another timer already uses the motor or that valve at that time. Pick another time, or other valves.</div>
+    </div>
+    <figure><img class="shot" src="img/en/09_timers.png" alt="Timers"><figcaption>Timer list</figcaption></figure>
+    <figure><img class="shot" src="img/en/10_timer_edit.png" alt="Add timer"><figcaption>Add timer</figcaption></figure>
+  </div>
+</section>
+
+<section id="e6">
+  <h2><span class="n">6</span>Logs</h2>
+  <div class="row">
+    <div>
+      <p>Tap <b class="btn">Logs</b> at the bottom. You see <b>everything that happened</b>, newest first: motor start and stop, valves, timers, trips, rain, settings changes, who did it and when.</p>
+      <p>Use the logs to check, for example, "Did the 6:00 AM timer run today?"</p>
+    </div>
+    <figure><img class="shot" src="img/en/08_logs.png" alt="Logs"><figcaption>Logs</figcaption></figure>
+  </div>
+</section>
+
+<section id="e7">
+  <h2><span class="n">7</span>Settings and PIN</h2>
+  <div class="row two">
+    <div>
+      <ol class="steps">
+        <li>Tap <b class="btn">Settings</b>. Type the PIN and tap <b class="btn">Unlock</b>.</li>
+        <li>The first PIN is <b>8888</b>. <b>Change it at once</b> (tap <b class="btn">Change</b> in the orange box), so children or others cannot change settings.</li>
+      </ol>
+      <table>
+        <tr><th>In Settings</th><th>Use</th></tr>
+        <tr><td>Account</td><td>Your details and your <b>Customer ID (DJC-…)</b>. Tell this ID when you call DJ Tech.</td></tr>
+        <tr><td>Language / Appearance</td><td>English or Tamil; Light or Dark screen.</td></tr>
+        <tr><td>Motor protection</td><td>Trip limits (section 8).</td></tr>
+        <tr><td>Notifications / Permissions</td><td>Which alerts you get and how (section 9).</td></tr>
+        <tr><td>Wi-Fi</td><td>Connect the controller to Wi-Fi or a LAN cable.</td></tr>
+        <tr><td>Valve control</td><td><b>Single</b> = one valve at a time. <b>Multi</b> = many together.</td></tr>
+        <tr><td>User management</td><td>Invite family members (section 10).</td></tr>
+        <tr><td>DJ Tech service access</td><td>When a technician may work from far away (section 11).</td></tr>
+      </table>
+    </div>
+    <figure><img class="shot" src="img/en/12_settings.png" alt="Settings"><figcaption>Settings</figcaption></figure>
+    <figure><img class="shot" src="img/en/13_settings_more.png" alt="More settings"><figcaption>More settings</figcaption></figure>
+  </div>
+</section>
+
+<section id="e8">
+  <h2><span class="n">8</span>Motor protection</h2>
+  <div class="row">
+    <div>
+      <p>The controller stops the motor by itself to protect it:</p>
+      <table>
+        <tr><th>Protection</th><th>Stops the motor when…</th></tr>
+        <tr><td>Motor overload</td><td>the current is too <b>high</b> for longer than the delay.</td></tr>
+        <tr><td>Dry run</td><td>the current is too <b>low</b> (no water in the well) for longer than the delay.</td></tr>
+        <tr><td>Solar low</td><td>the solar voltage is too low.</td></tr>
+        <tr><td>Rain</td><td>it rains (so the field is not watered twice).</td></tr>
+      </table>
+      <p>Use <b>−</b> and <b>+</b> to change a limit, then tap <b class="btn">Save all settings</b>.</p>
+      <div class="warn">If you are not sure, keep the values set by the DJ Tech technician.</div>
+    </div>
+    <figure><img class="shot" src="img/en/14_protection.png" alt="Motor protection"><figcaption>Motor protection</figcaption></figure>
+  </div>
+</section>
+
+<section id="e9">
+  <h2><span class="n">9</span>Alert settings</h2>
+  <div class="row">
+    <div>
+      <p><b>Settings → Notifications</b>. Alerts reach you in 3 ways. Each has its own switch, tone and <b>Vibrate</b> switch:</p>
+      <ul>
+        <li><b>While the app is open</b> – a banner with a sound.</li>
+        <li><b>When the screen is off</b> – the screen turns on and the alert shows on the lock screen.</li>
+        <li><b>Over other apps</b> – a pop-up on top of WhatsApp, YouTube and others.</li>
+      </ul>
+      <p>Tap <b class="btn">Test sound</b> or <b class="btn">Test in 10 s</b> (then lock the phone) to check.</p>
+      <div class="tip">No sound or vibration? Check that the phone is not on <b>Silent</b> or <b>Do Not Disturb</b>.</div>
+    </div>
+    <figure><img class="shot" src="img/en/15_alerts.png" alt="Notifications"><figcaption>Notifications</figcaption></figure>
+  </div>
+</section>
+
+<section id="e10">
+  <h2><span class="n">10</span>Add family members</h2>
+  <div class="row two">
+    <div>
+      <p>Up to <b>3 phones</b> per controller: the Admin and 2 users. Only the Admin can invite or remove.</p>
+      <ol class="steps">
+        <li><b>Admin:</b> Settings → <b>User management</b> → <b class="btn">Invite user</b>.</li>
+        <li>Type the person's <b>name</b> and <b>email</b> (mobile number is optional) → <b class="btn">Make invite</b>.</li>
+        <li>A QR and an invite code appear. Show the QR, or tap <b class="btn">Share invite</b> to send the code on WhatsApp. It works <b>once</b>, for <b>10 minutes</b>.</li>
+        <li><b>New user:</b> install the app → <b class="btn">I have an invite</b> → scan the QR or type the code.</li>
+      </ol>
+    </div>
+    <figure><img class="shot" src="img/en/16_users.png" alt="Users"><figcaption>User management</figcaption></figure>
+    <figure><img class="shot" src="img/en/17_invite_qr.png" alt="Invite QR"><figcaption>Invite QR</figcaption></figure>
+  </div>
+</section>
+
+<section id="e11">
+  <h2><span class="n">11</span>DJ Tech service</h2>
+  <div class="row two">
+    <div>
+      <p>A DJ Tech technician can test your motor and valves (<b>service mode</b>). At the farm he scans a code on the controller screen. From far away, it depends on your choice in <b>Settings → DJ Tech service access</b>:</p>
+      <table>
+        <tr><td><b>Always allowed</b></td><td>Service can start any time. You get an alert when it starts and ends.</td></tr>
+        <tr><td><b>Ask me first</b></td><td>A card with <b class="btn">Allow</b> / <b class="btn">Deny</b> appears on Home. Answer within 15 minutes.</td></tr>
+        <tr><td><b>Off</b></td><td>Only service at the farm.</td></tr>
+      </table>
+      <p>During service, the app shows <b>"SERVICE MODE ACTIVATED"</b> and is locked. Timers pause and run again when service ends. Everything is saved in the logs.</p>
+    </div>
+    <figure><img class="shot" src="img/en/18_service_request.png" alt="Service request"><figcaption>Allow / Deny</figcaption></figure>
+    <figure><img class="shot" src="img/en/19_service_cover.png" alt="Service mode"><figcaption>Service mode</figcaption></figure>
+  </div>
+</section>
+
+<section id="e12">
+  <h2><span class="n">12</span>Emergency stop</h2>
+  <div class="row">
+    <div>
+      <p>If something is wrong (pipe burst, wrong valve, people in the field), tap the red <b class="btn" style="color:var(--red)">EMERGENCY STOP</b> on Home and confirm.</p>
+      <p>The controller <b>stops the motor first, waits 5 seconds, then closes the valves</b> – the safe order for your pipes. The next timer runs as normal.</p>
+    </div>
+    <figure><img class="shot" src="img/en/20_emergency_stop.png" alt="Emergency stop"><figcaption>Emergency stop</figcaption></figure>
+  </div>
+</section>
+
+<section id="e13">
+  <h2><span class="n">13</span>Problems and answers</h2>
+  <table>
+    <tr><th>Problem</th><th>What to do</th></tr>
+    <tr><td>No alerts</td><td>Tap the red strip on Home, or Settings → Permissions. Allow notifications and "run in background". Check Silent / Do Not Disturb.</td></tr>
+    <tr><td>"Controller" dot is not green</td><td>The box has no internet. Check power at the farm and the Wi-Fi router. Settings → Wi-Fi to change the network.</td></tr>
+    <tr><td>Motor stopped by itself</td><td>Look at Home → Motor protection and the Logs. They show the reason (overload, dry run, solar low, rain).</td></tr>
+    <tr><td>Forgot the Settings PIN</td><td>Call DJ Tech support with your Customer ID.</td></tr>
+    <tr><td>New phone</td><td>On the old phone, ask the Admin to send a new invite. If you are the Admin and lost the phone, call DJ Tech.</td></tr>
+    <tr><td>App is old</td><td>The app shows "New version" – download it again from djtechinnovation.in/app and install over the old one. Your data stays.</td></tr>
+  </table>
+</section>
+</div>
+
+<!-- ============================================================ TAMIL -->
+<div class="ta" lang="ta">
+
+<nav class="toc">
+  <h2>உள்ளடக்கம்</h2>
+  <ol>
+    <li><a href="#t1">ஆப்பை நிறுவுதல்</a></li>
+    <li><a href="#t2">போனை இணைத்தல் (முதல் முறை)</a></li>
+    <li><a href="#t3">எச்சரிக்கைகளை இயக்குதல்</a></li>
+    <li><a href="#t4">முகப்பு பக்கம்</a></li>
+    <li><a href="#t5">டைமர்கள்</a></li>
+    <li><a href="#t6">பதிவுகள்</a></li>
+    <li><a href="#t7">அமைப்புகள் மற்றும் PIN</a></li>
+    <li><a href="#t8">மோட்டார் பாதுகாப்பு</a></li>
+    <li><a href="#t9">எச்சரிக்கை அமைப்புகள்</a></li>
+    <li><a href="#t10">குடும்பத்தினரைச் சேர்த்தல்</a></li>
+    <li><a href="#t11">DJ Tech சர்வீஸ்</a></li>
+    <li><a href="#t12">அவசர நிறுத்தம்</a></li>
+    <li><a href="#t13">பிரச்சனைகளும் தீர்வுகளும்</a></li>
+  </ol>
+</nav>
+
+<section id="t1">
+  <h2><span class="n">1</span>ஆப்பை நிறுவுதல்</h2>
+  <ol class="steps">
+    <li>உங்கள் Android போனில் <b>djtechinnovation.in/app</b> திறந்து DJ Irrigation ஆப்பைப் பதிவிறக்கவும்.</li>
+    <li>பதிவிறக்கிய கோப்பைத் தட்டி <b class="btn">Install</b> தட்டவும்.</li>
+    <li>போன் கேட்டால், உங்கள் பிரவுசர் அல்லது WhatsApp-க்கு <b>"Install unknown apps"</b> அனுமதிக்கவும்.</li>
+    <li>ஆப்பைத் திறந்து மேலே <b>தமிழ்</b> தேர்வு செய்யவும்.</li>
+  </ol>
+  <div class="tip">தேவை: Android போன் (Android 7 அல்லது புதியது), போனில் இணையம், உங்கள் DJ Irrigation கண்ட்ரோலர் பெட்டி.</div>
+</section>
+
+<section id="t2">
+  <h2><span class="n">2</span>போனை இணைத்தல் (முதல் முறை)</h2>
+  <div class="row two">
+    <div>
+      <p>பெட்டியுடன் <b>முதலில் இணையும் போன்</b> <b>நிர்வாகி (Admin)</b> ஆகும். பெட்டியில் உள்ள QR-ஐ ஸ்கேன் செய்யாமல் யாரும் உங்கள் மோட்டாரை இயக்க முடியாது.</p>
+      <ol class="steps">
+        <li><b class="btn">நான் உரிமையாளர்</b> தட்டவும்.</li>
+        <li>கண்ட்ரோலர் திரையில் <b>Settings → Pairing</b> திறக்கவும். QR தோன்றும்.</li>
+        <li>போன் கேமராவை QR-ஐ நோக்கிப் பிடிக்கவும்.<br><i>கேமரா வேலை செய்யவில்லையா?</i> QR-க்கு கீழே உள்ள <b>Controller ID</b> மற்றும் <b>Pairing code</b> உள்ளிட்டு <b class="btn">தொடர்</b> தட்டவும்.</li>
+        <li>உங்கள் <b>பெயர்</b>, <b>மின்னஞ்சல்</b>, <b>மொபைல் எண்</b>, <b>பண்ணை இடம்</b> உள்ளிட்டு உரிமையாளர் ஆகும் பொத்தானைத் தட்டவும்.</li>
+      </ol>
+      <div class="tip">குடும்பத்தினர் பெட்டியை ஸ்கேன் செய்ய <b>வேண்டாம்</b>. நிர்வாகி அவர்களை அழைப்பார் (<a href="#t10">பகுதி 10</a>).</div>
+    </div>
+    <figure><img class="shot" src="img/ta/01_welcome.png" alt="முதல் பக்கம்"><figcaption>முதல் பக்கம்</figcaption></figure>
+    <figure><img class="shot" src="img/ta/02_pair_code.png" alt="குறியீடு உள்ளிடுதல்"><figcaption>குறியீடு உள்ளிடுதல்</figcaption></figure>
+  </div>
+</section>
+
+<section id="t3">
+  <h2><span class="n">3</span>எச்சரிக்கைகளை இயக்குதல்</h2>
+  <div class="row">
+    <div>
+      <p>இணைத்தவுடன், பெரிய மணி படத்துடன் ஒரு பக்கம் தோன்றும்.</p>
+      <ol class="steps">
+        <li><b class="btn">எச்சரிக்கைகளை இயக்கு</b> தட்டவும்.</li>
+        <li>Android "அறிவிப்புகளை அனுமதிக்கவா?" என்று கேட்கும் – <b class="btn">Allow</b> தட்டவும்.</li>
+        <li>அடுத்து <b>பின்னணியில் இயங்க</b> அனுமதி கேட்கும் – மீண்டும் <b class="btn">Allow</b> தட்டவும். (Oppo, Vivo, Realme, Xiaomi போன்கள் பேட்டரி சேமிக்க ஆப்களை நிறுத்தும். அப்போது எச்சரிக்கை தாமதமாகும்.)</li>
+      </ol>
+      <p>பிறகு <b>மோட்டார் டிரிப், மின்தடை, மழை, டைமர் தொடக்கம்/முடிவு, கண்ட்ரோலர் ஆஃப்லைன்</b> ஆகியவற்றுக்கு எச்சரிக்கை வரும் – போன் பூட்டியிருந்தாலும், ஆப் மூடியிருந்தாலும்.</p>
+      <div class="warn">"பிறகு" தட்டினால், முகப்பின் மேலே <b>சிவப்பு பட்டை "எச்சரிக்கைகள் நிறுத்தம் – இயக்க தட்டவும்"</b> இருக்கும். அதைத் தட்டி இயக்கவும்.</div>
+    </div>
+    <figure><img class="shot" src="img/ta/04_alerts_intro.png" alt="எச்சரிக்கை பக்கம்"><figcaption>எச்சரிக்கை பக்கம்</figcaption></figure>
+  </div>
+</section>
+
+<section id="t4">
+  <h2><span class="n">4</span>முகப்பு பக்கம்</h2>
+  <div class="row two">
+    <div>
+      <table>
+        <tr><th>பகுதி</th><th>என்ன காட்டும்</th></tr>
+        <tr><td>மேலே</td><td>வணக்கம், உங்கள் பெயர், பண்ணை பெயர், கண்ட்ரோலர் ID.</td></tr>
+        <tr><td>புள்ளிகள்</td><td><b>சர்வர்</b>, <b>கண்ட்ரோலர்</b>: பச்சை = இணைப்பு உள்ளது. <b>ஆட்டோ</b> = டைமர்கள் மோட்டாரை இயக்கும். <b>நிர்வாகி</b> = உங்கள் பங்கு.</td></tr>
+        <tr><td>மோட்டார்</td><td><b>இயங்குகிறது</b> (பச்சை) அல்லது <b>நின்றது</b> (சிவப்பு), கரண்ட் (A), வோல்டேஜ் (V).</td></tr>
+        <tr><td>அவசர நிறுத்தம்</td><td>சிவப்பு பொத்தான் – மோட்டாரை நிறுத்தி வால்வுகளை உடனே மூடும்.</td></tr>
+        <tr><td>வயல் &amp; வால்வுகள்</td><td>உங்கள் வயல் படம். நீலம் = தண்ணீர் ஓடுகிறது. V1–V10 <b>ஆன்</b> / <b>ஆஃப்</b>.</td></tr>
+        <tr><td>மின்சாரம்</td><td>சோலார் பேனல், பேட்டரி வோல்டேஜ் மற்றும் கரண்ட்.</td></tr>
+        <tr><td>மோட்டார் பாதுகாப்பு</td><td><b>OK</b>, அல்லது டிரிப் காரணம் (சிவப்பில்).</td></tr>
+        <tr><td>மழை</td><td>இப்போது மழை, இன்றைய மழை (mm).</td></tr>
+        <tr><td>அடுத்த டைமர்</td><td>மோட்டார் அடுத்து தொடங்கும் நேரம். தட்டினால் டைமர்கள் திறக்கும்.</td></tr>
+        <tr><td>Wi-Fi</td><td>கண்ட்ரோலரின் இணையம் மற்றும் சிக்னல்.</td></tr>
+      </table>
+      <div class="tip">மோட்டார் <b>டைமர் மூலம் மட்டுமே</b> இயங்கும். ஆப்பில் டைமர் அமைக்கவும்.</div>
+    </div>
+    <figure><img class="shot" src="img/ta/05_home_top.png" alt="முகப்பு மேல்"><figcaption>முகப்பு – மேல்</figcaption></figure>
+    <figure><img class="shot" src="img/ta/07_home_bottom.png" alt="முகப்பு கீழ்"><figcaption>முகப்பு – கீழ்</figcaption></figure>
+  </div>
+</section>
+
+<section id="t5">
+  <h2><span class="n">5</span>டைமர்கள்</h2>
+  <div class="row two">
+    <div>
+      <ol class="steps">
+        <li>கீழே <b class="btn">டைமர்</b> தட்டி, <b class="btn">+ டைமர் சேர்</b> தட்டவும்.</li>
+        <li><b>தொடக்க நேரம்</b>: பென்சிலைத் தட்டி நேரம் தேர்வு செய்யவும்.</li>
+        <li><b>கால அளவு</b>: மணி, நிமிடம் தேர்வு செய்யவும். "… வரை" என்று காட்டும்.</li>
+        <li><b>மோட்டாரைத் தொடங்கு</b>: இயக்கத்தில் வைக்கவும். தொட்டி அல்லது புவியீர்ப்பு மூலம் தண்ணீர் வந்தால் மட்டும் நிறுத்தவும்.</li>
+        <li>திறக்க வேண்டிய <b>வால்வுகளை</b> (V1–V10) தேர்வு செய்யவும்.</li>
+        <li>சேமி பொத்தானைத் தட்டவும்.</li>
+      </ol>
+      <p>ஒவ்வொரு டைமருக்கும் ஆன்/ஆஃப் சுவிட்ச் மற்றும் திருத்த/நீக்க <b>⋮</b> மெனு உண்டு. டைமர்கள் <b>தினமும்</b> இயங்கும்.</p>
+      <div class="warn">"இந்த நேரத்தில் ஏற்கனவே பயன்பாட்டில் உள்ளது" என்றால், வேறு டைமர் அதே நேரத்தில் மோட்டார் அல்லது அதே வால்வை பயன்படுத்துகிறது. வேறு நேரம் அல்லது வேறு வால்வு தேர்வு செய்யவும்.</div>
+    </div>
+    <figure><img class="shot" src="img/ta/09_timers.png" alt="டைமர்கள்"><figcaption>டைமர் பட்டியல்</figcaption></figure>
+    <figure><img class="shot" src="img/ta/10_timer_edit.png" alt="டைமர் சேர்"><figcaption>டைமர் சேர்</figcaption></figure>
+  </div>
+</section>
+
+<section id="t6">
+  <h2><span class="n">6</span>பதிவுகள்</h2>
+  <div class="row">
+    <div>
+      <p>கீழே <b class="btn">பதிவுகள்</b> தட்டவும். <b>நடந்த அனைத்தும்</b> புதியது முதலில் தெரியும்: மோட்டார் தொடக்கம்/நிறுத்தம், வால்வுகள், டைமர்கள், டிரிப், மழை, அமைப்பு மாற்றங்கள், யார், எப்போது.</p>
+      <p>உதாரணம்: "இன்று காலை 6:00 டைமர் இயங்கியதா?" என்று பார்க்கலாம்.</p>
+    </div>
+    <figure><img class="shot" src="img/ta/08_logs.png" alt="பதிவுகள்"><figcaption>பதிவுகள்</figcaption></figure>
+  </div>
+</section>
+
+<section id="t7">
+  <h2><span class="n">7</span>அமைப்புகள் மற்றும் PIN</h2>
+  <div class="row two">
+    <div>
+      <ol class="steps">
+        <li><b class="btn">அமைப்புகள்</b> தட்டி PIN உள்ளிட்டு <b class="btn">திற</b> தட்டவும்.</li>
+        <li>முதல் PIN <b>8888</b>. <b>உடனே மாற்றவும்</b> (ஆரஞ்சு பெட்டியில் மாற்று தட்டவும்), குழந்தைகள் அல்லது மற்றவர்கள் அமைப்புகளை மாற்ற முடியாது.</li>
+      </ol>
+      <table>
+        <tr><th>அமைப்புகளில்</th><th>பயன்</th></tr>
+        <tr><td>கணக்கு</td><td>உங்கள் விவரங்கள் மற்றும் <b>வாடிக்கையாளர் ID (DJC-…)</b>. DJ Tech-ஐ அழைக்கும்போது இதைச் சொல்லவும்.</td></tr>
+        <tr><td>மொழி / தோற்றம்</td><td>ஆங்கிலம் அல்லது தமிழ்; வெளிச்சம் அல்லது இருண்ட திரை.</td></tr>
+        <tr><td>மோட்டார் பாதுகாப்பு</td><td>டிரிப் வரம்புகள் (பகுதி 8).</td></tr>
+        <tr><td>அறிவிப்புகள் / அனுமதிகள்</td><td>எந்த எச்சரிக்கைகள், எப்படி (பகுதி 9).</td></tr>
+        <tr><td>Wi-Fi</td><td>கண்ட்ரோலரை Wi-Fi அல்லது LAN கேபிளுடன் இணைக்க.</td></tr>
+        <tr><td>வால்வு கட்டுப்பாடு</td><td><b>ஒற்றை</b> = ஒரு நேரத்தில் ஒரு வால்வு. <b>பல</b> = பல வால்வுகள் ஒன்றாக.</td></tr>
+        <tr><td>பயனர் மேலாண்மை</td><td>குடும்பத்தினரை அழைக்க (பகுதி 10).</td></tr>
+        <tr><td>DJ Tech சர்வீஸ் அனுமதி</td><td>டெக்னீஷியன் தொலைவிலிருந்து எப்போது வேலை செய்யலாம் (பகுதி 11).</td></tr>
+      </table>
+    </div>
+    <figure><img class="shot" src="img/ta/12_settings.png" alt="அமைப்புகள்"><figcaption>அமைப்புகள்</figcaption></figure>
+    <figure><img class="shot" src="img/ta/13_settings_more.png" alt="மேலும் அமைப்புகள்"><figcaption>மேலும் அமைப்புகள்</figcaption></figure>
+  </div>
+</section>
+
+<section id="t8">
+  <h2><span class="n">8</span>மோட்டார் பாதுகாப்பு</h2>
+  <div class="row">
+    <div>
+      <p>மோட்டாரைப் பாதுகாக்க கண்ட்ரோலர் தானாகவே நிறுத்தும்:</p>
+      <table>
+        <tr><th>பாதுகாப்பு</th><th>எப்போது நிறுத்தும்</th></tr>
+        <tr><td>ஓவர்லோடு</td><td>கரண்ட் தாமத நேரத்தை விட அதிக நேரம் <b>அதிகமாக</b> இருந்தால்.</td></tr>
+        <tr><td>ட்ரை ரன்</td><td>கரண்ட் <b>குறைவாக</b> (கிணற்றில் தண்ணீர் இல்லை) இருந்தால்.</td></tr>
+        <tr><td>சோலார் குறைவு</td><td>சோலார் வோல்டேஜ் மிகக் குறைவாக இருந்தால்.</td></tr>
+        <tr><td>மழை</td><td>மழை பெய்தால் (வயலுக்கு இருமுறை தண்ணீர் வேண்டாம்).</td></tr>
+      </table>
+      <p><b>−</b>, <b>+</b> மூலம் வரம்பை மாற்றி, அனைத்தையும் சேமி பொத்தானைத் தட்டவும்.</p>
+      <div class="warn">உறுதியாகத் தெரியாவிட்டால், DJ Tech டெக்னீஷியன் அமைத்த மதிப்புகளையே வைக்கவும்.</div>
+    </div>
+    <figure><img class="shot" src="img/ta/14_protection.png" alt="மோட்டார் பாதுகாப்பு"><figcaption>மோட்டார் பாதுகாப்பு</figcaption></figure>
+  </div>
+</section>
+
+<section id="t9">
+  <h2><span class="n">9</span>எச்சரிக்கை அமைப்புகள்</h2>
+  <div class="row">
+    <div>
+      <p><b>அமைப்புகள் → அறிவிப்புகள்</b>. எச்சரிக்கை 3 வழிகளில் வரும். ஒவ்வொன்றுக்கும் தனி சுவிட்ச், ஒலி, <b>அதிர்வு</b> சுவிட்ச் உண்டு:</p>
+      <ul>
+        <li><b>ஆப் திறந்திருக்கும்போது</b> – ஒலியுடன் பேனர்.</li>
+        <li><b>திரை அணைந்திருக்கும்போது</b> – திரை ஒளிர்ந்து பூட்டுத் திரையில் எச்சரிக்கை.</li>
+        <li><b>மற்ற ஆப்களின் மேல்</b> – WhatsApp, YouTube மேல் பாப்-அப்.</li>
+      </ul>
+      <p>சோதிக்க <b>ஒலி சோதனை</b> அல்லது <b>10 வினாடியில் சோதனை</b> தட்டவும் (பிறகு போனைப் பூட்டவும்).</p>
+      <div class="tip">ஒலி அல்லது அதிர்வு இல்லையா? போன் <b>Silent</b> அல்லது <b>Do Not Disturb</b>-ல் இல்லை என்பதைச் சரிபார்க்கவும்.</div>
+    </div>
+    <figure><img class="shot" src="img/ta/15_alerts.png" alt="அறிவிப்புகள்"><figcaption>அறிவிப்புகள்</figcaption></figure>
+  </div>
+</section>
+
+<section id="t10">
+  <h2><span class="n">10</span>குடும்பத்தினரைச் சேர்த்தல்</h2>
+  <div class="row two">
+    <div>
+      <p>ஒரு கண்ட்ரோலருக்கு <b>3 போன்கள்</b> வரை: நிர்வாகி + 2 பயனர்கள். நிர்வாகி மட்டுமே அழைக்கவோ நீக்கவோ முடியும்.</p>
+      <ol class="steps">
+        <li><b>நிர்வாகி:</b> அமைப்புகள் → <b>பயனர் மேலாண்மை</b> → <b class="btn">பயனரை அழை</b>.</li>
+        <li>அவரது <b>பெயர்</b>, <b>மின்னஞ்சல்</b> உள்ளிடவும் (மொபைல் எண் விருப்பம்) → அழைப்பை உருவாக்கவும்.</li>
+        <li>QR மற்றும் அழைப்புக் குறியீடு தோன்றும். QR-ஐக் காட்டவும், அல்லது பகிர் தட்டி WhatsApp-ல் அனுப்பவும். <b>ஒருமுறை</b> மட்டும், <b>10 நிமிடம்</b> செல்லும்.</li>
+        <li><b>புதிய பயனர்:</b> ஆப்பை நிறுவி → <b class="btn">எனக்கு அழைப்பு உள்ளது</b> → QR ஸ்கேன் அல்லது குறியீடு உள்ளிடவும்.</li>
+      </ol>
+    </div>
+    <figure><img class="shot" src="img/ta/16_users.png" alt="பயனர்கள்"><figcaption>பயனர் மேலாண்மை</figcaption></figure>
+    <figure><img class="shot" src="img/ta/17_invite_qr.png" alt="அழைப்பு QR"><figcaption>அழைப்பு QR</figcaption></figure>
+  </div>
+</section>
+
+<section id="t11">
+  <h2><span class="n">11</span>DJ Tech சர்வீஸ்</h2>
+  <div class="row two">
+    <div>
+      <p>DJ Tech டெக்னீஷியன் உங்கள் மோட்டார், வால்வுகளைச் சோதிக்கலாம் (<b>சர்வீஸ் முறை</b>). பண்ணையில் அவர் கண்ட்ரோலர் திரையில் உள்ள குறியீட்டை ஸ்கேன் செய்வார். தொலைவிலிருந்து என்றால், <b>அமைப்புகள் → DJ Tech சர்வீஸ் அனுமதி</b>-ல் உங்கள் தேர்வைப் பொறுத்தது:</p>
+      <table>
+        <tr><td><b>எப்போதும் அனுமதி</b></td><td>எப்போது வேண்டுமானாலும் தொடங்கலாம். தொடக்கம், முடிவில் எச்சரிக்கை வரும்.</td></tr>
+        <tr><td><b>முதலில் என்னிடம் கேள்</b></td><td>முகப்பில் <b class="btn">அனுமதி</b> / <b class="btn">மறு</b> அட்டை தோன்றும். 15 நிமிடத்துக்குள் பதிலளிக்கவும்.</td></tr>
+        <tr><td><b>நிறுத்தம்</b></td><td>பண்ணையில் மட்டும் சர்வீஸ்.</td></tr>
+      </table>
+      <p>சர்வீஸ் நேரத்தில் ஆப் <b>"சேவை முறை இயக்கப்பட்டது"</b> என்று காட்டி பூட்டப்படும். டைமர்கள் நின்று, சர்வீஸ் முடிந்ததும் மீண்டும் இயங்கும். அனைத்தும் பதிவாகும்.</p>
+    </div>
+    <figure><img class="shot" src="img/ta/18_service_request.png" alt="சர்வீஸ் கோரிக்கை"><figcaption>அனுமதி / மறு</figcaption></figure>
+    <figure><img class="shot" src="img/ta/19_service_cover.png" alt="சர்வீஸ் முறை"><figcaption>சர்வீஸ் முறை</figcaption></figure>
+  </div>
+</section>
+
+<section id="t12">
+  <h2><span class="n">12</span>அவசர நிறுத்தம்</h2>
+  <div class="row">
+    <div>
+      <p>ஏதாவது தவறு என்றால் (குழாய் உடைப்பு, தவறான வால்வு, வயலில் ஆட்கள்), முகப்பில் சிவப்பு <b class="btn" style="color:var(--red)">அவசர நிறுத்தம்</b> தட்டி உறுதி செய்யவும்.</p>
+      <p>கண்ட்ரோலர் <b>முதலில் மோட்டாரை நிறுத்தி, 5 வினாடி காத்திருந்து, பிறகு வால்வுகளை மூடும்</b> – உங்கள் குழாய்களுக்குப் பாதுகாப்பான வரிசை. அடுத்த டைமர் வழக்கம்போல் இயங்கும்.</p>
+    </div>
+    <figure><img class="shot" src="img/ta/20_emergency_stop.png" alt="அவசர நிறுத்தம்"><figcaption>அவசர நிறுத்தம்</figcaption></figure>
+  </div>
+</section>
+
+<section id="t13">
+  <h2><span class="n">13</span>பிரச்சனைகளும் தீர்வுகளும்</h2>
+  <table>
+    <tr><th>பிரச்சனை</th><th>என்ன செய்வது</th></tr>
+    <tr><td>எச்சரிக்கை வரவில்லை</td><td>முகப்பில் சிவப்பு பட்டையைத் தட்டவும், அல்லது அமைப்புகள் → அனுமதிகள். அறிவிப்புகள், "பின்னணியில் இயங்க" அனுமதிக்கவும். Silent / Do Not Disturb சரிபார்க்கவும்.</td></tr>
+    <tr><td>"கண்ட்ரோலர்" புள்ளி பச்சையாக இல்லை</td><td>பெட்டிக்கு இணையம் இல்லை. பண்ணையில் மின்சாரம், Wi-Fi ரூட்டரைச் சரிபார்க்கவும். நெட்வொர்க் மாற்ற அமைப்புகள் → Wi-Fi.</td></tr>
+    <tr><td>மோட்டார் தானாக நின்றது</td><td>முகப்பு → மோட்டார் பாதுகாப்பு மற்றும் பதிவுகளைப் பார்க்கவும். காரணம் தெரியும் (ஓவர்லோடு, ட்ரை ரன், சோலார் குறைவு, மழை).</td></tr>
+    <tr><td>அமைப்புகள் PIN மறந்துவிட்டது</td><td>உங்கள் வாடிக்கையாளர் ID உடன் DJ Tech-ஐ அழைக்கவும்.</td></tr>
+    <tr><td>புதிய போன்</td><td>நிர்வாகியிடம் புதிய அழைப்பு கேட்கவும். நீங்களே நிர்வாகி, போன் தொலைந்தது என்றால் DJ Tech-ஐ அழைக்கவும்.</td></tr>
+    <tr><td>ஆப் பழையது</td><td>ஆப் "புதிய பதிப்பு" என்று காட்டும் – djtechinnovation.in/app-லிருந்து மீண்டும் பதிவிறக்கி பழையதன் மேல் நிறுவவும். உங்கள் தரவு அப்படியே இருக்கும்.</td></tr>
+  </table>
+</section>
+</div>
+
+</main>
+
+<footer>
+  <p><span class="en">Need help? Call DJ Tech support:</span><span class="ta">உதவி தேவையா? DJ Tech-ஐ அழைக்கவும்:</span>
+     <a href="tel:+918098888255">+91 80988 88255</a> · <a href="mailto:info@djtechinnovation.in">info@djtechinnovation.in</a></p>
+  <p>© DJ Tech Innovation · <a href="https://djtechinnovation.in">djtechinnovation.in</a></p>
+</footer>
+
+<script>
+  function setLang(l) {
+    document.body.dataset.lang = l;
+    document.documentElement.lang = l;
+    document.getElementById('b-en').classList.toggle('on', l === 'en');
+    document.getElementById('b-ta').classList.toggle('on', l === 'ta');
+    try { localStorage.setItem('dj_manual_lang', l); } catch (e) {}
+  }
+  try {
+    var saved = localStorage.getItem('dj_manual_lang') || (location.hash.indexOf('#t') === 0 ? 'ta' : '');
+    if (saved === 'ta' || /[?&]lang=ta/.test(location.search)) setLang('ta');
+  } catch (e) {}
+</script>
+</body>
+</html>
