@@ -302,6 +302,74 @@
   footer img { width: 80px; }
   footer .slogan { font-family: "Brush Script MT", "Segoe Script", cursive; color: var(--gold); font-size: 26px; }
 
+  /* ---------- menu button and drop-down (phones) ---------- */
+  .menu-btn { display: none; font: inherit; font-size: 22px; line-height: 1; width: 42px; height: 40px; border-radius: 10px; cursor: pointer;
+    color: var(--text); background: var(--card2); border: 1px solid var(--line); }
+  .menu { display: none; border-top: 1px solid var(--line); background: rgba(7,9,12,.97); }
+  .menu.open { display: block; }
+  .menu a { display: block; text-decoration: none; padding: 12px 16px; font-weight: 700; border-bottom: 1px solid var(--line); }
+  .menu .subm a { font-weight: 500; padding: 10px 16px 10px 34px; color: var(--muted); font-size: 15px; }
+  .menu .soon { color: var(--gold); font-size: 12px; font-weight: 800; margin-left: 6px; }
+
+  /* ---------- Apps & manuals: one row per product ---------- */
+  .rows { display: grid; gap: 10px; max-width: 760px; margin: 0 auto; }
+  .row { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 10px; background: var(--card2); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; }
+  .row b { flex: 1 1 170px; font-size: 16px; }
+  .row b small { display: block; color: var(--muted); font-weight: 400; font-size: 12.5px; }
+  .row a { text-decoration: none; font-size: 14px; font-weight: 700; padding: 8px 12px; border-radius: 10px; border: 1.5px solid var(--cyan); color: var(--cyan); }
+  .row a.g { border-color: transparent; background: linear-gradient(180deg, var(--gold), var(--gold2)); color: #1a1305; }
+  .row .soon { color: var(--gold); font-size: 13px; font-weight: 700; }
+  .contact .mail { display: inline-block; margin-top: 10px; color: var(--cyan); font-weight: 700; text-decoration: none; }
+  .tile.nolink { cursor: default; }
+  .irrpic { background: radial-gradient(260px 160px at 50% 60%, rgba(61,220,132,.18), transparent 70%), #0c1318; font-size: 54px; }
+  @media (min-width: 1000px) { .tiles { grid-template-columns: repeat(4, 1fr); } }
+  @media (min-width: 761px) and (max-width: 999px) { .tiles { grid-template-columns: repeat(2, 1fr); } }
+
+  /* ---------- phones: short page, everything easy to see ---------- */
+  @media (max-width: 760px) {
+    .menu-btn { display: block; }
+    .nav .wrap { height: 56px; gap: 10px; }
+    .nav img { height: 36px; }
+    .brand { font-size: 16px; }
+    .call-mini { padding: 8px 12px; }
+    /* short header: no big chip (the logo is already in the top bar) */
+    .chipbox, .kicker { display: none; }
+    .hero .wrap { padding-top: 22px; padding-bottom: 26px; }
+    .hero h1 { font-size: 32px; margin-top: 0; }
+    .hero p.lead { font-size: 15.5px; margin-top: 10px; }
+    .cta { margin-top: 16px; }
+    .b { padding: 11px 16px; font-size: 15px; }
+    .quick { display: none; }               /* the same links are in Apps & manuals */
+    .sec { padding: 34px 0; }
+    .head { margin-bottom: 18px; }
+    .head h2 { font-size: 26px; }
+    .head p { font-size: 14px; }
+    /* products: 2 x 2 grid, no sideways sliding */
+    .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; overflow: visible; margin: 0; padding: 0; }
+    .tile { flex: none; }
+    .tile .pic { height: 96px; }
+    .tile .lcd { font-size: 7px; padding: 6px 8px; }
+    .tile .tank { transform: scale(.5); }
+    .tile .badge { font-size: 10px; padding: 2px 6px; top: 6px; left: 6px; }
+    .tile .tb { padding: 10px 10px 12px; }
+    .tile h3 { font-size: 15px; }
+    .tile .sub { font-size: 12px; }
+    .tile p { display: none; }
+    .tile .go { font-size: 12.5px; margin-top: 6px; }
+    .swipe { display: none; }
+    .irrpic { font-size: 40px; }
+    /* why DJ Tech: 4 small boxes, title only */
+    .why { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .w { padding: 12px; display: flex; align-items: center; gap: 10px; border-radius: 14px; }
+    .w .ic { width: 36px; height: 36px; font-size: 18px; flex: none; }
+    .w h4 { font-size: 14px; margin: 0; line-height: 1.25; }
+    .w p { display: none; }
+    .contact { padding: 22px 16px; }
+    footer { padding: 18px 0 24px; }
+    footer img { display: none; }
+    footer .slogan { font-size: 20px; }
+  }
+
   @media (prefers-reduced-motion: reduce) { .traces .sig, .led, .water, .sheet { animation: none; } .tile { transition: none; } }
 </style>
 </head>
@@ -312,7 +380,20 @@
   <div class="brand">DJ Tech <span>Innovation</span></div>
   <nav class="links"><a href="#products">Products</a><a href="#why">Why DJ Tech</a><a href="#support">Support</a><a href="#contact">Contact</a></nav>
   <a class="call-mini" href="tel:+918098888255">📞 Call</a>
-</div></div>
+  <button class="menu-btn" id="menuBtn" type="button" aria-label="Menu" aria-expanded="false">☰</button>
+</div>
+  <nav class="menu" id="menu">
+    <a href="#products">Products</a>
+    <div class="subm">
+      <a href="#timer">Schedule Timer</a>
+      <a href="#products">DJ Irrigation <span class="soon">SOON</span></a>
+      <a href="#water">Water Level Controller</a>
+      <a href="#adk">Arduino Development Kit</a>
+    </div>
+    <a href="#support">Apps &amp; manuals</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</div>
 
 <header class="hero">
   <div class="grid-bg"></div>
@@ -401,6 +482,16 @@ NEXT: 09:00 (3s)</div></div>
       </div>
     </a>
 
+    <div class="tile nolink">
+      <div class="pic irrpic"><span class="badge soon">Coming soon</span>🌱</div>
+      <div class="tb">
+        <h3>DJ Irrigation</h3>
+        <div class="sub">Solar motor &amp; 10 valves from your phone</div>
+        <p>Timers, alerts on a locked phone, and motor protection. English and Tamil app.</p>
+        <span class="go" style="color:var(--muted)">Coming soon</span>
+      </div>
+    </div>
+
   </div>
   <p class="swipe">Swipe to see all products →</p>
 </div></section>
@@ -424,11 +515,14 @@ NEXT: 09:00 (3s)</div></div>
     <h2>Apps &amp; manuals</h2>
     <p>Everything you need to set up and use your DJ Tech product.</p>
   </div>
-  <div class="support">
-    <a class="s" href="https://github.com/djtechinnovation/djtechinnovation.in/releases/latest/download/DJ-Schedule-Bell.apk"><small>Schedule Timer · Android</small><b>⬇ Download the app</b></a>
-    <a class="s" href="manual/"><small>Schedule Timer</small><b>📖 User manual</b></a>
-    <a class="s" href="adk/"><small>Arduino Development Kit</small><b>📖 User manual</b></a>
-    <a class="s" href="water-manual/"><small>Water Level Controller</small><b>📖 User manual</b></a>
+  <div class="rows">
+    <div class="row"><b>Schedule Timer<small>Automatic bell</small></b>
+      <a class="g" href="https://github.com/djtechinnovation/djtechinnovation.in/releases/latest/download/DJ-Schedule-Bell.apk">⬇ App</a>
+      <a href="manual/">📖 Manual</a>
+      <a href="#timer">▶ Video</a></div>
+    <div class="row"><b>DJ Irrigation<small>Solar motor &amp; valves</small></b><span class="soon">Coming soon</span></div>
+    <div class="row"><b>Water Level Controller<small>Motor control</small></b><a href="water-manual/">📖 Manual</a></div>
+    <div class="row"><b>Arduino Development Kit<small>Uno + Nano board</small></b><a href="adk/">📖 Manual</a></div>
   </div>
 </div></section>
 
@@ -441,6 +535,7 @@ NEXT: 09:00 (3s)</div></div>
       <a class="b gold" href="tel:+918098888255">📞 Call now</a>
       <a class="b wa" href="https://wa.me/918098888255">💬 WhatsApp</a>
     </div>
+    <a class="mail" href="mailto:info@djtechinnovation.in">✉ info@djtechinnovation.in</a>
   </div>
 </div></section>
 
@@ -449,7 +544,7 @@ NEXT: 09:00 (3s)</div></div>
 <footer><div class="wrap">
   <img src="logo.png" alt="DJ Tech">
   <div class="slogan">Striking with differences</div>
-  <p>© 2026 DJ Tech Innovation · djtechinnovation.in</p>
+  <p>© 2026 DJ Tech Innovation · <a href="mailto:info@djtechinnovation.in">info@djtechinnovation.in</a></p>
 </div></footer>
 
 
@@ -716,6 +811,17 @@ NEXT: 09:00 (3s)</div></div>
   bg.addEventListener('click', function (e) { if (e.target === bg) close(); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && bg.classList.contains('open')) close(); });
   window.addEventListener('hashchange', route);
+
+  // Phone menu: open / close; any link closes it.
+  var mb = document.getElementById('menuBtn'), mn = document.getElementById('menu');
+  mb.addEventListener('click', function () {
+    var open = mn.classList.toggle('open');
+    mb.setAttribute('aria-expanded', open ? 'true' : 'false');
+    mb.textContent = open ? '✕' : '☰';
+  });
+  mn.addEventListener('click', function (e) {
+    if (e.target.closest('a')) { mn.classList.remove('open'); mb.setAttribute('aria-expanded', 'false'); mb.textContent = '☰'; }
+  });
   route();
 })();
 
