@@ -144,7 +144,7 @@
     <li><a href="#e-logs">Logs</a></li>
     <li><a href="#e-settings">Settings and PIN</a></li>
     <li><a href="#e-protect">Motor protection</a></li>
-    <li class="t-ac3"><a href="#e-sd">Star-Delta starter</a></li>
+    <li class="t-ac3"><a href="#e-sd">Motor starter: DOL or Star-Delta</a></li>
     <li><a href="#e-notif">Alert settings</a></li>
     <li><a href="#e-family">Add family members</a></li>
     <li><a href="#e-service">DJ Tech service</a></li>
@@ -312,7 +312,7 @@
           <tr><td>Phase order</td><td><b>R-Y-B OK</b>, or <b>Reversed</b> (red). The motor never starts with a wrong phase order.</td></tr>
           <tr><td>Unbalance</td><td>How different the 3 phases are (%). Small is good.</td></tr>
           <tr><td>Frequency</td><td>About 50 Hz.</td></tr>
-          <tr><td>Star-Delta starter</td><td>While starting: <b>STAR · 5 s</b>. Then: <b>DELTA · RUNNING</b>. (See <a href="#e-sd">Star-Delta starter</a>.)</td></tr>
+          <tr><td>Starter</td><td>Star-Delta: <b>STAR · 5 s</b>, then <b>DELTA · RUNNING</b>. Direct start (DOL, below 5 HP): no STAR / DELTA row. (See <a href="#e-sd">Motor starter</a>.)</td></tr>
           <tr><td>Motor power / Energy</td><td>Power now (kW), energy today and yesterday (kWh).</td></tr>
           <tr><td>Backup battery</td><td>Keeps the controller and the valves working in a power cut.</td></tr>
           <tr><td>Motor current</td><td>Average current, and the trip limit.</td></tr>
@@ -461,11 +461,16 @@
 </section>
 
 <section id="e-sd" class="t-ac3">
-  <h2><span class="n"></span>Star-Delta starter</h2>
+  <h2><span class="n"></span>Motor starter: DOL or Star-Delta</h2>
   <div class="row two">
     <div>
-      <p>A big three phase motor starts in <b>STAR</b> for a few seconds (soft start), then changes to <b>DELTA</b> (full power). Home shows <b>STAR · 5 s</b>, then <b>DELTA · RUNNING</b>.</p>
-      <p>Only the <b>Admin</b> can change it, and only with two checks:</p>
+      <p>DJ Tech sets the starter of your motor panel when the controller is made:</p>
+      <table>
+        <tr><th>Starter</th><th>Motor</th><th>How it starts</th></tr>
+        <tr><td><b>Direct start (DOL)</b></td><td>Below 5 HP</td><td>The motor starts at once. Home shows no STAR / DELTA row.</td></tr>
+        <tr><td><b>Star-Delta</b></td><td>5 HP and above</td><td>Starts in <b>STAR</b> for a few seconds (soft start), then <b>DELTA</b> (full power). Home shows <b>STAR · 5 s</b>, then <b>DELTA · RUNNING</b>.</td></tr>
+      </table>
+      <p>You see your starter in <b>Settings → Motor protection</b>. If you change the motor or the panel, only the <b>Admin</b> can change it, with two checks:</p>
       <ol class="steps">
         <li><b>Settings → Motor protection → Star-Delta starter</b> → tap <b class="btn">Change</b>.</li>
         <li>Choose <b>Star-Delta starter</b> or <b>Direct (DOL)</b>.</li>
@@ -579,7 +584,7 @@
     <li><a href="#t-logs">பதிவுகள்</a></li>
     <li><a href="#t-settings">அமைப்புகள் மற்றும் PIN</a></li>
     <li><a href="#t-protect">மோட்டார் பாதுகாப்பு</a></li>
-    <li class="t-ac3"><a href="#t-sd">ஸ்டார்-டெல்டா ஸ்டார்ட்டர்</a></li>
+    <li class="t-ac3"><a href="#t-sd">மோட்டார் ஸ்டார்ட்டர்: DOL அல்லது ஸ்டார்-டெல்டா</a></li>
     <li><a href="#t-notif">எச்சரிக்கை அமைப்புகள்</a></li>
     <li><a href="#t-family">குடும்பத்தினரைச் சேர்த்தல்</a></li>
     <li><a href="#t-service">DJ Tech சர்வீஸ்</a></li>
@@ -747,7 +752,7 @@
           <tr><td>பேஸ் வரிசை</td><td><b>R-Y-B சரி</b>, அல்லது <b>தலைகீழ்</b> (சிவப்பு). தவறான பேஸ் வரிசையில் மோட்டார் தொடங்காது.</td></tr>
           <tr><td>சமநிலையின்மை</td><td>3 பேஸ்களுக்கு இடையிலான வேறுபாடு (%). குறைவாக இருப்பது நல்லது.</td></tr>
           <tr><td>அதிர்வெண்</td><td>சுமார் 50 Hz.</td></tr>
-          <tr><td>ஸ்டார்-டெல்டா ஸ்டார்ட்டர்</td><td>தொடங்கும்போது: <b>ஸ்டார் · 5 வி</b>. பிறகு: <b>டெல்டா · இயங்குகிறது</b>. (<a href="#t-sd">ஸ்டார்-டெல்டா ஸ்டார்ட்டர்</a> பார்க்கவும்.)</td></tr>
+          <tr><td>ஸ்டார்ட்டர்</td><td>ஸ்டார்-டெல்டா: <b>ஸ்டார் · 5 வி</b>, பிறகு <b>டெல்டா · இயங்குகிறது</b>. நேரடி ஸ்டார்ட் (DOL, 5 HP-க்குக் கீழ்): ஸ்டார் / டெல்டா வரி இல்லை. (<a href="#t-sd">மோட்டார் ஸ்டார்ட்டர்</a>.)</td></tr>
           <tr><td>மோட்டார் சக்தி / மின் அளவு</td><td>இப்போதைய சக்தி (kW), இன்று மற்றும் நேற்றைய மின் அளவு (kWh).</td></tr>
           <tr><td>பேக்கப் பேட்டரி</td><td>மின்தடையின்போது கண்ட்ரோலரையும் வால்வுகளையும் இயக்கும்.</td></tr>
           <tr><td>மோட்டார் கரண்ட்</td><td>சராசரி கரண்ட், டிரிப் வரம்பு.</td></tr>
@@ -896,11 +901,16 @@
 </section>
 
 <section id="t-sd" class="t-ac3">
-  <h2><span class="n"></span>ஸ்டார்-டெல்டா ஸ்டார்ட்டர்</h2>
+  <h2><span class="n"></span>மோட்டார் ஸ்டார்ட்டர்: DOL அல்லது ஸ்டார்-டெல்டா</h2>
   <div class="row two">
     <div>
-      <p>பெரிய த்ரீ பேஸ் மோட்டார் சில வினாடிகள் <b>ஸ்டார்</b>-இல் (மென்மையான தொடக்கம்) தொடங்கி, பிறகு <b>டெல்டா</b>-வுக்கு (முழு சக்தி) மாறும். முகப்பில் <b>ஸ்டார் · 5 வி</b>, பிறகு <b>டெல்டா · இயங்குகிறது</b> என்று தெரியும்.</p>
-      <p><b>நிர்வாகி</b> மட்டுமே மாற்ற முடியும், இரண்டு சரிபார்ப்புகளுடன்:</p>
+      <p>கண்ட்ரோலர் தயாரிக்கும்போதே DJ Tech உங்கள் மோட்டார் பேனலின் ஸ்டார்ட்டரை அமைக்கும்:</p>
+      <table>
+        <tr><th>ஸ்டார்ட்டர்</th><th>மோட்டார்</th><th>எப்படித் தொடங்கும்</th></tr>
+        <tr><td><b>நேரடி ஸ்டார்ட் (DOL)</b></td><td>5 HP-க்குக் கீழ்</td><td>மோட்டார் உடனே தொடங்கும். முகப்பில் ஸ்டார் / டெல்டா வரி இருக்காது.</td></tr>
+        <tr><td><b>ஸ்டார்-டெல்டா</b></td><td>5 HP மற்றும் மேல்</td><td>சில வினாடிகள் <b>ஸ்டார்</b>-இல் (மென்மையான தொடக்கம்), பிறகு <b>டெல்டா</b> (முழு சக்தி). முகப்பில் <b>ஸ்டார் · 5 வி</b>, பிறகு <b>டெல்டா · இயங்குகிறது</b>.</td></tr>
+      </table>
+      <p>உங்கள் ஸ்டார்ட்டரை <b>அமைப்புகள் → மோட்டார் பாதுகாப்பு</b>-இல் பார்க்கலாம். மோட்டார் அல்லது பேனலை மாற்றினால், <b>நிர்வாகி</b> மட்டுமே மாற்ற முடியும், இரண்டு சரிபார்ப்புகளுடன்:</p>
       <ol class="steps">
         <li><b>அமைப்புகள் → மோட்டார் பாதுகாப்பு → ஸ்டார்-டெல்டா ஸ்டார்ட்டர்</b> → <b class="btn">மாற்று</b> தட்டவும்.</li>
         <li><b>ஸ்டார்-டெல்டா ஸ்டார்ட்டர்</b> அல்லது <b>நேரடி ஸ்டார்ட் (DOL)</b> தேர்வு செய்யவும்.</li>
