@@ -73,7 +73,9 @@
   /* Controller type: show only the parts for the chosen type. */
   body:not([data-type="dc"]) .t-dc,
   body:not([data-type="ac1"]) .t-ac1,
-  body:not([data-type="ac3"]) .t-ac3,
+  body:not([data-type="ac3d"]):not([data-type="ac3s"]) .t-ac3,
+  body:not([data-type="ac3d"]) .t-ac3d,
+  body:not([data-type="ac3s"]) .t-ac3s,
   body[data-type="dc"] .t-ac { display: none !important; }
 
   @media (max-width: 720px) {
@@ -82,7 +84,8 @@
     nav.toc ol { columns: 1; }
     .lang { margin-left: 0; }
     .picker .q { display: none; }
-    .types button { font-size: 14px; padding: 7px 4px; }
+    .types button { font-size: 14px; padding: 7px 4px; overflow-wrap: anywhere; }
+    td, th { overflow-wrap: anywhere; }
     html { scroll-padding-top: 76px; }
   }
   @media print {
@@ -118,8 +121,10 @@
         <span class="en">☀ DC Solar</span><span class="ta">☀ DC சோலார்</span><small>DJ-DC-… · DJ-0…</small></button>
       <button data-type="ac1" onclick="setType('ac1')" aria-pressed="false">
         <span class="en">⚡ AC Single phase</span><span class="ta">⚡ AC சிங்கிள் பேஸ்</span><small>DJ-AC1-…</small></button>
-      <button data-type="ac3" onclick="setType('ac3')" aria-pressed="false">
-        <span class="en">⚡ AC Three phase</span><span class="ta">⚡ AC த்ரீ பேஸ்</span><small>DJ-AC3-…</small></button>
+      <button data-type="ac3d" onclick="setType('ac3d')" aria-pressed="false">
+        <span class="en">⚡ AC3-D · DOL</span><span class="ta">⚡ AC3-D · DOL</span><small>DJ-AC3D-…</small></button>
+      <button data-type="ac3s" onclick="setType('ac3s')" aria-pressed="false">
+        <span class="en">⚡ AC3-S · Star-Delta</span><span class="ta">⚡ AC3-S · ஸ்டார்-டெல்டா</span><small>DJ-AC3S-…</small></button>
     </div>
   </div>
 </div>
@@ -144,7 +149,7 @@
     <li><a href="#e-logs">Logs</a></li>
     <li><a href="#e-settings">Settings and PIN</a></li>
     <li><a href="#e-protect">Motor protection</a></li>
-    <li class="t-ac3"><a href="#e-sd">Motor starter: DOL or Star-Delta</a></li>
+    <li class="t-ac3s"><a href="#e-sd">Star-Delta starter: STAR time</a></li>
     <li><a href="#e-notif">Alert settings</a></li>
     <li><a href="#e-family">Add family members</a></li>
     <li><a href="#e-service">DJ Tech service</a></li>
@@ -162,14 +167,15 @@
         <tr><th>ID starts with</th><th>Type</th><th>Motor runs on</th></tr>
         <tr><td><b>DJ-DC-…</b> or <b>DJ-0…</b></td><td>DC Solar</td><td>Solar panels</td></tr>
         <tr><td><b>DJ-AC1-…</b></td><td>AC Single phase</td><td>230 V mains (EB) power</td></tr>
-        <tr><td><b>DJ-AC3-…</b></td><td>AC Three phase</td><td>415 V three phase mains (EB) power</td></tr>
+        <tr><td><b>DJ-AC3D-…</b></td><td>AC Three phase – DOL</td><td>415 V three phase mains (EB) power. Motor below 5 HP, direct start.</td></tr>
+        <tr><td><b>DJ-AC3S-…</b></td><td>AC Three phase – Star-Delta</td><td>415 V three phase mains (EB) power. Motor 5 HP and above, STAR then DELTA.</td></tr>
       </table>
       <p>The middle letters tell what is fitted:</p>
       <table>
         <tr><th>Letters</th><th>Kit</th><th>Example</th></tr>
-        <tr><td><b>VM</b></td><td>Valves + motor</td><td><span class="t-dc">DJ-DC-VM-0012</span><span class="t-ac1">DJ-AC1-VM-0012</span><span class="t-ac3">DJ-AC3-VM-0012</span></td></tr>
-        <tr><td><b>M</b></td><td>Motor only (fills a tank or well, no valves)</td><td><span class="t-dc">DJ-DC-M-0013</span><span class="t-ac1">DJ-AC1-M-0013</span><span class="t-ac3">DJ-AC3-M-0013</span></td></tr>
-        <tr><td><b>V</b></td><td>Valves only (no motor)</td><td><span class="t-dc">DJ-DC-V-0014</span><span class="t-ac1">DJ-AC1-V-0014</span><span class="t-ac3">DJ-AC3-V-0014</span></td></tr>
+        <tr><td><b>VM</b></td><td>Valves + motor</td><td><span class="t-dc">DJ-DC-VM-0012</span><span class="t-ac1">DJ-AC1-VM-0012</span><span class="t-ac3d">DJ-AC3D-VM-0012</span><span class="t-ac3s">DJ-AC3S-VM-0012</span></td></tr>
+        <tr><td><b>M</b></td><td>Motor only (fills a tank or well, no valves)</td><td><span class="t-dc">DJ-DC-M-0013</span><span class="t-ac1">DJ-AC1-M-0013</span><span class="t-ac3d">DJ-AC3D-M-0013</span><span class="t-ac3s">DJ-AC3S-M-0013</span></td></tr>
+        <tr><td><b>V</b></td><td>Valves only (no motor)</td><td><span class="t-dc">DJ-DC-V-0014</span><span class="t-ac1">DJ-AC1-V-0014</span><span class="t-ac3d">DJ-AC3D-V-0014</span><span class="t-ac3s">DJ-AC3S-V-0014</span></td></tr>
       </table>
       <div class="tip">The type and the kit are set at the DJ Tech factory. The app reads them from the QR. You do not need to set them.</div>
     </div>
@@ -230,12 +236,12 @@
         <tr><th>Part</th><th>What it shows</th></tr>
         <tr><td>Top</td><td>Greeting, your name, farm name and controller ID.</td></tr>
         <tr><td>Dots</td><td><b>Server</b> and <b>Controller</b>: green = connected. <b>Auto</b> = timers run the motor. <b>Admin</b> = your role.</td></tr>
-        <tr><td>Motor</td><td><b>RUNNING</b> (green) or <b>STOPPED</b> (red), with current (A) and voltage (V).<span class="t-ac"> <b>NO POWER</b> (red) = power cut, the timer waits for the power.</span><span class="t-ac3"> While starting, it shows <b>STARTING</b> (Star).</span></td></tr>
+        <tr><td>Motor</td><td><b>RUNNING</b> (green) or <b>STOPPED</b> (red), with current (A) and voltage (V).<span class="t-ac"> <b>NO POWER</b> (red) = power cut, the timer waits for the power.</span><span class="t-ac3s"> While starting, it shows <b>STARTING</b> (Star).</span></td></tr>
         <tr><td>Emergency stop</td><td>Red button – stops the motor and closes the valves at once.</td></tr>
         <tr><td>Field &amp; Valves</td><td>Picture of your field. Blue = water flowing. V1–V10 show <b>ON</b> / <b>OFF</b>.<span class="t-ac"> The <b>electric pole</b> brings power to the motor. A red <b>✗</b> on the pole = power cut.</span></td></tr>
         <tr class="t-ac"><td>Power supply</td><td>Mains power <b>ON</b> or <b>OFF</b> now, since when, a 24-hour bar and the cuts today (see <a href="#e-power">Power cards</a>).</td></tr>
         <tr><td>People / Today</td><td>Who uses this farm, and what happened today.</td></tr>
-        <tr><td><span class="t-dc">Solar power</span><span class="t-ac1">Power supply (dial)</span><span class="t-ac3">3 phase power</span></td><td><span class="t-dc">Solar panel voltage, motor current and power, battery</span><span class="t-ac1">Mains voltage, frequency, motor current and power, energy (kWh)</span><span class="t-ac3">R / Y / B voltage and current, Star-Delta step, energy (kWh)</span>.</td></tr>
+        <tr><td><span class="t-dc">Solar power</span><span class="t-ac1">Power supply (dial)</span><span class="t-ac3">3 phase power</span></td><td><span class="t-dc">Solar panel voltage, motor current and power, battery</span><span class="t-ac1">Mains voltage, frequency, motor current and power, energy (kWh)</span><span class="t-ac3">R / Y / B voltage and current, <span class="t-ac3s">Star-Delta step, </span>energy (kWh)</span>.</td></tr>
         <tr><td>Motor protection</td><td><b>OK</b>, or the reason of a trip (shown in red).</td></tr>
         <tr><td>Rainfall / Next timer</td><td>Rain today in mm. The timer running now or the next one. Tap to open Timers.</td></tr>
         <tr><td>Wi-Fi</td><td>The controller's internet and signal strength.</td></tr>
@@ -312,14 +318,15 @@
           <tr><td>Phase order</td><td><b>R-Y-B OK</b>, or <b>Reversed</b> (red). The motor never starts with a wrong phase order.</td></tr>
           <tr><td>Unbalance</td><td>How different the 3 phases are (%). Small is good.</td></tr>
           <tr><td>Frequency</td><td>About 50 Hz.</td></tr>
-          <tr><td>Starter</td><td>Star-Delta: <b>STAR · 5 s</b>, then <b>DELTA · RUNNING</b>. Direct start (DOL, below 5 HP): no STAR / DELTA row. (See <a href="#e-sd">Motor starter</a>.)</td></tr>
+          <tr class="t-ac3s"><td>Starter</td><td>Star-Delta: <b>STAR · 5 s</b>, then <b>DELTA · RUNNING</b>. (See <a href="#e-sd">Star-Delta starter</a>.)</td></tr>
+          <tr class="t-ac3d"><td>Starter</td><td>Direct start (DOL): the motor starts at once. There is no STAR / DELTA row.</td></tr>
           <tr><td>Motor power / Energy</td><td>Power now (kW), energy today and yesterday (kWh).</td></tr>
           <tr><td>Backup battery</td><td>Keeps the controller and the valves working in a power cut.</td></tr>
           <tr><td>Motor current</td><td>Average current, and the trip limit.</td></tr>
           <tr><td>Today ring</td><td>Hours with power, hours the motor ran, and the number of power cuts today.</td></tr>
         </table>
       </div>
-      <figure><img class="shot" src="img/en/ac3/home_power.png" alt="3 phase power"><figcaption>3 phase power card</figcaption></figure>
+      <figure><img class="shot" src="img/en/ac3s/home_power.png" data-t="img/en/{t}/home_power.png" alt="3 phase power"><figcaption>3 phase power card</figcaption></figure>
     </div>
   </div>
 </section>
@@ -420,7 +427,7 @@
         <tr><th>In Settings</th><th>Use</th></tr>
         <tr><td>Account</td><td>Your details and your <b>Customer ID (DJC-…)</b>. Tell this ID when you call DJ Tech.</td></tr>
         <tr><td>Language / Appearance</td><td>English or Tamil; Light or Dark screen.</td></tr>
-        <tr><td>This controller</td><td>Your type (<span class="t-dc">DC Solar</span><span class="t-ac1">AC Single phase</span><span class="t-ac3">AC Three phase</span>) and kit. View only.</td></tr>
+        <tr><td>This controller</td><td>Your type (<span class="t-dc">DC Solar</span><span class="t-ac1">AC Single phase</span><span class="t-ac3d">AC three phase – DOL</span><span class="t-ac3s">AC three phase – Star-Delta</span>) and kit. View only.</td></tr>
         <tr><td>Motor protection</td><td>Trip limits (see <a href="#e-protect">Motor protection</a>).</td></tr>
         <tr><td>Notifications / Permissions</td><td>Which alerts you get and how (see <a href="#e-notif">Alert settings</a>).</td></tr>
         <tr><td>Wi-Fi</td><td>Connect the controller to Wi-Fi or a LAN cable.</td></tr>
@@ -460,35 +467,22 @@
   </div>
 </section>
 
-<section id="e-sd" class="t-ac3">
-  <h2><span class="n"></span>Motor starter: DOL or Star-Delta</h2>
+<section id="e-sd" class="t-ac3s">
+  <h2><span class="n"></span>Star-Delta starter: STAR time</h2>
   <div class="row two">
     <div>
-      <p>DJ Tech sets the starter of your motor panel when the controller is made:</p>
-      <table>
-        <tr><th>Starter</th><th>Motor</th><th>How it starts</th></tr>
-        <tr><td><b>Direct start (DOL)</b></td><td>Below 5 HP</td><td>The motor starts at once. Home shows no STAR / DELTA row.</td></tr>
-        <tr><td><b>Star-Delta</b></td><td>5 HP and above</td><td>Starts in <b>STAR</b> for a few seconds (soft start), then <b>DELTA</b> (full power). Home shows <b>STAR · 5 s</b>, then <b>DELTA · RUNNING</b>.</td></tr>
-      </table>
-      <p>You see your starter in <b>Settings → Motor protection → Motor starter</b>. It has a 🔒 lock.</p>
-      <div class="tip"><b>The starter is fixed.</b> No one can switch DOL ↔ Star-Delta in the app. A wrong starter can damage the motor. If you change the motor or the panel, call <b>DJ Tech service</b>.</div>
-    </div>
-    <figure><img class="shot" src="img/en/ac3/star_delta_dol.png" alt="Motor starter card, DOL"><figcaption>DOL box: locked</figcaption></figure>
-    <figure><img class="shot" src="img/en/ac3/star_delta.png" alt="Motor starter card, Star-Delta"><figcaption>Star-Delta box</figcaption></figure>
-  </div>
-  <h3>Star-Delta only: change the STAR time</h3>
-  <div class="row">
-    <div>
-      <p>On a Star-Delta box, the <b>Admin</b> can change only the <b>STAR time</b>, with two checks:</p>
+      <p>Your controller is <b>AC3-S</b>: for motors of <b>5 HP and above</b>. The motor starts in <b>STAR</b> for a few seconds (soft start), then goes to <b>DELTA</b> (full power). Home shows <b>STAR · 5 s</b>, then <b>DELTA · RUNNING</b>.</p>
+      <p>The <b>Admin</b> can change the <b>STAR time</b>, with two checks:</p>
       <ol class="steps">
-        <li><b>Settings → Motor protection → Motor starter</b> → tap <b class="btn">Change STAR time</b>.</li>
+        <li><b>Settings → Motor protection → Star-Delta starter</b> → tap <b class="btn">Change STAR time</b>.</li>
         <li>Set the time with − and + (allowed: <b>2 to 15 seconds</b>). Tap <b class="btn">Next</b>.</li>
         <li>The app shows <b>Now: …</b> and <b>New: …</b>. Check it and tap <b class="btn">Change</b>.</li>
       </ol>
-      <p>It is saved at once (not with "Save all settings") and written in the Logs. A DOL box has no STAR time, so there is no button.</p>
+      <p>It is saved at once (not with "Save all settings") and written in the Logs.</p>
       <div class="warn">Change it only when your electrician says so. A wrong STAR time can damage the motor.</div>
     </div>
-    <figure><img class="shot" src="img/en/ac3/star_delta_change.png" alt="Change STAR time"><figcaption>Change STAR time</figcaption></figure>
+    <figure><img class="shot" src="img/en/ac3s/star_delta.png" alt="Star-Delta starter card"><figcaption>Star-Delta starter</figcaption></figure>
+    <figure><img class="shot" src="img/en/ac3s/star_delta_change.png" alt="Change STAR time"><figcaption>Change STAR time</figcaption></figure>
   </div>
 </section>
 
@@ -591,7 +585,7 @@
     <li><a href="#t-logs">பதிவுகள்</a></li>
     <li><a href="#t-settings">அமைப்புகள் மற்றும் PIN</a></li>
     <li><a href="#t-protect">மோட்டார் பாதுகாப்பு</a></li>
-    <li class="t-ac3"><a href="#t-sd">மோட்டார் ஸ்டார்ட்டர்: DOL அல்லது ஸ்டார்-டெல்டா</a></li>
+    <li class="t-ac3s"><a href="#t-sd">ஸ்டார்-டெல்டா ஸ்டார்ட்டர்: ஸ்டார் நேரம்</a></li>
     <li><a href="#t-notif">எச்சரிக்கை அமைப்புகள்</a></li>
     <li><a href="#t-family">குடும்பத்தினரைச் சேர்த்தல்</a></li>
     <li><a href="#t-service">DJ Tech சர்வீஸ்</a></li>
@@ -609,14 +603,15 @@
         <tr><th>ID தொடக்கம்</th><th>வகை</th><th>மோட்டார் இயங்குவது</th></tr>
         <tr><td><b>DJ-DC-…</b> அல்லது <b>DJ-0…</b></td><td>DC சோலார்</td><td>சோலார் பேனல்கள்</td></tr>
         <tr><td><b>DJ-AC1-…</b></td><td>AC சிங்கிள் பேஸ்</td><td>230 V EB மின்சாரம்</td></tr>
-        <tr><td><b>DJ-AC3-…</b></td><td>AC த்ரீ பேஸ்</td><td>415 V த்ரீ பேஸ் EB மின்சாரம்</td></tr>
+        <tr><td><b>DJ-AC3D-…</b></td><td>AC த்ரீ பேஸ் – DOL</td><td>415 V த்ரீ பேஸ் EB மின்சாரம். 5 HP-க்குக் கீழ் மோட்டார், நேரடி ஸ்டார்ட்.</td></tr>
+        <tr><td><b>DJ-AC3S-…</b></td><td>AC த்ரீ பேஸ் – ஸ்டார்-டெல்டா</td><td>415 V த்ரீ பேஸ் EB மின்சாரம். 5 HP மற்றும் மேல் மோட்டார், ஸ்டார் பிறகு டெல்டா.</td></tr>
       </table>
       <p>நடுவில் உள்ள எழுத்துகள் என்ன பொருத்தப்பட்டுள்ளது என்று சொல்லும்:</p>
       <table>
         <tr><th>எழுத்து</th><th>கிட்</th><th>உதாரணம்</th></tr>
-        <tr><td><b>VM</b></td><td>வால்வுகள் + மோட்டார்</td><td><span class="t-dc">DJ-DC-VM-0012</span><span class="t-ac1">DJ-AC1-VM-0012</span><span class="t-ac3">DJ-AC3-VM-0012</span></td></tr>
-        <tr><td><b>M</b></td><td>மோட்டார் மட்டும் (தொட்டி / கிணறு நிரப்ப, வால்வு இல்லை)</td><td><span class="t-dc">DJ-DC-M-0013</span><span class="t-ac1">DJ-AC1-M-0013</span><span class="t-ac3">DJ-AC3-M-0013</span></td></tr>
-        <tr><td><b>V</b></td><td>வால்வுகள் மட்டும் (மோட்டார் இல்லை)</td><td><span class="t-dc">DJ-DC-V-0014</span><span class="t-ac1">DJ-AC1-V-0014</span><span class="t-ac3">DJ-AC3-V-0014</span></td></tr>
+        <tr><td><b>VM</b></td><td>வால்வுகள் + மோட்டார்</td><td><span class="t-dc">DJ-DC-VM-0012</span><span class="t-ac1">DJ-AC1-VM-0012</span><span class="t-ac3d">DJ-AC3D-VM-0012</span><span class="t-ac3s">DJ-AC3S-VM-0012</span></td></tr>
+        <tr><td><b>M</b></td><td>மோட்டார் மட்டும் (தொட்டி / கிணறு நிரப்ப, வால்வு இல்லை)</td><td><span class="t-dc">DJ-DC-M-0013</span><span class="t-ac1">DJ-AC1-M-0013</span><span class="t-ac3d">DJ-AC3D-M-0013</span><span class="t-ac3s">DJ-AC3S-M-0013</span></td></tr>
+        <tr><td><b>V</b></td><td>வால்வுகள் மட்டும் (மோட்டார் இல்லை)</td><td><span class="t-dc">DJ-DC-V-0014</span><span class="t-ac1">DJ-AC1-V-0014</span><span class="t-ac3d">DJ-AC3D-V-0014</span><span class="t-ac3s">DJ-AC3S-V-0014</span></td></tr>
       </table>
       <div class="tip">வகையும் கிட்டும் DJ Tech தொழிற்சாலையில் அமைக்கப்படும். ஆப் அவற்றை QR-இல் இருந்து படிக்கும். நீங்கள் அமைக்க வேண்டியதில்லை.</div>
     </div>
@@ -677,12 +672,12 @@
         <tr><th>பகுதி</th><th>என்ன காட்டும்</th></tr>
         <tr><td>மேலே</td><td>வணக்கம், உங்கள் பெயர், பண்ணை பெயர், கண்ட்ரோலர் ID.</td></tr>
         <tr><td>புள்ளிகள்</td><td><b>சர்வர்</b>, <b>கண்ட்ரோலர்</b>: பச்சை = இணைப்பு உள்ளது. <b>ஆட்டோ</b> = டைமர்கள் மோட்டாரை இயக்கும். <b>நிர்வாகி</b> = உங்கள் பங்கு.</td></tr>
-        <tr><td>மோட்டார்</td><td><b>இயங்குகிறது</b> (பச்சை) அல்லது <b>நின்றது</b> (சிவப்பு), கரண்ட் (A), வோல்டேஜ் (V).<span class="t-ac"> <b>மின்சாரம் இல்லை</b> (சிவப்பு) = மின்தடை, டைமர் மின்சாரத்துக்காகக் காத்திருக்கும்.</span><span class="t-ac3"> தொடங்கும்போது <b>தொடங்குகிறது</b> (ஸ்டார்) என்று காட்டும்.</span></td></tr>
+        <tr><td>மோட்டார்</td><td><b>இயங்குகிறது</b> (பச்சை) அல்லது <b>நின்றது</b> (சிவப்பு), கரண்ட் (A), வோல்டேஜ் (V).<span class="t-ac"> <b>மின்சாரம் இல்லை</b> (சிவப்பு) = மின்தடை, டைமர் மின்சாரத்துக்காகக் காத்திருக்கும்.</span><span class="t-ac3s"> தொடங்கும்போது <b>தொடங்குகிறது</b> (ஸ்டார்) என்று காட்டும்.</span></td></tr>
         <tr><td>அவசர நிறுத்தம்</td><td>சிவப்பு பொத்தான் – மோட்டாரை நிறுத்தி வால்வுகளை உடனே மூடும்.</td></tr>
         <tr><td>வயல் &amp; வால்வுகள்</td><td>உங்கள் வயல் படம். நீலம் = தண்ணீர் ஓடுகிறது. V1–V10 <b>ஆன்</b> / <b>ஆஃப்</b>.<span class="t-ac"> <b>மின் கம்பம்</b> மோட்டாருக்கு மின்சாரம் தரும். கம்பத்தில் சிவப்பு <b>✗</b> = மின்தடை.</span></td></tr>
         <tr class="t-ac"><td>மின் விநியோகம்</td><td>இப்போது மின்சாரம் <b>ஆன்</b> அல்லது <b>ஆஃப்</b>, எப்போது முதல், 24 மணி நேரப் பட்டை, இன்றைய மின்தடைகள் (<a href="#t-power">மின்சார அட்டைகள்</a>).</td></tr>
         <tr><td>மக்கள் / இன்று</td><td>இந்தப் பண்ணையைப் பயன்படுத்துபவர்கள், இன்று நடந்தவை.</td></tr>
-        <tr><td><span class="t-dc">சோலார் மின்சாரம்</span><span class="t-ac1">மின் விநியோகம் (டயல்)</span><span class="t-ac3">3 பேஸ் மின்சாரம்</span></td><td><span class="t-dc">சோலார் பேனல் வோல்டேஜ், மோட்டார் கரண்ட், சக்தி, பேட்டரி</span><span class="t-ac1">மின்னழுத்தம், அதிர்வெண் (Hz), மோட்டார் கரண்ட், சக்தி, மின் அளவு (kWh)</span><span class="t-ac3">R / Y / B வோல்டேஜ், கரண்ட், ஸ்டார்-டெல்டா நிலை, மின் அளவு (kWh)</span>.</td></tr>
+        <tr><td><span class="t-dc">சோலார் மின்சாரம்</span><span class="t-ac1">மின் விநியோகம் (டயல்)</span><span class="t-ac3">3 பேஸ் மின்சாரம்</span></td><td><span class="t-dc">சோலார் பேனல் வோல்டேஜ், மோட்டார் கரண்ட், சக்தி, பேட்டரி</span><span class="t-ac1">மின்னழுத்தம், அதிர்வெண் (Hz), மோட்டார் கரண்ட், சக்தி, மின் அளவு (kWh)</span><span class="t-ac3">R / Y / B வோல்டேஜ், கரண்ட், <span class="t-ac3s">ஸ்டார்-டெல்டா நிலை, </span>மின் அளவு (kWh)</span>.</td></tr>
         <tr><td>மோட்டார் பாதுகாப்பு</td><td><b>சரி</b>, அல்லது டிரிப் காரணம் (சிவப்பில்).</td></tr>
         <tr><td>மழை / அடுத்த டைமர்</td><td>இன்றைய மழை (mm). இப்போது இயங்கும் அல்லது அடுத்த டைமர். தட்டினால் டைமர்கள் திறக்கும்.</td></tr>
         <tr><td>Wi-Fi</td><td>கண்ட்ரோலரின் இணையம் மற்றும் சிக்னல்.</td></tr>
@@ -759,14 +754,15 @@
           <tr><td>பேஸ் வரிசை</td><td><b>R-Y-B சரி</b>, அல்லது <b>தலைகீழ்</b> (சிவப்பு). தவறான பேஸ் வரிசையில் மோட்டார் தொடங்காது.</td></tr>
           <tr><td>சமநிலையின்மை</td><td>3 பேஸ்களுக்கு இடையிலான வேறுபாடு (%). குறைவாக இருப்பது நல்லது.</td></tr>
           <tr><td>அதிர்வெண்</td><td>சுமார் 50 Hz.</td></tr>
-          <tr><td>ஸ்டார்ட்டர்</td><td>ஸ்டார்-டெல்டா: <b>ஸ்டார் · 5 வி</b>, பிறகு <b>டெல்டா · இயங்குகிறது</b>. நேரடி ஸ்டார்ட் (DOL, 5 HP-க்குக் கீழ்): ஸ்டார் / டெல்டா வரி இல்லை. (<a href="#t-sd">மோட்டார் ஸ்டார்ட்டர்</a>.)</td></tr>
+          <tr class="t-ac3s"><td>ஸ்டார்ட்டர்</td><td>ஸ்டார்-டெல்டா: <b>ஸ்டார் · 5 வி</b>, பிறகு <b>டெல்டா · இயங்குகிறது</b>. (<a href="#t-sd">ஸ்டார்-டெல்டா ஸ்டார்ட்டர்</a>.)</td></tr>
+          <tr class="t-ac3d"><td>ஸ்டார்ட்டர்</td><td>நேரடி ஸ்டார்ட் (DOL): மோட்டார் உடனே தொடங்கும். ஸ்டார் / டெல்டா வரி இல்லை.</td></tr>
           <tr><td>மோட்டார் சக்தி / மின் அளவு</td><td>இப்போதைய சக்தி (kW), இன்று மற்றும் நேற்றைய மின் அளவு (kWh).</td></tr>
           <tr><td>பேக்கப் பேட்டரி</td><td>மின்தடையின்போது கண்ட்ரோலரையும் வால்வுகளையும் இயக்கும்.</td></tr>
           <tr><td>மோட்டார் கரண்ட்</td><td>சராசரி கரண்ட், டிரிப் வரம்பு.</td></tr>
           <tr><td>இன்று வட்டம்</td><td>மின்சாரம் இருந்த நேரம், மோட்டார் ஓடிய நேரம், இன்றைய மின்தடைகள்.</td></tr>
         </table>
       </div>
-      <figure><img class="shot" src="img/ta/ac3/home_power.png" alt="3 பேஸ் மின்சாரம்"><figcaption>3 பேஸ் மின்சார அட்டை</figcaption></figure>
+      <figure><img class="shot" src="img/ta/ac3s/home_power.png" data-t="img/ta/{t}/home_power.png" alt="3 பேஸ் மின்சாரம்"><figcaption>3 பேஸ் மின்சார அட்டை</figcaption></figure>
     </div>
   </div>
 </section>
@@ -867,7 +863,7 @@
         <tr><th>அமைப்புகளில்</th><th>பயன்</th></tr>
         <tr><td>கணக்கு</td><td>உங்கள் விவரங்கள் மற்றும் <b>வாடிக்கையாளர் ID (DJC-…)</b>. DJ Tech-ஐ அழைக்கும்போது இதைச் சொல்லவும்.</td></tr>
         <tr><td>மொழி / தோற்றம்</td><td>ஆங்கிலம் அல்லது தமிழ்; வெளிச்சம் அல்லது இருண்ட திரை.</td></tr>
-        <tr><td>இந்த கண்ட்ரோலர்</td><td>உங்கள் வகை (<span class="t-dc">DC சோலார்</span><span class="t-ac1">AC சிங்கிள் பேஸ்</span><span class="t-ac3">AC த்ரீ பேஸ்</span>), கிட். பார்க்க மட்டும்.</td></tr>
+        <tr><td>இந்த கண்ட்ரோலர்</td><td>உங்கள் வகை (<span class="t-dc">DC சோலார்</span><span class="t-ac1">AC சிங்கிள் பேஸ்</span><span class="t-ac3d">AC த்ரீ பேஸ் – DOL</span><span class="t-ac3s">AC த்ரீ பேஸ் – ஸ்டார்-டெல்டா</span>), கிட். பார்க்க மட்டும்.</td></tr>
         <tr><td>மோட்டார் பாதுகாப்பு</td><td>டிரிப் வரம்புகள் (<a href="#t-protect">மோட்டார் பாதுகாப்பு</a>).</td></tr>
         <tr><td>அறிவிப்புகள் / அனுமதிகள்</td><td>எந்த எச்சரிக்கைகள், எப்படி (<a href="#t-notif">எச்சரிக்கை அமைப்புகள்</a>).</td></tr>
         <tr><td>Wi-Fi</td><td>கண்ட்ரோலரை Wi-Fi அல்லது LAN கேபிளுடன் இணைக்க.</td></tr>
@@ -907,35 +903,22 @@
   </div>
 </section>
 
-<section id="t-sd" class="t-ac3">
-  <h2><span class="n"></span>மோட்டார் ஸ்டார்ட்டர்: DOL அல்லது ஸ்டார்-டெல்டா</h2>
+<section id="t-sd" class="t-ac3s">
+  <h2><span class="n"></span>ஸ்டார்-டெல்டா ஸ்டார்ட்டர்: ஸ்டார் நேரம்</h2>
   <div class="row two">
     <div>
-      <p>கண்ட்ரோலர் தயாரிக்கும்போதே DJ Tech உங்கள் மோட்டார் பேனலின் ஸ்டார்ட்டரை அமைக்கும்:</p>
-      <table>
-        <tr><th>ஸ்டார்ட்டர்</th><th>மோட்டார்</th><th>எப்படித் தொடங்கும்</th></tr>
-        <tr><td><b>நேரடி ஸ்டார்ட் (DOL)</b></td><td>5 HP-க்குக் கீழ்</td><td>மோட்டார் உடனே தொடங்கும். முகப்பில் ஸ்டார் / டெல்டா வரி இருக்காது.</td></tr>
-        <tr><td><b>ஸ்டார்-டெல்டா</b></td><td>5 HP மற்றும் மேல்</td><td>சில வினாடிகள் <b>ஸ்டார்</b>-இல் (மென்மையான தொடக்கம்), பிறகு <b>டெல்டா</b> (முழு சக்தி). முகப்பில் <b>ஸ்டார் · 5 வி</b>, பிறகு <b>டெல்டா · இயங்குகிறது</b>.</td></tr>
-      </table>
-      <p>உங்கள் ஸ்டார்ட்டரை <b>அமைப்புகள் → மோட்டார் பாதுகாப்பு → மோட்டார் ஸ்டார்ட்டர்</b>-இல் பார்க்கலாம். அதில் 🔒 பூட்டு இருக்கும்.</p>
-      <div class="tip"><b>ஸ்டார்ட்டர் நிலையானது.</b> ஆப்பில் யாரும் DOL ↔ ஸ்டார்-டெல்டா மாற்ற முடியாது. தவறான ஸ்டார்ட்டர் மோட்டாரைச் சேதப்படுத்தலாம். மோட்டார் அல்லது பேனலை மாற்றினால், <b>DJ Tech சேவையை</b> அழைக்கவும்.</div>
-    </div>
-    <figure><img class="shot" src="img/ta/ac3/star_delta_dol.png" alt="மோட்டார் ஸ்டார்ட்டர் அட்டை, DOL"><figcaption>DOL பெட்டி: பூட்டப்பட்டது</figcaption></figure>
-    <figure><img class="shot" src="img/ta/ac3/star_delta.png" alt="மோட்டார் ஸ்டார்ட்டர் அட்டை, ஸ்டார்-டெல்டா"><figcaption>ஸ்டார்-டெல்டா பெட்டி</figcaption></figure>
-  </div>
-  <h3>ஸ்டார்-டெல்டா மட்டும்: ஸ்டார் நேரத்தை மாற்றுதல்</h3>
-  <div class="row">
-    <div>
-      <p>ஸ்டார்-டெல்டா பெட்டியில், <b>நிர்வாகி</b> <b>ஸ்டார் நேரத்தை</b> மட்டுமே மாற்ற முடியும், இரண்டு சரிபார்ப்புகளுடன்:</p>
+      <p>உங்கள் கண்ட்ரோலர் <b>AC3-S</b>: <b>5 HP மற்றும் மேல்</b> மோட்டார்களுக்கு. மோட்டார் சில வினாடிகள் <b>ஸ்டார்</b>-இல் (மென்மையான தொடக்கம்) தொடங்கி, பிறகு <b>டெல்டா</b>-வுக்கு (முழு சக்தி) மாறும். முகப்பில் <b>ஸ்டார் · 5 வி</b>, பிறகு <b>டெல்டா · இயங்குகிறது</b>.</p>
+      <p><b>நிர்வாகி</b> <b>ஸ்டார் நேரத்தை</b> மாற்றலாம், இரண்டு சரிபார்ப்புகளுடன்:</p>
       <ol class="steps">
-        <li><b>அமைப்புகள் → மோட்டார் பாதுகாப்பு → மோட்டார் ஸ்டார்ட்டர்</b> → <b class="btn">ஸ்டார் நேரத்தை மாற்று</b> தட்டவும்.</li>
+        <li><b>அமைப்புகள் → மோட்டார் பாதுகாப்பு → ஸ்டார்-டெல்டா ஸ்டார்ட்டர்</b> → <b class="btn">ஸ்டார் நேரத்தை மாற்று</b> தட்டவும்.</li>
         <li>− மற்றும் + மூலம் நேரம் அமைக்கவும் (அனுமதி: <b>2 முதல் 15 வினாடி</b>). <b class="btn">அடுத்து</b> தட்டவும்.</li>
         <li>ஆப் <b>இப்போது: …</b>, <b>புதியது: …</b> என்று காட்டும். சரிபார்த்து <b class="btn">மாற்று</b> தட்டவும்.</li>
       </ol>
-      <p>இது உடனே சேமிக்கப்படும் ("அனைத்தையும் சேமி" உடன் அல்ல), பதிவுகளில் எழுதப்படும். DOL பெட்டியில் ஸ்டார் நேரம் இல்லை, அதனால் பொத்தானும் இல்லை.</p>
+      <p>இது உடனே சேமிக்கப்படும் ("அனைத்தையும் சேமி" உடன் அல்ல), பதிவுகளில் எழுதப்படும்.</p>
       <div class="warn">உங்கள் எலக்ட்ரீஷியன் சொன்னால் மட்டும் மாற்றவும். தவறான ஸ்டார் நேரம் மோட்டாரைச் சேதப்படுத்தலாம்.</div>
     </div>
-    <figure><img class="shot" src="img/ta/ac3/star_delta_change.png" alt="ஸ்டார் நேரத்தை மாற்று"><figcaption>ஸ்டார் நேரத்தை மாற்று</figcaption></figure>
+    <figure><img class="shot" src="img/ta/ac3s/star_delta.png" alt="ஸ்டார்-டெல்டா ஸ்டார்ட்டர் அட்டை"><figcaption>ஸ்டார்-டெல்டா ஸ்டார்ட்டர்</figcaption></figure>
+    <figure><img class="shot" src="img/ta/ac3s/star_delta_change.png" alt="ஸ்டார் நேரத்தை மாற்று"><figcaption>ஸ்டார் நேரத்தை மாற்று</figcaption></figure>
   </div>
 </section>
 
@@ -1030,7 +1013,7 @@
 </footer>
 
 <script>
-  var TYPES = ['dc', 'ac1', 'ac3'];
+  var TYPES = ['dc', 'ac1', 'ac3d', 'ac3s'];
   function save(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
   function load(k) { try { return localStorage.getItem(k) || ''; } catch (e) { return ''; } }
 
@@ -1040,20 +1023,28 @@
     document.getElementById('b-en').classList.toggle('on', l === 'en');
     document.getElementById('b-ta').classList.toggle('on', l === 'ta');
     save('dj_manual_lang', l);
+    if (document.body.dataset.type) showPictures();
+  }
+
+  // Loads the picture of the chosen type for every picture on screen.
+  // Hidden ones (other type or language) are skipped: they may not exist.
+  function showPictures() {
+    var t = document.body.dataset.type;
+    document.querySelectorAll('img[data-t]').forEach(function (img) {
+      if (img.offsetParent === null) return;
+      img.src = img.dataset.t.replace('{t}', t);
+    });
   }
 
   // Shows only the parts and pictures of one controller type.
   function setType(t, quiet) {
+    if (t === 'ac3') t = 'ac3s'; // old links and saved choice (before AC3-D / AC3-S)
     if (TYPES.indexOf(t) < 0) t = 'dc';
     document.body.dataset.type = t;
     document.querySelectorAll('.types button').forEach(function (b) {
       b.setAttribute('aria-pressed', b.dataset.type === t ? 'true' : 'false');
     });
-    document.querySelectorAll('img[data-t]').forEach(function (img) {
-      // AC-only pictures do not exist for DC (and are hidden then).
-      if (t === 'dc' && img.closest('.t-ac')) return;
-      img.src = img.dataset.t.replace('{t}', t);
-    });
+    showPictures();
     save('dj_manual_type', t);
     if (!quiet && window.gtag) gtag('event', 'manual_type', { type: t });
   }
@@ -1061,7 +1052,7 @@
   (function start() {
     var q = location.search;
     var lang = (/[?&]lang=ta/.test(q) || load('dj_manual_lang') === 'ta' || location.hash.indexOf('#t-') === 0) ? 'ta' : 'en';
-    var m = q.match(/[?&]type=(dc|ac1|ac3)/);
+    var m = q.match(/[?&]type=(dc|ac1|ac3d|ac3s|ac3)/);
     setLang(lang);
     setType(m ? m[1] : (load('dj_manual_type') || 'dc'), true);
   })();
