@@ -104,7 +104,7 @@
     <img src="img/logo.png" alt="DJ Tech">
     <div>
       <h1><span class="en">DJ Irrigation – User Manual</span><span class="ta">DJ Irrigation – பயனர் கையேடு</span></h1>
-      <p><span class="en">Remote motor &amp; valve controller · App version 3.26</span><span class="ta">தொலைவிலிருந்து மோட்டார் &amp; வால்வு கட்டுப்பாடு · ஆப் பதிப்பு 3.26</span></p>
+      <p><span class="en">Remote motor &amp; valve controller · App version 3.27</span><span class="ta">தொலைவிலிருந்து மோட்டார் &amp; வால்வு கட்டுப்பாடு · ஆப் பதிப்பு 3.27</span></p>
     </div>
     <div class="lang" role="group" aria-label="Language">
       <button id="b-en" class="on" onclick="setLang('en')">English</button>
@@ -509,7 +509,7 @@
       </ol>
       <table>
         <tr><th>In Settings</th><th>Use</th></tr>
-        <tr><td>Account</td><td>Your details and your <b>Customer ID (DJC-…)</b>. Tell this ID when you call DJ Tech.</td></tr>
+        <tr><td>Account</td><td>Your details and your <b>Customer ID (DJC-…)</b>. Tell this ID when you call DJ Tech. Tap <b class="btn">Edit my details</b> to change your name, mobile number, email or place (see <a href="#e-family">Add family members</a>).</td></tr>
         <tr><td>Language / Appearance</td><td>English or Tamil; Light or Dark screen.</td></tr>
         <tr><td>This controller</td><td>Your type (<span class="t-dc">DC Solar</span><span class="t-ac1">AC Single phase</span><span class="t-ac3d">AC three phase – DOL</span><span class="t-ac3s">AC three phase – Star-Delta</span>) and kit. View only.</td></tr>
         <tr><td>Motor protection</td><td>Trip limits (see <a href="#e-protect">Motor protection</a>).</td></tr>
@@ -621,6 +621,24 @@
     <figure><img class="shot" src="img/en/16_users.png" alt="Users"><figcaption>User management</figcaption></figure>
     <figure><img class="shot" src="img/en/17_invite_qr.png" alt="Invite QR"><figcaption>Invite QR</figcaption></figure>
   </div>
+  <h3>Change your own details (new number, new place)</h3>
+  <div class="row">
+    <div>
+      <p>Each person (Admin, User 1, User 2) can change <b>their own</b> details.</p>
+      <ol class="steps">
+        <li>Settings → <b>Account</b> → <b class="btn">Edit my details</b>.</li>
+        <li>Change the <b>name</b>, <b>email</b>, <b>mobile number</b> or <b>place</b>.</li>
+        <li>Tap <b class="btn">Save</b>.</li>
+      </ol>
+      <ul>
+        <li><b>Admin:</b> DJ Tech gets your new details by itself (in about 1 minute), so our service team can call you on the right number.</li>
+        <li>The email is needed. The mobile number is 10 digits, without +91.</li>
+        <li>The change is written in the <b>Logs</b>, for example "Owner phone changed: 98765 43210 → 98765 43211".</li>
+      </ul>
+      <div class="tip">You can also ask DJ Tech to change your details. Tell your <b>Customer ID (DJC-…)</b> when you call.</div>
+    </div>
+    <figure><img class="shot" src="img/en/dc/30_my_details.png" data-t="img/en/{t}/30_my_details.png" alt="Edit my details"><figcaption>Settings → Account → Edit my details</figcaption></figure>
+  </div>
 </section>
 
 <section id="e-phone">
@@ -636,19 +654,33 @@
         <li>Use the arrows to set the order A, B, C: the box calls them in this order for alerts.</li>
         <li>Choose the <b>longest run</b> by phone (default 2 hours) and the <b>alerts</b>, then tap <b class="btn">Save all settings</b>.</li>
         <li>Tap <b class="btn">Test call</b>: the box calls phone A.</li>
-        <li>Tap <b class="btn">Farmer card</b> → <b class="btn">Share</b> to send the card to the farmer on WhatsApp, or print it.</li>
+        <li>Tap <b class="btn">Farmer card</b>. The card opens on the full screen. Tap <b class="btn">Share</b> to send it to the farmer on WhatsApp (or print it), or <b class="btn">Close</b>.</li>
       </ol>
+      <p>The farmer card is in <b>Tamil and English</b>. It has the box SIM number, the call keys and the SMS codes for <b>your kind of box</b> (valves + motor, motor only, or valves only). It is white with the Light screen and dark with the Dark screen.</p>
     </div>
     <figure><img class="shot" src="img/en/dc/28_phone_control.png" data-t="img/en/{t}/28_phone_control.png" alt="Phone control"><figcaption>Settings → Phone control</figcaption></figure>
-    <figure><img class="shot" src="img/en/dc/29_farmer_card.png" data-t="img/en/{t}/29_farmer_card.png" alt="Farmer card"><figcaption>Farmer card</figcaption></figure>
+    <figure><img class="shot" src="img/en/dc/29_farmer_card.png" data-t="img/en/{t}/29_farmer_card.png" alt="Farmer card"><figcaption>Farmer card (valves + motor)</figcaption></figure>
   </div>
-  <h3>How the farmer uses it</h3>
+  <h3>How the farmer uses it: call</h3>
   <table>
-    <tr><th>Call the box SIM</th><th>SMS to the box SIM</th></tr>
-    <tr><td><b>1</b> = status<br><b>2</b> = START (valve number → how long → 1 to confirm)<br><b>3</b> = STOP (1 to confirm)<br><b>9</b> = hear again</td>
-        <td><b>STATUS</b><br><b>START 1 30</b> (valve 1, 30 minutes; <b>START 0 60</b> = all valves, 1 hour)<br><b>STOP</b></td></tr>
+    <tr><th>Key</th><th>What it does</th></tr>
+    <tr><td><b>1</b></td><td>Status: motor, valves, power</td></tr>
+    <tr><td><b>2</b></td><td>START: valve number → how long → <b>1</b> to confirm. (Motor only box: how long → 1. Valves only box: opens the valve.)</td></tr>
+    <tr><td><b>3</b></td><td>STOP: <b>1</b> to confirm</td></tr>
+    <tr><td><b>9</b></td><td>Hear the menu again</td></tr>
+  </table>
+  <h3>How the farmer uses it: SMS</h3>
+  <table>
+    <tr><th>SMS</th><th>Valves + motor box</th><th>Motor only box</th><th>Valves only box</th></tr>
+    <tr><td><b>STATUS</b></td><td colspan="3">Status: motor, valves, power</td></tr>
+    <tr><td><b>START 1 30</b></td><td>Valve 1 + motor ON for 30 minutes</td><td>–</td><td>Open valve 1 for 30 minutes</td></tr>
+    <tr><td><b>START 0 60</b></td><td>All valves + motor ON for 60 minutes</td><td>–</td><td>Open all valves for 60 minutes</td></tr>
+    <tr><td><b>START 30</b></td><td>–</td><td>Motor ON for 30 minutes</td><td>–</td></tr>
+    <tr><td><b>STOP</b></td><td>Motor OFF, then the valves close</td><td>Motor OFF</td><td>Close all valves</td></tr>
   </table>
   <ul>
+    <li>The rule: <b>START &lt;valve&gt; &lt;minutes&gt;</b> (valve <b>0</b> = all valves). Motor only box: <b>START &lt;minutes&gt;</b>.</li>
+    <li>The time is always in <b>minutes</b>: <b>120 = 2 hours</b>, 90 = 1½ hours.</li>
     <li>Only the saved phones work. Other callers are rejected.</li>
     <li>For a <b>dry run</b> or a <b>fault</b>, the box calls phone A with a Tamil warning. If A does not press 1, it calls B, then C.</li>
     <li>In <b>LOCAL</b> mode a phone can only hear the status and use STOP.</li>
@@ -1081,7 +1113,7 @@
       </ol>
       <table>
         <tr><th>அமைப்புகளில்</th><th>பயன்</th></tr>
-        <tr><td>கணக்கு</td><td>உங்கள் விவரங்கள் மற்றும் <b>வாடிக்கையாளர் ID (DJC-…)</b>. DJ Tech-ஐ அழைக்கும்போது இதைச் சொல்லவும்.</td></tr>
+        <tr><td>கணக்கு</td><td>உங்கள் விவரங்கள் மற்றும் <b>வாடிக்கையாளர் ID (DJC-…)</b>. DJ Tech-ஐ அழைக்கும்போது இதைச் சொல்லவும். பெயர், மொபைல் எண், மின்னஞ்சல் அல்லது இடத்தை மாற்ற <b class="btn">என் விவரங்களைத் திருத்து</b> தொடவும் (பார்க்க <a href="#t-family">குடும்பத்தினரைச் சேர்த்தல்</a>).</td></tr>
         <tr><td>மொழி / தோற்றம்</td><td>ஆங்கிலம் அல்லது தமிழ்; வெளிச்சம் அல்லது இருண்ட திரை.</td></tr>
         <tr><td>இந்த கண்ட்ரோலர்</td><td>உங்கள் வகை (<span class="t-dc">DC சோலார்</span><span class="t-ac1">AC சிங்கிள் பேஸ்</span><span class="t-ac3d">AC த்ரீ பேஸ் – DOL</span><span class="t-ac3s">AC த்ரீ பேஸ் – ஸ்டார்-டெல்டா</span>), கிட். பார்க்க மட்டும்.</td></tr>
         <tr><td>மோட்டார் பாதுகாப்பு</td><td>டிரிப் வரம்புகள் (<a href="#t-protect">மோட்டார் பாதுகாப்பு</a>).</td></tr>
@@ -1193,6 +1225,24 @@
     <figure><img class="shot" src="img/ta/16_users.png" alt="பயனர்கள்"><figcaption>பயனர் மேலாண்மை</figcaption></figure>
     <figure><img class="shot" src="img/ta/17_invite_qr.png" alt="அழைப்பு QR"><figcaption>அழைப்பு QR</figcaption></figure>
   </div>
+  <h3>உங்கள் விவரங்களை மாற்றுதல் (புதிய எண், புதிய இடம்)</h3>
+  <div class="row">
+    <div>
+      <p>ஒவ்வொருவரும் (நிர்வாகி, பயனர் 1, பயனர் 2) <b>தங்கள் சொந்த</b> விவரங்களை மாற்றலாம்.</p>
+      <ol class="steps">
+        <li>அமைப்புகள் → <b>கணக்கு</b> → <b class="btn">என் விவரங்களைத் திருத்து</b>.</li>
+        <li><b>பெயர்</b>, <b>மின்னஞ்சல்</b>, <b>மொபைல் எண்</b> அல்லது <b>இடம்</b> மாற்றவும்.</li>
+        <li><b class="btn">சேமி</b> தொடவும்.</li>
+      </ol>
+      <ul>
+        <li><b>நிர்வாகி:</b> உங்கள் புதிய விவரங்கள் தானாகவே (சுமார் 1 நிமிடத்தில்) DJ Tech-க்குச் செல்லும். எங்கள் சர்வீஸ் குழு சரியான எண்ணில் உங்களை அழைக்க முடியும்.</li>
+        <li>மின்னஞ்சல் தேவை. மொபைல் எண் 10 இலக்கம், +91 இல்லாமல்.</li>
+        <li>மாற்றம் <b>பதிவுகளில்</b> எழுதப்படும், எ.கா. "உரிமையாளர் போன் எண் மாற்றப்பட்டது: 98765 43210 → 98765 43211".</li>
+      </ul>
+      <div class="tip">DJ Tech-இடம் சொல்லியும் விவரங்களை மாற்றலாம். அழைக்கும்போது உங்கள் <b>வாடிக்கையாளர் ID (DJC-…)</b> சொல்லவும்.</div>
+    </div>
+    <figure><img class="shot" src="img/ta/dc/30_my_details.png" data-t="img/ta/{t}/30_my_details.png" alt="என் விவரங்களைத் திருத்து"><figcaption>அமைப்புகள் → கணக்கு → என் விவரங்களைத் திருத்து</figcaption></figure>
+  </div>
 </section>
 
 <section id="t-phone">
@@ -1208,19 +1258,33 @@
         <li>அம்புக்குறிகளால் A, B, C வரிசையை அமைக்கவும்: எச்சரிக்கைக்கு பெட்டி இந்த வரிசையில் அழைக்கும்.</li>
         <li>போன் மூலம் <b>அதிகபட்ச ஓட்டம்</b> (இயல்பாக 2 மணி) மற்றும் <b>எச்சரிக்கைகளை</b> தேர்வு செய்து <b class="btn">அனைத்தையும் சேமி</b> தொடவும்.</li>
         <li><b class="btn">சோதனை அழைப்பு</b>: பெட்டி போன் A-ஐ அழைக்கும்.</li>
-        <li><b class="btn">விவசாயி அட்டை</b> → <b class="btn">பகிர்</b>: அட்டையை WhatsApp-ல் அனுப்பலாம் அல்லது அச்சிடலாம்.</li>
+        <li><b class="btn">விவசாயி அட்டை</b> தொடவும். அட்டை முழுத் திரையில் திறக்கும். <b class="btn">பகிர்</b> தொட்டு WhatsApp-ல் விவசாயிக்கு அனுப்பலாம் (அல்லது அச்சிடலாம்), அல்லது <b class="btn">மூடு</b>.</li>
       </ol>
+      <p>விவசாயி அட்டை <b>தமிழ் மற்றும் ஆங்கிலத்தில்</b> இருக்கும். அதில் பெட்டி SIM எண், அழைப்பு பட்டன்கள், <b>உங்கள் பெட்டி வகைக்கான</b> SMS குறியீடுகள் (வால்வு + மோட்டார், மோட்டார் மட்டும், அல்லது வால்வு மட்டும்) இருக்கும். வெளிர் திரையில் வெள்ளை அட்டை, இருண்ட திரையில் இருண்ட அட்டை.</p>
     </div>
     <figure><img class="shot" src="img/ta/dc/28_phone_control.png" data-t="img/ta/{t}/28_phone_control.png" alt="போன் கட்டுப்பாடு"><figcaption>அமைப்புகள் → போன் கட்டுப்பாடு</figcaption></figure>
-    <figure><img class="shot" src="img/ta/dc/29_farmer_card.png" data-t="img/ta/{t}/29_farmer_card.png" alt="விவசாயி அட்டை"><figcaption>விவசாயி அட்டை</figcaption></figure>
+    <figure><img class="shot" src="img/ta/dc/29_farmer_card.png" data-t="img/ta/{t}/29_farmer_card.png" alt="விவசாயி அட்டை"><figcaption>விவசாயி அட்டை (வால்வு + மோட்டார்)</figcaption></figure>
   </div>
-  <h3>விவசாயி எப்படிப் பயன்படுத்துவார்</h3>
+  <h3>விவசாயி எப்படிப் பயன்படுத்துவார்: அழைப்பு</h3>
   <table>
-    <tr><th>பெட்டி SIM-ஐ அழைக்கவும்</th><th>பெட்டி SIM-க்கு SMS</th></tr>
-    <tr><td><b>1</b> = நிலை அறிய<br><b>2</b> = மோட்டார் ஆன் (வால்வு எண் → எவ்வளவு நேரம் → உறுதி செய்ய 1)<br><b>3</b> = மோட்டார் ஆஃப் (உறுதி செய்ய 1)<br><b>9</b> = மீண்டும் கேட்க</td>
-        <td><b>STATUS</b><br><b>START 1 30</b> (வால்வு 1, 30 நிமிடம்; <b>START 0 60</b> = எல்லா வால்வுகள், 1 மணி)<br><b>STOP</b></td></tr>
+    <tr><th>பட்டன்</th><th>என்ன செய்யும்</th></tr>
+    <tr><td><b>1</b></td><td>நிலை அறிய: மோட்டார், வால்வுகள், மின்சாரம்</td></tr>
+    <tr><td><b>2</b></td><td>மோட்டார் ஆன்: வால்வு எண் → எவ்வளவு நேரம் → உறுதி செய்ய <b>1</b>. (மோட்டார் மட்டும் பெட்டி: நேரம் → 1. வால்வு மட்டும் பெட்டி: வால்வு திறக்கும்.)</td></tr>
+    <tr><td><b>3</b></td><td>மோட்டார் ஆஃப்: உறுதி செய்ய <b>1</b></td></tr>
+    <tr><td><b>9</b></td><td>மெனுவை மீண்டும் கேட்க</td></tr>
+  </table>
+  <h3>விவசாயி எப்படிப் பயன்படுத்துவார்: SMS</h3>
+  <table>
+    <tr><th>SMS</th><th>வால்வு + மோட்டார் பெட்டி</th><th>மோட்டார் மட்டும் பெட்டி</th><th>வால்வு மட்டும் பெட்டி</th></tr>
+    <tr><td><b>STATUS</b></td><td colspan="3">நிலை அறிய: மோட்டார், வால்வுகள், மின்சாரம்</td></tr>
+    <tr><td><b>START 1 30</b></td><td>வால்வு 1 + மோட்டார் ஆன் · 30 நிமிடம்</td><td>–</td><td>வால்வு 1 திற · 30 நிமிடம்</td></tr>
+    <tr><td><b>START 0 60</b></td><td>எல்லா வால்வுகளும் + மோட்டார் · 60 நிமிடம்</td><td>–</td><td>எல்லா வால்வுகளும் · 60 நிமிடம்</td></tr>
+    <tr><td><b>START 30</b></td><td>–</td><td>மோட்டார் ஆன் · 30 நிமிடம்</td><td>–</td></tr>
+    <tr><td><b>STOP</b></td><td>மோட்டார் ஆஃப், பின் வால்வுகள் மூடும்</td><td>மோட்டார் ஆஃப்</td><td>எல்லா வால்வுகளும் மூடும்</td></tr>
   </table>
   <ul>
+    <li>விதி: <b>START &lt;வால்வு&gt; &lt;நிமிடம்&gt;</b> (வால்வு <b>0</b> = எல்லாம்). மோட்டார் மட்டும் பெட்டி: <b>START &lt;நிமிடம்&gt;</b>.</li>
+    <li>நேரம் எப்போதும் <b>நிமிடத்தில்</b>: <b>120 = 2 மணி</b>, 90 = 1½ மணி.</li>
     <li>சேமித்த போன்கள் மட்டுமே வேலை செய்யும். மற்ற அழைப்புகள் மறுக்கப்படும்.</li>
     <li><b>உலர் ஓட்டம்</b> அல்லது <b>கோளாறு</b> வந்தால், பெட்டி போன் A-ஐ அழைத்து தமிழில் எச்சரிக்கும். A 1 அழுத்தவில்லை என்றால் B, பிறகு C.</li>
     <li><b>லோக்கல்</b> நிலையில் போன் மூலம் நிலை கேட்கலாம், STOP மட்டும் செய்யலாம்.</li>
