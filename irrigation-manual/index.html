@@ -64,6 +64,8 @@
   table { border-collapse: collapse; width: 100%; margin: 8px 0; font-size: 16px; }
   th, td { border-bottom: 1px solid var(--border); padding: 8px 6px; text-align: left; vertical-align: top; }
   th { color: var(--mid); font-weight: 600; }
+  td.id { white-space: nowrap; overflow-wrap: normal !important; padding-right: 12px; }
+  .types button small span { display: block; white-space: nowrap; }
   b.btn { background: #16202a; border: 1px solid #2c3a46; border-radius: 8px; padding: 0 6px; white-space: nowrap; }
   footer { text-align: center; color: var(--mid); padding: 24px 16px 40px; }
   footer a { color: var(--green); }
@@ -118,13 +120,13 @@
     <span class="q"><span class="en">Your controller:</span><span class="ta">உங்கள் கண்ட்ரோலர்:</span></span>
     <div class="types" role="group" aria-label="Controller type">
       <button data-type="dc" onclick="setType('dc')" aria-pressed="true">
-        <span class="en">☀ DC Solar</span><span class="ta">☀ DC சோலார்</span><small>DJ-DC-… · DJ-0…</small></button>
+        <span class="en">☀ DC Solar</span><span class="ta">☀ DC சோலார்</span><small><span>DJ-DC</span><span>DJ-0</span></small></button>
       <button data-type="ac1" onclick="setType('ac1')" aria-pressed="false">
-        <span class="en">⚡ AC Single phase</span><span class="ta">⚡ AC சிங்கிள் பேஸ்</span><small>DJ-AC1-…</small></button>
+        <span class="en">⚡ AC Single phase</span><span class="ta">⚡ AC சிங்கிள் பேஸ்</span><small><span>DJ-AC1</span></small></button>
       <button data-type="ac3d" onclick="setType('ac3d')" aria-pressed="false">
-        <span class="en">⚡ AC3-D · DOL</span><span class="ta">⚡ AC3-D · DOL</span><small>DJ-AC3D-…</small></button>
+        <span class="en">⚡ AC3-D · DOL</span><span class="ta">⚡ AC3-D · DOL</span><small><span>DJ-AC3D</span></small></button>
       <button data-type="ac3s" onclick="setType('ac3s')" aria-pressed="false">
-        <span class="en">⚡ AC3-S · Star-Delta</span><span class="ta">⚡ AC3-S · ஸ்டார்-டெல்டா</span><small>DJ-AC3S-…</small></button>
+        <span class="en">⚡ AC3-S · Star-Delta</span><span class="ta">⚡ AC3-S · ஸ்டார்-டெல்டா</span><small><span>DJ-AC3S</span></small></button>
     </div>
   </div>
 </div>
@@ -170,10 +172,10 @@
       <p>Look at the <b>controller ID</b> on your box, or in the app at <b>Settings → This controller</b>. Then tap your type in the bar at the top of this page. The manual then shows <b>only your type</b>.</p>
       <table>
         <tr><th>ID starts with</th><th>Type</th><th>Motor runs on</th></tr>
-        <tr><td><b>DJ-DC-…</b> or <b>DJ-0…</b></td><td>DC Solar</td><td>Solar panels</td></tr>
-        <tr><td><b>DJ-AC1-…</b></td><td>AC Single phase</td><td>230 V mains (EB) power</td></tr>
-        <tr><td><b>DJ-AC3D-…</b></td><td>AC Three phase – DOL</td><td>415 V three phase mains (EB) power. Motor below 5 HP, direct start.</td></tr>
-        <tr><td><b>DJ-AC3S-…</b></td><td>AC Three phase – Star-Delta</td><td>415 V three phase mains (EB) power. Motor 5 HP and above, STAR then DELTA.</td></tr>
+        <tr><td class="id"><b>DJ-DC</b><br>or<br><b>DJ-0</b></td><td>DC Solar</td><td>Solar panels</td></tr>
+        <tr><td class="id"><b>DJ-AC1</b></td><td>AC Single phase</td><td>230 V mains (EB) power</td></tr>
+        <tr><td class="id"><b>DJ-AC3D</b></td><td>AC Three phase – DOL</td><td>415 V three phase mains (EB) power. Motor below 5 HP, direct start.</td></tr>
+        <tr><td class="id"><b>DJ-AC3S</b></td><td>AC Three phase – Star-Delta</td><td>415 V three phase mains (EB) power. Motor 5 HP and above, STAR then DELTA.</td></tr>
       </table>
       <p>The middle letters tell what is fitted:</p>
       <table>
@@ -774,10 +776,10 @@
       <p>உங்கள் பெட்டியில் உள்ள <b>கண்ட்ரோலர் ID</b>-ஐப் பாருங்கள், அல்லது ஆப்பில் <b>அமைப்புகள் → இந்த கண்ட்ரோலர்</b>. பிறகு இந்தப் பக்கத்தின் மேலே உள்ள பட்டையில் உங்கள் வகையைத் தட்டவும். கையேடு <b>உங்கள் வகையை மட்டும்</b> காட்டும்.</p>
       <table>
         <tr><th>ID தொடக்கம்</th><th>வகை</th><th>மோட்டார் இயங்குவது</th></tr>
-        <tr><td><b>DJ-DC-…</b> அல்லது <b>DJ-0…</b></td><td>DC சோலார்</td><td>சோலார் பேனல்கள்</td></tr>
-        <tr><td><b>DJ-AC1-…</b></td><td>AC சிங்கிள் பேஸ்</td><td>230 V EB மின்சாரம்</td></tr>
-        <tr><td><b>DJ-AC3D-…</b></td><td>AC த்ரீ பேஸ் – DOL</td><td>415 V த்ரீ பேஸ் EB மின்சாரம். 5 HP-க்குக் கீழ் மோட்டார், நேரடி ஸ்டார்ட்.</td></tr>
-        <tr><td><b>DJ-AC3S-…</b></td><td>AC த்ரீ பேஸ் – ஸ்டார்-டெல்டா</td><td>415 V த்ரீ பேஸ் EB மின்சாரம். 5 HP மற்றும் மேல் மோட்டார், ஸ்டார் பிறகு டெல்டா.</td></tr>
+        <tr><td class="id"><b>DJ-DC</b><br>அல்லது<br><b>DJ-0</b></td><td>DC சோலார்</td><td>சோலார் பேனல்கள்</td></tr>
+        <tr><td class="id"><b>DJ-AC1</b></td><td>AC சிங்கிள் பேஸ்</td><td>230 V EB மின்சாரம்</td></tr>
+        <tr><td class="id"><b>DJ-AC3D</b></td><td>AC த்ரீ பேஸ் – DOL</td><td>415 V த்ரீ பேஸ் EB மின்சாரம். 5 HP-க்குக் கீழ் மோட்டார், நேரடி ஸ்டார்ட்.</td></tr>
+        <tr><td class="id"><b>DJ-AC3S</b></td><td>AC த்ரீ பேஸ் – ஸ்டார்-டெல்டா</td><td>415 V த்ரீ பேஸ் EB மின்சாரம். 5 HP மற்றும் மேல் மோட்டார், ஸ்டார் பிறகு டெல்டா.</td></tr>
       </table>
       <p>நடுவில் உள்ள எழுத்துகள் என்ன பொருத்தப்பட்டுள்ளது என்று சொல்லும்:</p>
       <table>
