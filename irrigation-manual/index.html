@@ -64,6 +64,7 @@
   table { border-collapse: collapse; width: 100%; margin: 8px 0; font-size: 16px; }
   th, td { border-bottom: 1px solid var(--border); padding: 8px 6px; text-align: left; vertical-align: top; }
   th { color: var(--mid); font-weight: 600; }
+  p.note { color: var(--mid); font-size: 15px; margin: 4px 0 14px; }
   td.id { white-space: nowrap; overflow-wrap: normal !important; padding-right: 12px; }
   .types button small span { display: block; white-space: nowrap; }
   b.btn { background: #16202a; border: 1px solid #2c3a46; border-radius: 8px; padding: 0 6px; white-space: nowrap; }
@@ -120,7 +121,7 @@
     <span class="q"><span class="en">Your controller:</span><span class="ta">உங்கள் கண்ட்ரோலர்:</span></span>
     <div class="types" role="group" aria-label="Controller type">
       <button data-type="dc" onclick="setType('dc')" aria-pressed="true">
-        <span class="en">☀ DC Solar</span><span class="ta">☀ DC சோலார்</span><small><span>DJ-DC</span><span>DJ-0</span></small></button>
+        <span class="en">☀ DC Solar</span><span class="ta">☀ DC சோலார்</span><small><span>DJ-DC</span></small></button>
       <button data-type="ac1" onclick="setType('ac1')" aria-pressed="false">
         <span class="en">⚡ AC Single phase</span><span class="ta">⚡ AC சிங்கிள் பேஸ்</span><small><span>DJ-AC1</span></small></button>
       <button data-type="ac3d" onclick="setType('ac3d')" aria-pressed="false">
@@ -171,17 +172,18 @@
     <div>
       <p>Look at the <b>controller ID</b> on your box, or in the app at <b>Settings → This controller</b>. Then tap your type in the bar at the top of this page. The manual then shows <b>only your type</b>.</p>
       <table>
-        <tr><th>ID starts with</th><th>Type</th><th>Motor runs on</th></tr>
-        <tr><td class="id"><b>DJ-DC</b><br>or<br><b>DJ-0</b></td><td>DC Solar</td><td>Solar panels</td></tr>
-        <tr><td class="id"><b>DJ-AC1</b></td><td>AC Single phase</td><td>230 V mains (EB) power</td></tr>
-        <tr><td class="id"><b>DJ-AC3D</b></td><td>AC Three phase – DOL</td><td>415 V three phase mains (EB) power. Motor below 5 HP, direct start.</td></tr>
-        <tr><td class="id"><b>DJ-AC3S</b></td><td>AC Three phase – Star-Delta</td><td>415 V three phase mains (EB) power. Motor 5 HP and above, STAR then DELTA.</td></tr>
+        <tr><th>ID</th><th>Type</th><th>Motor runs on</th></tr>
+        <tr><td class="id"><b>DJ-DC-M</b><br><b>DJ-DC-VM</b><br><b>DJ-DC-V</b></td><td>DC Solar</td><td>Solar panels</td></tr>
+        <tr><td class="id"><b>DJ-AC1-M</b><br><b>DJ-AC1-VM</b><br><b>DJ-AC1-V</b></td><td>AC Single phase</td><td>230 V mains (EB) power</td></tr>
+        <tr><td class="id"><b>DJ-AC3D-M</b><br><b>DJ-AC3D-VM</b><br><b>DJ-AC3D-V</b></td><td>AC Three phase – DOL</td><td>415 V three phase mains (EB) power. Motor below 5 HP, direct start.</td></tr>
+        <tr><td class="id"><b>DJ-AC3S-M</b><br><b>DJ-AC3S-VM</b><br><b>DJ-AC3S-V</b></td><td>AC Three phase – Star-Delta</td><td>415 V three phase mains (EB) power. Motor 5 HP and above, STAR then DELTA.</td></tr>
       </table>
-      <p>The middle letters tell what is fitted:</p>
+      <p class="note">Old DC Solar boxes have an ID like <b>DJ-0001</b>. They are DC Solar with valves + motor (VM).</p>
+      <p>The letters after the type tell what is fitted:</p>
       <table>
         <tr><th>Letters</th><th>Kit</th><th>Example</th></tr>
-        <tr><td><b>VM</b></td><td>Valves + motor</td><td><span class="t-dc">DJ-DC-VM-0012</span><span class="t-ac1">DJ-AC1-VM-0012</span><span class="t-ac3d">DJ-AC3D-VM-0012</span><span class="t-ac3s">DJ-AC3S-VM-0012</span></td></tr>
         <tr><td><b>M</b></td><td>Motor only (fills a tank or well, no valves)</td><td><span class="t-dc">DJ-DC-M-0013</span><span class="t-ac1">DJ-AC1-M-0013</span><span class="t-ac3d">DJ-AC3D-M-0013</span><span class="t-ac3s">DJ-AC3S-M-0013</span></td></tr>
+        <tr><td><b>VM</b></td><td>Valves + motor</td><td><span class="t-dc">DJ-DC-VM-0012</span><span class="t-ac1">DJ-AC1-VM-0012</span><span class="t-ac3d">DJ-AC3D-VM-0012</span><span class="t-ac3s">DJ-AC3S-VM-0012</span></td></tr>
         <tr><td><b>V</b></td><td>Valves only (no motor)</td><td><span class="t-dc">DJ-DC-V-0014</span><span class="t-ac1">DJ-AC1-V-0014</span><span class="t-ac3d">DJ-AC3D-V-0014</span><span class="t-ac3s">DJ-AC3S-V-0014</span></td></tr>
       </table>
       <div class="tip">The type and the kit are set at the DJ Tech factory. The app reads them from the QR. You do not need to set them.</div>
@@ -775,17 +777,18 @@
     <div>
       <p>உங்கள் பெட்டியில் உள்ள <b>கண்ட்ரோலர் ID</b>-ஐப் பாருங்கள், அல்லது ஆப்பில் <b>அமைப்புகள் → இந்த கண்ட்ரோலர்</b>. பிறகு இந்தப் பக்கத்தின் மேலே உள்ள பட்டையில் உங்கள் வகையைத் தட்டவும். கையேடு <b>உங்கள் வகையை மட்டும்</b> காட்டும்.</p>
       <table>
-        <tr><th>ID தொடக்கம்</th><th>வகை</th><th>மோட்டார் இயங்குவது</th></tr>
-        <tr><td class="id"><b>DJ-DC</b><br>அல்லது<br><b>DJ-0</b></td><td>DC சோலார்</td><td>சோலார் பேனல்கள்</td></tr>
-        <tr><td class="id"><b>DJ-AC1</b></td><td>AC சிங்கிள் பேஸ்</td><td>230 V EB மின்சாரம்</td></tr>
-        <tr><td class="id"><b>DJ-AC3D</b></td><td>AC த்ரீ பேஸ் – DOL</td><td>415 V த்ரீ பேஸ் EB மின்சாரம். 5 HP-க்குக் கீழ் மோட்டார், நேரடி ஸ்டார்ட்.</td></tr>
-        <tr><td class="id"><b>DJ-AC3S</b></td><td>AC த்ரீ பேஸ் – ஸ்டார்-டெல்டா</td><td>415 V த்ரீ பேஸ் EB மின்சாரம். 5 HP மற்றும் மேல் மோட்டார், ஸ்டார் பிறகு டெல்டா.</td></tr>
+        <tr><th>ID</th><th>வகை</th><th>மோட்டார் இயங்குவது</th></tr>
+        <tr><td class="id"><b>DJ-DC-M</b><br><b>DJ-DC-VM</b><br><b>DJ-DC-V</b></td><td>DC சோலார்</td><td>சோலார் பேனல்கள்</td></tr>
+        <tr><td class="id"><b>DJ-AC1-M</b><br><b>DJ-AC1-VM</b><br><b>DJ-AC1-V</b></td><td>AC சிங்கிள் பேஸ்</td><td>230 V EB மின்சாரம்</td></tr>
+        <tr><td class="id"><b>DJ-AC3D-M</b><br><b>DJ-AC3D-VM</b><br><b>DJ-AC3D-V</b></td><td>AC த்ரீ பேஸ் – DOL</td><td>415 V த்ரீ பேஸ் EB மின்சாரம். 5 HP-க்குக் கீழ் மோட்டார், நேரடி ஸ்டார்ட்.</td></tr>
+        <tr><td class="id"><b>DJ-AC3S-M</b><br><b>DJ-AC3S-VM</b><br><b>DJ-AC3S-V</b></td><td>AC த்ரீ பேஸ் – ஸ்டார்-டெல்டா</td><td>415 V த்ரீ பேஸ் EB மின்சாரம். 5 HP மற்றும் மேல் மோட்டார், ஸ்டார் பிறகு டெல்டா.</td></tr>
       </table>
-      <p>நடுவில் உள்ள எழுத்துகள் என்ன பொருத்தப்பட்டுள்ளது என்று சொல்லும்:</p>
+      <p class="note">பழைய DC சோலார் பெட்டிகளின் ID <b>DJ-0001</b> போல இருக்கும். அவை வால்வுகள் + மோட்டார் (VM) உள்ள DC சோலார்.</p>
+      <p>வகைக்குப் பின் உள்ள எழுத்துகள் என்ன பொருத்தப்பட்டுள்ளது என்று சொல்லும்:</p>
       <table>
         <tr><th>எழுத்து</th><th>கிட்</th><th>உதாரணம்</th></tr>
-        <tr><td><b>VM</b></td><td>வால்வுகள் + மோட்டார்</td><td><span class="t-dc">DJ-DC-VM-0012</span><span class="t-ac1">DJ-AC1-VM-0012</span><span class="t-ac3d">DJ-AC3D-VM-0012</span><span class="t-ac3s">DJ-AC3S-VM-0012</span></td></tr>
         <tr><td><b>M</b></td><td>மோட்டார் மட்டும் (தொட்டி / கிணறு நிரப்ப, வால்வு இல்லை)</td><td><span class="t-dc">DJ-DC-M-0013</span><span class="t-ac1">DJ-AC1-M-0013</span><span class="t-ac3d">DJ-AC3D-M-0013</span><span class="t-ac3s">DJ-AC3S-M-0013</span></td></tr>
+        <tr><td><b>VM</b></td><td>வால்வுகள் + மோட்டார்</td><td><span class="t-dc">DJ-DC-VM-0012</span><span class="t-ac1">DJ-AC1-VM-0012</span><span class="t-ac3d">DJ-AC3D-VM-0012</span><span class="t-ac3s">DJ-AC3S-VM-0012</span></td></tr>
         <tr><td><b>V</b></td><td>வால்வுகள் மட்டும் (மோட்டார் இல்லை)</td><td><span class="t-dc">DJ-DC-V-0014</span><span class="t-ac1">DJ-AC1-V-0014</span><span class="t-ac3d">DJ-AC3D-V-0014</span><span class="t-ac3s">DJ-AC3S-V-0014</span></td></tr>
       </table>
       <div class="tip">வகையும் கிட்டும் DJ Tech தொழிற்சாலையில் அமைக்கப்படும். ஆப் அவற்றை QR-இல் இருந்து படிக்கும். நீங்கள் அமைக்க வேண்டியதில்லை.</div>
