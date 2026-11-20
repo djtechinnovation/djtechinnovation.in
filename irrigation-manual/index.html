@@ -70,11 +70,17 @@
   .scroll::-webkit-scrollbar-thumb { background: #3a4a56; border-radius: 8px; }
   .scroll::-webkit-scrollbar-track { background: #161d24; border-radius: 8px; }
   .scroll table { margin: 0; }
+  /* Tables never break a word; a table too wide for the phone slides inside its card. */
+  .scroll td, .scroll th { overflow-wrap: normal; word-break: normal; hyphens: none; }
+  .scroll td:first-child b { white-space: nowrap; }
+  .scroll table:has(tr > :nth-child(3)) { min-width: 500px; }
+  .scroll table:has(tr > :nth-child(4)) { min-width: 640px; }
+  .scroll .slide { display: none; position: sticky; left: 0; color: var(--dim); font-size: 14px; text-align: center; padding: 2px 0 4px; }
+  .scroll.more .slide { display: block; }
   table.wide { min-width: 560px; }
   table.wide td, table.wide th { overflow-wrap: normal !important; word-break: normal; }
   table.wide td:nth-child(2) { min-width: 130px; }
   table.wide td:nth-child(3) { min-width: 200px; }
-  p.slide { display: none; color: var(--dim); font-size: 14px; margin: 10px 0 0; text-align: center; }
   p.note { color: var(--mid); font-size: 15px; margin: 4px 0 14px; }
   td.id { white-space: nowrap; overflow-wrap: normal !important; padding-right: 12px; }
   .types button small span { display: block; white-space: nowrap; }
@@ -99,8 +105,6 @@
     .lang { margin-left: 0; }
     .picker .q { display: none; }
     .types button { font-size: 14px; padding: 7px 4px; overflow-wrap: anywhere; }
-    td, th { overflow-wrap: anywhere; }
-    p.slide { display: block; }
     html { scroll-padding-top: 76px; }
   }
   @media print {
@@ -183,7 +187,7 @@
   <div class="row">
     <div>
       <p>Look at the <b>controller ID</b> on your box, or in the app at <b>Settings → This controller</b>. Then tap your type in the bar at the top of this page. The manual then shows <b>only your type</b>.</p>
-      <p class="slide en">⇠ Slide the table to see more ⇢</p><div class="scroll"><table class="wide">
+      <div class="scroll"><table class="wide">
         <tr><th>ID</th><th>Type</th><th>Motor runs on</th></tr>
         <tr><td class="id"><b>DJ-DC-M</b><br><b>DJ-DC-VM</b><br><b>DJ-DC-V</b></td><td>DC Solar</td><td>Solar panels</td></tr>
         <tr><td class="id"><b>DJ-AC1-M</b><br><b>DJ-AC1-VM</b><br><b>DJ-AC1-V</b></td><td>AC Single phase</td><td>230 V mains (EB) power</td></tr>
@@ -192,12 +196,12 @@
       </table></div>
       <p class="note">Old DC Solar boxes have an ID like <b>DJ-0001</b>. They are DC Solar with valves + motor (VM).</p>
       <p>The letters after the type tell what is fitted:</p>
-      <table>
+      <div class="scroll"><table>
         <tr><th>Letters</th><th>Kit</th><th>Example</th></tr>
         <tr><td><b>M</b></td><td>Motor only (fills a tank or well, no valves)</td><td><span class="t-dc">DJ-DC-M-0013</span><span class="t-ac1">DJ-AC1-M-0013</span><span class="t-ac3d">DJ-AC3D-M-0013</span><span class="t-ac3s">DJ-AC3S-M-0013</span></td></tr>
         <tr><td><b>VM</b></td><td>Valves + motor</td><td><span class="t-dc">DJ-DC-VM-0012</span><span class="t-ac1">DJ-AC1-VM-0012</span><span class="t-ac3d">DJ-AC3D-VM-0012</span><span class="t-ac3s">DJ-AC3S-VM-0012</span></td></tr>
         <tr><td><b>V</b></td><td>Valves only (no motor)</td><td><span class="t-dc">DJ-DC-V-0014</span><span class="t-ac1">DJ-AC1-V-0014</span><span class="t-ac3d">DJ-AC3D-V-0014</span><span class="t-ac3s">DJ-AC3S-V-0014</span></td></tr>
-      </table>
+      </table></div>
       <div class="tip">The type and the kit are set at the DJ Tech factory. The app reads them from the QR. You do not need to set them.</div>
     </div>
     <figure><img class="shot" src="img/en/dc/settings.png" data-t="img/en/{t}/settings.png" alt="This controller"><figcaption>Settings → This controller</figcaption></figure>
@@ -254,13 +258,13 @@
   <div class="row two">
     <div>
       <p>Home has <b>two pages</b>. Use the switch at the top right: <b class="btn">Simple</b> | <b class="btn">Detailed</b>. Your phone remembers your choice.</p>
-      <table>
+      <div class="scroll"><table>
         <tr><th>Part</th><th>What it shows</th></tr>
         <tr><td>Big card</td><td><b>MOTOR OFF</b> (red) · <b>MOTOR ON</b> (green) with "ON since 9:10 AM" and "Stops by itself at 10:30" · <b>NO POWER</b> · <b>FAULT</b> · <b>LOCAL</b> · <b>OFFLINE</b>.</td></tr>
         <tr><td><b>START</b> / <b>STOP</b></td><td>Big buttons. Grey = not possible now (the small text says why).</td></tr>
         <tr><td>Water goes to</td><td>The valves that are open now (blue border).</td></tr>
         <tr><td><span class="t-ac">Power · </span>Next timer · Today</td><td><span class="t-ac">Power since when, the next timer</span><span class="t-dc">The next timer</span>, motor hours and kWh today, meter total. Tap <b>Motor diary</b> for the calendar.</td></tr>
-      </table>
+      </table></div>
     </div>
     <figure><img class="shot" src="img/en/dc/21_simple_off.png" data-t="img/en/{t}/21_simple_off.png" alt="Simple page"><figcaption>Simple page – motor OFF</figcaption></figure>
     <figure><img class="shot" src="img/en/dc/23_simple_running.png" data-t="img/en/{t}/23_simple_running.png" alt="Motor ON"><figcaption>Motor ON, stops by itself</figcaption></figure>
@@ -275,13 +279,13 @@
         <li>Tap <b class="btn">START · 30 min</b>. The valves open first, then after 5 seconds the motor starts.</li>
       </ol>
       <p>The motor <b>stops by itself</b> at the end time. To stop earlier, tap <b class="btn">STOP</b> and confirm: the motor stops, then after 5 seconds the valves close.</p>
-      <table>
+      <div class="scroll"><table>
         <tr><th>START is grey because</th><th>What to do</th></tr>
         <tr><td>Panel switch is <b>LOCAL</b></td><td>The worker at the panel has control. You can only watch and use STOP for an emergency.</td></tr>
         <tr><td>Fault / no power / offline</td><td>Wait, or check the box.</td></tr>
         <tr><td>Already running</td><td>Use STOP first.</td></tr>
         <tr><td>"Cyclic timer is ON now" or "A timer starts during this run"</td><td>Choose a shorter time, or change the timer.</td></tr>
-      </table>
+      </table></div>
     </div>
     <figure><img class="shot" src="img/en/dc/22_run_sheet.png" data-t="img/en/{t}/22_run_sheet.png" alt="Start the motor"><figcaption>Choose valves and time</figcaption></figure>
   </div>
@@ -295,7 +299,7 @@
   </div>
   <div class="row">
     <div>
-      <table>
+      <div class="scroll"><table>
         <tr><th>Part</th><th>What it shows</th></tr>
         <tr><td>Top</td><td>Greeting, your name, farm name and controller ID.</td></tr>
         <tr><td>Dots</td><td><b>Server</b> and <b>Controller</b>: green = connected. <b>Auto</b> = timers run the motor. <b>Admin</b> = your role.</td></tr>
@@ -308,7 +312,7 @@
         <tr><td>Motor protection</td><td><b>OK</b>, or the reason of a trip (shown in red).</td></tr>
         <tr><td>Rainfall / Next timer</td><td>Rain today in mm. The timer running now or the next one. Tap to open Timers.</td></tr>
         <tr><td>Wi-Fi</td><td>The controller's internet and signal strength.</td></tr>
-      </table>
+      </table></div>
       <div class="tip">This is the <b>Detailed</b> page, for people who want every reading. To start or stop the motor by hand, use the <b>Simple</b> page (see <a href="#e-simple">Simple page</a>). Daily timers and the cyclic timer run the motor by themselves.</div>
     </div>
     <figure><img class="shot" src="img/en/dc/home_top.png" data-t="img/en/{t}/home_top.png" alt="Home top"><figcaption>Home – motor running</figcaption></figure>
@@ -330,7 +334,7 @@
     <div class="row">
       <div>
         <p>Scroll down on Home to the <b>Solar power</b> card.</p>
-        <table>
+        <div class="scroll"><table>
           <tr><th>Part</th><th>What it shows</th></tr>
           <tr><td>Dial</td><td>Solar panel voltage now. The pill on top says <b>Good sun</b> or <b>Low sun</b>. Below it: the voltage where the motor stops.</td></tr>
           <tr><td>Motor current</td><td>Current now (A). The bar fills up to the trip limit.</td></tr>
@@ -338,7 +342,7 @@
           <tr><td>Solar energy today</td><td>Energy from the panels today (kWh).</td></tr>
           <tr><td>Battery</td><td>Battery of the controller (V), <b>Good</b> or <b>Low</b>.</td></tr>
           <tr><td>Today ring</td><td>Hours of good sun today, hours the motor ran, and how many times low sun stopped the motor.</td></tr>
-        </table>
+        </table></div>
       </div>
       <figure><img class="shot" src="img/en/dc/home_power.png" alt="Solar power"><figcaption>Solar power card</figcaption></figure>
     </div>
@@ -360,7 +364,7 @@
     <div class="row t-ac1">
       <div>
         <h3>2. Power supply dial</h3>
-        <table>
+        <div class="scroll"><table>
           <tr><th>Part</th><th>What it shows</th></tr>
           <tr><td>Dial</td><td>Mains voltage now (about 230 V) and frequency (Hz). <b>Normal</b>, <b>Low</b> or <b>High</b>, and the safe range.</td></tr>
           <tr><td>Motor current</td><td>Current now (A). The bar fills up to the trip limit.</td></tr>
@@ -368,14 +372,14 @@
           <tr><td>Energy today</td><td>Energy used today (kWh), and yesterday.</td></tr>
           <tr><td>Backup battery</td><td>The small battery that keeps the controller and the valves working in a power cut.</td></tr>
           <tr><td>Today ring</td><td>Hours with power, hours the motor ran, and the number of power cuts today.</td></tr>
-        </table>
+        </table></div>
       </div>
       <figure><img class="shot" src="img/en/ac1/home_power.png" alt="Power dial"><figcaption>Power supply dial</figcaption></figure>
     </div>
     <div class="row t-ac3">
       <div>
         <h3>2. 3 phase power</h3>
-        <table>
+        <div class="scroll"><table>
           <tr><th>Part</th><th>What it shows</th></tr>
           <tr><td>R · Y · B</td><td>Voltage (about 415 V) and current (A) of each phase.</td></tr>
           <tr><td>Phase order</td><td><b>R-Y-B OK</b>, or <b>Reversed</b> (red). The motor never starts with a wrong phase order.</td></tr>
@@ -387,7 +391,7 @@
           <tr><td>Backup battery</td><td>Keeps the controller and the valves working in a power cut.</td></tr>
           <tr><td>Motor current</td><td>Average current, and the trip limit.</td></tr>
           <tr><td>Today ring</td><td>Hours with power, hours the motor ran, and the number of power cuts today.</td></tr>
-        </table>
+        </table></div>
       </div>
       <figure><img class="shot" src="img/en/ac3s/home_power.png" data-t="img/en/{t}/home_power.png" alt="3 phase power"><figcaption>3 phase power card</figcaption></figure>
     </div>
@@ -400,14 +404,14 @@
     <div>
       <p>When the mains power fails during a timer, the controller <b>stops the motor</b>. The <b>timer keeps its end time</b>. When the power comes back, the controller waits a short time and <b>starts the motor again</b> by itself.</p>
       <p><b>Example:</b> a timer from 9:00 to 10:00 AM.</p>
-      <table>
+      <div class="scroll"><table>
         <tr><th>Time</th><th>What happens</th><th>Alert on your phone</th></tr>
         <tr><td>9:00</td><td>Valves open, 5 s later the motor starts.</td><td>Timer started</td></tr>
         <tr><td>9:15</td><td><b>Power fails.</b> The motor stops at once. The valves stay open (backup battery).</td><td>"Power failed, motor stopped at 9:15 AM"</td></tr>
         <tr><td>9:30</td><td><b>Power is back.</b> The controller waits (for example 60 s).</td><td>–</td></tr>
         <tr><td>9:31</td><td>The motor starts again.</td><td>"Power resumed, motor started at 9:31 AM"</td></tr>
         <tr><td>10:00</td><td>The timer ends as normal: motor stops, 5 s later the valves close.</td><td>Timer finished</td></tr>
-      </table>
+      </table></div>
       <ul>
         <li>The <b>wait time</b> (30 s to 2 min) protects the motor when the power goes on and off quickly. Change it in <b>Settings → Motor protection → Restart after a power cut</b>.</li>
         <li>If the power is still off at the timer's end time, the timer ends and the valves close.</li>
@@ -523,7 +527,7 @@
         <li>Tap <b class="btn">Settings</b>. Type the PIN and tap <b class="btn">Unlock</b>.</li>
         <li>The first PIN is <b>8888</b>. <b>Change it at once</b> (tap <b class="btn">Change</b> in the orange box), so children or others cannot change settings.</li>
       </ol>
-      <table>
+      <div class="scroll"><table>
         <tr><th>In Settings</th><th>Use</th></tr>
         <tr><td>Account</td><td>Your details and your <b>Customer ID (DJC-…)</b>. Tell this ID when you call DJ Tech. Tap <b class="btn">Edit my details</b> to change your name, mobile number, email or place (see <a href="#e-family">Add family members</a>).</td></tr>
         <tr><td>Language / Appearance</td><td>English or Tamil; Light or Dark screen.</td></tr>
@@ -534,7 +538,7 @@
         <tr><td>Valve control</td><td><b>Single</b> = one valve at a time. <b>Multi</b> = many together. (Not shown for a motor only box.)</td></tr>
         <tr><td>User management</td><td>Invite family members (see <a href="#e-family">Add family members</a>).</td></tr>
         <tr><td>DJ Tech service access</td><td>When a technician may work from far away (see <a href="#e-service">DJ Tech service</a>).</td></tr>
-      </table>
+      </table></div>
     </div>
     <figure><img class="shot" src="img/en/dc/settings.png" data-t="img/en/{t}/settings.png" alt="Settings"><figcaption>Settings</figcaption></figure>
   </div>
@@ -545,7 +549,7 @@
   <div class="row">
     <div>
       <p>The controller stops the motor by itself to protect it. <b>Settings → Motor protection</b>.</p>
-      <table>
+      <div class="scroll"><table>
         <tr><th>Protection</th><th>Stops the motor when…</th></tr>
         <tr><td>Motor overload</td><td>the current is too <b>high</b> for longer than the delay.</td></tr>
         <tr><td>Dry run</td><td>the current is too <b>low</b> (no water in the well) for longer than the delay.</td></tr>
@@ -555,7 +559,7 @@
         <tr class="t-ac3"><td>Phase failure / reverse</td><td>one phase is missing, or the phase order is wrong.</td></tr>
         <tr class="t-ac3"><td>Voltage unbalance</td><td>one phase is much lower or higher than the others.</td></tr>
         <tr><td>Rain</td><td>it rains (so the field is not watered twice).</td></tr>
-      </table>
+      </table></div>
       <p class="t-ac"><b>Restart after a power cut</b>: the wait time before the motor starts again (30 s to 2 min). <b>Backup battery low</b> only warns you. It does not stop the motor.</p>
       <p>Use <b>−</b> and <b>+</b> to change a limit, then tap <b class="btn">Save all settings</b>.</p>
       <div class="warn">If you are not sure, keep the values set by the DJ Tech technician.</div>
@@ -678,22 +682,22 @@
     <figure><img class="shot" src="img/en/dc/29_farmer_card.png" data-t="img/en/{t}/29_farmer_card.png" alt="Farmer card"><figcaption>Farmer card (valves + motor)</figcaption></figure>
   </div>
   <h3>How the farmer uses it: call</h3>
-  <table>
+  <div class="scroll"><table>
     <tr><th>Key</th><th>What it does</th></tr>
     <tr><td><b>1</b></td><td>Status: motor, valves, power</td></tr>
     <tr><td><b>2</b></td><td>START: valve number → how long → <b>1</b> to confirm. (Motor only box: how long → 1. Valves only box: opens the valve.)</td></tr>
     <tr><td><b>3</b></td><td>STOP: <b>1</b> to confirm</td></tr>
     <tr><td><b>9</b></td><td>Hear the menu again</td></tr>
-  </table>
+  </table></div>
   <h3>How the farmer uses it: SMS</h3>
-  <table>
+  <div class="scroll"><table>
     <tr><th>SMS</th><th>Valves + motor box</th><th>Motor only box</th><th>Valves only box</th></tr>
     <tr><td><b>STATUS</b></td><td colspan="3">Status: motor, valves, power</td></tr>
     <tr><td><b>START 1 30</b></td><td>Valve 1 + motor ON for 30 minutes</td><td>–</td><td>Open valve 1 for 30 minutes</td></tr>
     <tr><td><b>START 0 60</b></td><td>All valves + motor ON for 60 minutes</td><td>–</td><td>Open all valves for 60 minutes</td></tr>
     <tr><td><b>START 30</b></td><td>–</td><td>Motor ON for 30 minutes</td><td>–</td></tr>
     <tr><td><b>STOP</b></td><td>Motor OFF, then the valves close</td><td>Motor OFF</td><td>Close all valves</td></tr>
-  </table>
+  </table></div>
   <ul>
     <li>The rule: <b>START &lt;valve&gt; &lt;minutes&gt;</b> (valve <b>0</b> = all valves). Motor only box: <b>START &lt;minutes&gt;</b>.</li>
     <li>The time is always in <b>minutes</b>: <b>120 = 2 hours</b>, 90 = 1½ hours.</li>
@@ -710,11 +714,11 @@
   <div class="row two">
     <div>
       <p>A DJ Tech technician can test your motor and valves (<b>service mode</b>). At the farm, the technician scans a code on the controller. From far away, it depends on your choice in <b>Settings → DJ Tech service access</b>:</p>
-      <table>
+      <div class="scroll"><table>
         <tr><td><b>Always allowed</b></td><td>Service can start any time. You get an alert when it starts and ends.</td></tr>
         <tr><td><b>Ask me first</b></td><td>A card with <b class="btn">Allow</b> / <b class="btn">Deny</b> appears on Home. Answer within 15 minutes.</td></tr>
         <tr><td><b>Off</b></td><td>Only service at the farm.</td></tr>
-      </table>
+      </table></div>
       <p>During service, the app shows <b>"SERVICE MODE ACTIVATED"</b> and is locked. Timers pause and run again when service ends. Everything is saved in the logs.</p>
     </div>
     <figure><img class="shot" src="img/en/18_service_request.png" alt="Service request"><figcaption>Allow / Deny</figcaption></figure>
@@ -736,7 +740,7 @@
 
 <section id="e-faq">
   <h2><span class="n"></span>Problems and answers</h2>
-  <table>
+  <div class="scroll"><table>
     <tr><th>Problem</th><th>What to do</th></tr>
     <tr><td>No alerts</td><td>Tap the red strip on Home, or Settings → Permissions. Allow notifications and "run in background". Check Silent / Do Not Disturb.</td></tr>
     <tr><td>"Controller" dot is not green</td><td>The box has no internet. Check power at the farm and the Wi-Fi router. Settings → Wi-Fi to change the network.</td></tr>
@@ -747,7 +751,7 @@
     <tr><td>Forgot the Settings PIN</td><td>Call DJ Tech support with your Customer ID.</td></tr>
     <tr><td>New phone</td><td>Ask the Admin to send a new invite. If you are the Admin and lost the phone, call DJ Tech.</td></tr>
     <tr><td>App is old</td><td>The app shows "New version" – download it again from djtechinnovation.in/app and install over the old one. Your data stays.</td></tr>
-  </table>
+  </table></div>
 </section>
 </div>
 
@@ -788,7 +792,7 @@
   <div class="row">
     <div>
       <p>உங்கள் பெட்டியில் உள்ள <b>கண்ட்ரோலர் ID</b>-ஐப் பாருங்கள், அல்லது ஆப்பில் <b>அமைப்புகள் → இந்த கண்ட்ரோலர்</b>. பிறகு இந்தப் பக்கத்தின் மேலே உள்ள பட்டையில் உங்கள் வகையைத் தட்டவும். கையேடு <b>உங்கள் வகையை மட்டும்</b> காட்டும்.</p>
-      <p class="slide ta">⇠ மேலும் பார்க்க அட்டவணையை நகர்த்தவும் ⇢</p><div class="scroll"><table class="wide">
+      <div class="scroll"><table class="wide">
         <tr><th>ID</th><th>வகை</th><th>மோட்டார் இயங்குவது</th></tr>
         <tr><td class="id"><b>DJ-DC-M</b><br><b>DJ-DC-VM</b><br><b>DJ-DC-V</b></td><td>DC சோலார்</td><td>சோலார் பேனல்கள்</td></tr>
         <tr><td class="id"><b>DJ-AC1-M</b><br><b>DJ-AC1-VM</b><br><b>DJ-AC1-V</b></td><td>AC சிங்கிள் பேஸ்</td><td>230 V EB மின்சாரம்</td></tr>
@@ -797,12 +801,12 @@
       </table></div>
       <p class="note">பழைய DC சோலார் பெட்டிகளின் ID <b>DJ-0001</b> போல இருக்கும். அவை வால்வுகள் + மோட்டார் (VM) உள்ள DC சோலார்.</p>
       <p>வகைக்குப் பின் உள்ள எழுத்துகள் என்ன பொருத்தப்பட்டுள்ளது என்று சொல்லும்:</p>
-      <table>
+      <div class="scroll"><table>
         <tr><th>எழுத்து</th><th>கிட்</th><th>உதாரணம்</th></tr>
         <tr><td><b>M</b></td><td>மோட்டார் மட்டும் (தொட்டி / கிணறு நிரப்ப, வால்வு இல்லை)</td><td><span class="t-dc">DJ-DC-M-0013</span><span class="t-ac1">DJ-AC1-M-0013</span><span class="t-ac3d">DJ-AC3D-M-0013</span><span class="t-ac3s">DJ-AC3S-M-0013</span></td></tr>
         <tr><td><b>VM</b></td><td>வால்வுகள் + மோட்டார்</td><td><span class="t-dc">DJ-DC-VM-0012</span><span class="t-ac1">DJ-AC1-VM-0012</span><span class="t-ac3d">DJ-AC3D-VM-0012</span><span class="t-ac3s">DJ-AC3S-VM-0012</span></td></tr>
         <tr><td><b>V</b></td><td>வால்வுகள் மட்டும் (மோட்டார் இல்லை)</td><td><span class="t-dc">DJ-DC-V-0014</span><span class="t-ac1">DJ-AC1-V-0014</span><span class="t-ac3d">DJ-AC3D-V-0014</span><span class="t-ac3s">DJ-AC3S-V-0014</span></td></tr>
-      </table>
+      </table></div>
       <div class="tip">வகையும் கிட்டும் DJ Tech தொழிற்சாலையில் அமைக்கப்படும். ஆப் அவற்றை QR-இல் இருந்து படிக்கும். நீங்கள் அமைக்க வேண்டியதில்லை.</div>
     </div>
     <figure><img class="shot" src="img/ta/dc/settings.png" data-t="img/ta/{t}/settings.png" alt="இந்த கண்ட்ரோலர்"><figcaption>அமைப்புகள் → இந்த கண்ட்ரோலர்</figcaption></figure>
@@ -859,13 +863,13 @@
   <div class="row two">
     <div>
       <p>முகப்பில் <b>இரண்டு பக்கங்கள்</b> உள்ளன. மேலே வலது பக்கம் உள்ள பொத்தானைத் தொடவும்: <b class="btn">எளிது</b> | <b class="btn">விரிவு</b>. உங்கள் தேர்வை போன் நினைவில் வைக்கும்.</p>
-      <table>
+      <div class="scroll"><table>
         <tr><th>பகுதி</th><th>என்ன காட்டும்</th></tr>
         <tr><td>பெரிய அட்டை</td><td><b>மோட்டார் ஆஃப்</b> (சிவப்பு) · <b>மோட்டார் ஆன்</b> (பச்சை) – "9:10 AM முதல் ஆன்", "10:30-க்கு தானாக நிற்கும்" · <b>மின்சாரம் இல்லை</b> · <b>கோளாறு</b> · <b>லோக்கல்</b> · <b>இணைப்பு இல்லை</b>.</td></tr>
         <tr><td><b>START</b> / <b>STOP</b></td><td>பெரிய பொத்தான்கள். சாம்பல் நிறம் = இப்போது முடியாது (காரணம் கீழே சிறிய எழுத்தில் இருக்கும்).</td></tr>
         <tr><td>தண்ணீர் செல்லும் இடம்</td><td>இப்போது திறந்திருக்கும் வால்வுகள் (நீல விளிம்பு).</td></tr>
         <tr><td><span class="t-ac">மின்சாரம் · </span>அடுத்த டைமர் · இன்று</td><td><span class="t-ac">மின்சாரம் எப்போது முதல், </span>அடுத்த டைமர், இன்று மோட்டார் ஓடிய நேரம் மற்றும் kWh, மீட்டர் மொத்தம். நாள்காட்டிக்கு <b>மோட்டார் நாட்குறிப்பு</b> தொடவும்.</td></tr>
-      </table>
+      </table></div>
     </div>
     <figure><img class="shot" src="img/ta/dc/21_simple_off.png" data-t="img/ta/{t}/21_simple_off.png" alt="எளிய பக்கம்"><figcaption>எளிய பக்கம் – மோட்டார் ஆஃப்</figcaption></figure>
     <figure><img class="shot" src="img/ta/dc/23_simple_running.png" data-t="img/ta/{t}/23_simple_running.png" alt="மோட்டார் ஆன்"><figcaption>மோட்டார் ஆன், தானாக நிற்கும்</figcaption></figure>
@@ -880,13 +884,13 @@
         <li><b class="btn">START · 30 நிமி</b> தொடவும். முதலில் வால்வுகள் திறக்கும், 5 வினாடி கழித்து மோட்டார் ஓடும்.</li>
       </ol>
       <p>முடிவு நேரத்தில் மோட்டார் <b>தானாக நிற்கும்</b>. முன்பே நிறுத்த <b class="btn">STOP</b> தொட்டு உறுதி செய்யவும்: மோட்டார் நிற்கும், 5 வினாடி கழித்து வால்வுகள் மூடும்.</p>
-      <table>
+      <div class="scroll"><table>
         <tr><th>START சாம்பல் நிறம் – காரணம்</th><th>என்ன செய்வது</th></tr>
         <tr><td>பேனல் சுவிட்ச் <b>லோக்கல்</b></td><td>பேனலில் உள்ள தொழிலாளி கட்டுப்படுத்துகிறார். நீங்கள் பார்க்கலாம், அவசரத்துக்கு STOP மட்டும்.</td></tr>
         <tr><td>கோளாறு / மின்சாரம் இல்லை / இணைப்பு இல்லை</td><td>காத்திருக்கவும் அல்லது பெட்டியைச் சரிபார்க்கவும்.</td></tr>
         <tr><td>ஏற்கனவே ஓடுகிறது</td><td>முதலில் STOP.</td></tr>
         <tr><td>"சுழற்சி டைமர் இப்போது ஆன்" அல்லது "இந்த ஓட்டத்தின் போது ஒரு டைமர் தொடங்கும்"</td><td>குறைந்த நேரம் தேர்வு செய்யவும், அல்லது டைமரை மாற்றவும்.</td></tr>
-      </table>
+      </table></div>
     </div>
     <figure><img class="shot" src="img/ta/dc/22_run_sheet.png" data-t="img/ta/{t}/22_run_sheet.png" alt="மோட்டாரைத் தொடங்கு"><figcaption>வால்வுகள் மற்றும் நேரம் தேர்வு</figcaption></figure>
   </div>
@@ -900,7 +904,7 @@
   </div>
   <div class="row">
     <div>
-      <table>
+      <div class="scroll"><table>
         <tr><th>பகுதி</th><th>என்ன காட்டும்</th></tr>
         <tr><td>மேலே</td><td>வணக்கம், உங்கள் பெயர், பண்ணை பெயர், கண்ட்ரோலர் ID.</td></tr>
         <tr><td>புள்ளிகள்</td><td><b>சர்வர்</b>, <b>கண்ட்ரோலர்</b>: பச்சை = இணைப்பு உள்ளது. <b>ஆட்டோ</b> = டைமர்கள் மோட்டாரை இயக்கும். <b>நிர்வாகி</b> = உங்கள் பங்கு.</td></tr>
@@ -913,7 +917,7 @@
         <tr><td>மோட்டார் பாதுகாப்பு</td><td><b>சரி</b>, அல்லது டிரிப் காரணம் (சிவப்பில்).</td></tr>
         <tr><td>மழை / அடுத்த டைமர்</td><td>இன்றைய மழை (mm). இப்போது இயங்கும் அல்லது அடுத்த டைமர். தட்டினால் டைமர்கள் திறக்கும்.</td></tr>
         <tr><td>Wi-Fi</td><td>கண்ட்ரோலரின் இணையம் மற்றும் சிக்னல்.</td></tr>
-      </table>
+      </table></div>
       <div class="tip">இது <b>விரிவான</b> பக்கம்: எல்லா அளவீடுகளும் இங்கே உள்ளன. மோட்டாரை கையால் ஆன் / ஆஃப் செய்ய <b>எளிய</b> பக்கத்தைப் பயன்படுத்தவும் (<a href="#t-simple">எளிய பக்கம்</a> பார்க்கவும்). தினசரி டைமர் மற்றும் சுழற்சி டைமர் தானாகவே மோட்டாரை இயக்கும்.</div>
     </div>
     <figure><img class="shot" src="img/ta/dc/home_top.png" data-t="img/ta/{t}/home_top.png" alt="முகப்பு"><figcaption>முகப்பு – மோட்டார் இயங்குகிறது</figcaption></figure>
@@ -935,7 +939,7 @@
     <div class="row">
       <div>
         <p>முகப்பில் கீழே <b>சோலார் மின்சாரம்</b> அட்டைக்குச் செல்லவும்.</p>
-        <table>
+        <div class="scroll"><table>
           <tr><th>பகுதி</th><th>என்ன காட்டும்</th></tr>
           <tr><td>டயல்</td><td>இப்போதைய சோலார் பேனல் வோல்டேஜ். மேலே <b>நல்ல வெயில்</b> அல்லது <b>குறைந்த வெயில்</b>. கீழே: மோட்டார் நிற்கும் வோல்டேஜ்.</td></tr>
           <tr><td>மோட்டார் கரண்ட்</td><td>இப்போதைய கரண்ட் (A). பட்டை டிரிப் வரம்பு வரை நிரம்பும்.</td></tr>
@@ -943,7 +947,7 @@
           <tr><td>இன்றைய சோலார் மின் அளவு</td><td>இன்று பேனல்கள் தந்த மின் அளவு (kWh).</td></tr>
           <tr><td>பேட்டரி</td><td>கண்ட்ரோலர் பேட்டரி (V), <b>நன்று</b> அல்லது <b>குறைவு</b>.</td></tr>
           <tr><td>இன்று வட்டம்</td><td>இன்று நல்ல வெயில் நேரம், மோட்டார் ஓடிய நேரம், குறைந்த வெயிலால் மோட்டார் நின்ற முறைகள்.</td></tr>
-        </table>
+        </table></div>
       </div>
       <figure><img class="shot" src="img/ta/dc/home_power.png" alt="சோலார் மின்சாரம்"><figcaption>சோலார் மின்சார அட்டை</figcaption></figure>
     </div>
@@ -965,7 +969,7 @@
     <div class="row t-ac1">
       <div>
         <h3>2. மின் விநியோக டயல்</h3>
-        <table>
+        <div class="scroll"><table>
           <tr><th>பகுதி</th><th>என்ன காட்டும்</th></tr>
           <tr><td>டயல்</td><td>இப்போதைய மின்னழுத்தம் (சுமார் 230 V), அதிர்வெண் (Hz). <b>சரியாக உள்ளது</b>, <b>குறைவு</b> அல்லது <b>அதிகம்</b>, பாதுகாப்பான அளவு.</td></tr>
           <tr><td>மோட்டார் கரண்ட்</td><td>இப்போதைய கரண்ட் (A). பட்டை டிரிப் வரம்பு வரை நிரம்பும்.</td></tr>
@@ -973,14 +977,14 @@
           <tr><td>இன்றைய மின் அளவு</td><td>இன்று பயன்படுத்திய மின் அளவு (kWh), நேற்றையதும்.</td></tr>
           <tr><td>பேக்கப் பேட்டரி</td><td>மின்தடையின்போது கண்ட்ரோலரையும் வால்வுகளையும் இயக்கும் சிறிய பேட்டரி.</td></tr>
           <tr><td>இன்று வட்டம்</td><td>மின்சாரம் இருந்த நேரம், மோட்டார் ஓடிய நேரம், இன்றைய மின்தடைகள்.</td></tr>
-        </table>
+        </table></div>
       </div>
       <figure><img class="shot" src="img/ta/ac1/home_power.png" alt="மின் டயல்"><figcaption>மின் விநியோக டயல்</figcaption></figure>
     </div>
     <div class="row t-ac3">
       <div>
         <h3>2. 3 பேஸ் மின்சாரம்</h3>
-        <table>
+        <div class="scroll"><table>
           <tr><th>பகுதி</th><th>என்ன காட்டும்</th></tr>
           <tr><td>R · Y · B</td><td>ஒவ்வொரு பேஸின் வோல்டேஜ் (சுமார் 415 V), கரண்ட் (A).</td></tr>
           <tr><td>பேஸ் வரிசை</td><td><b>R-Y-B சரி</b>, அல்லது <b>தலைகீழ்</b> (சிவப்பு). தவறான பேஸ் வரிசையில் மோட்டார் தொடங்காது.</td></tr>
@@ -992,7 +996,7 @@
           <tr><td>பேக்கப் பேட்டரி</td><td>மின்தடையின்போது கண்ட்ரோலரையும் வால்வுகளையும் இயக்கும்.</td></tr>
           <tr><td>மோட்டார் கரண்ட்</td><td>சராசரி கரண்ட், டிரிப் வரம்பு.</td></tr>
           <tr><td>இன்று வட்டம்</td><td>மின்சாரம் இருந்த நேரம், மோட்டார் ஓடிய நேரம், இன்றைய மின்தடைகள்.</td></tr>
-        </table>
+        </table></div>
       </div>
       <figure><img class="shot" src="img/ta/ac3s/home_power.png" data-t="img/ta/{t}/home_power.png" alt="3 பேஸ் மின்சாரம்"><figcaption>3 பேஸ் மின்சார அட்டை</figcaption></figure>
     </div>
@@ -1005,14 +1009,14 @@
     <div>
       <p>டைமர் நேரத்தில் மின்சாரம் போனால், கண்ட்ரோலர் <b>மோட்டாரை நிறுத்தும்</b>. <b>டைமர் அதன் முடிவு நேரத்தை மாற்றாது</b>. மின்சாரம் திரும்ப வந்ததும், சிறிது நேரம் காத்திருந்து <b>மோட்டாரைத் தானாக மீண்டும் தொடங்கும்</b>.</p>
       <p><b>உதாரணம்:</b> காலை 9:00 முதல் 10:00 வரை ஒரு டைமர்.</p>
-      <table>
+      <div class="scroll"><table>
         <tr><th>நேரம்</th><th>என்ன நடக்கும்</th><th>போனில் எச்சரிக்கை</th></tr>
         <tr><td>9:00</td><td>வால்வுகள் திறக்கும், 5 வி பிறகு மோட்டார் தொடங்கும்.</td><td>டைமர் தொடங்கியது</td></tr>
         <tr><td>9:15</td><td><b>மின்சாரம் போனது.</b> மோட்டார் உடனே நிற்கும். வால்வுகள் திறந்தே இருக்கும் (பேக்கப் பேட்டரி).</td><td>"மின்சாரம் போனது, மோட்டார் நின்றது, நேரம் 9:15 AM"</td></tr>
         <tr><td>9:30</td><td><b>மின்சாரம் வந்தது.</b> கண்ட்ரோலர் காத்திருக்கும் (உதாரணம் 60 வி).</td><td>–</td></tr>
         <tr><td>9:31</td><td>மோட்டார் மீண்டும் தொடங்கும்.</td><td>"மின்சாரம் வந்தது, மோட்டார் தொடங்கியது, நேரம் 9:31 AM"</td></tr>
         <tr><td>10:00</td><td>டைமர் வழக்கம்போல் முடியும்: மோட்டார் நிற்கும், 5 வி பிறகு வால்வுகள் மூடும்.</td><td>டைமர் முடிந்தது</td></tr>
-      </table>
+      </table></div>
       <ul>
         <li><b>காத்திருப்பு நேரம்</b> (30 வி முதல் 2 நிமி) மின்சாரம் அடிக்கடி போய் வரும்போது மோட்டாரைப் பாதுகாக்கும். மாற்ற: <b>அமைப்புகள் → மோட்டார் பாதுகாப்பு → மின்தடைக்குப் பின் மறுதொடக்கம்</b>.</li>
         <li>டைமர் முடியும் நேரத்திலும் மின்சாரம் இல்லையென்றால், டைமர் முடிந்து வால்வுகள் மூடும்.</li>
@@ -1128,7 +1132,7 @@
         <li><b class="btn">அமைப்புகள்</b> தட்டி PIN உள்ளிட்டு <b class="btn">திற</b> தட்டவும்.</li>
         <li>முதல் PIN <b>8888</b>. <b>உடனே மாற்றவும்</b> (ஆரஞ்சு பெட்டியில் <b class="btn">மாற்று</b> தட்டவும்), குழந்தைகள் அல்லது மற்றவர்கள் அமைப்புகளை மாற்ற முடியாது.</li>
       </ol>
-      <table>
+      <div class="scroll"><table>
         <tr><th>அமைப்புகளில்</th><th>பயன்</th></tr>
         <tr><td>கணக்கு</td><td>உங்கள் விவரங்கள் மற்றும் <b>வாடிக்கையாளர் ID (DJC-…)</b>. DJ Tech-ஐ அழைக்கும்போது இதைச் சொல்லவும். பெயர், மொபைல் எண், மின்னஞ்சல் அல்லது இடத்தை மாற்ற <b class="btn">என் விவரங்களைத் திருத்து</b> தொடவும் (பார்க்க <a href="#t-family">குடும்பத்தினரைச் சேர்த்தல்</a>).</td></tr>
         <tr><td>மொழி / தோற்றம்</td><td>ஆங்கிலம் அல்லது தமிழ்; வெளிச்சம் அல்லது இருண்ட திரை.</td></tr>
@@ -1139,7 +1143,7 @@
         <tr><td>வால்வு கட்டுப்பாடு</td><td><b>ஒற்றை</b> = ஒரு நேரத்தில் ஒரு வால்வு. <b>பல</b> = பல வால்வுகள் ஒன்றாக. (மோட்டார் மட்டும் பெட்டியில் இல்லை.)</td></tr>
         <tr><td>பயனர் மேலாண்மை</td><td>குடும்பத்தினரை அழைக்க (<a href="#t-family">குடும்பத்தினரைச் சேர்த்தல்</a>).</td></tr>
         <tr><td>DJ Tech சேவை அனுமதி</td><td>டெக்னீஷியன் தொலைவிலிருந்து எப்போது வேலை செய்யலாம் (<a href="#t-service">DJ Tech சர்வீஸ்</a>).</td></tr>
-      </table>
+      </table></div>
     </div>
     <figure><img class="shot" src="img/ta/dc/settings.png" data-t="img/ta/{t}/settings.png" alt="அமைப்புகள்"><figcaption>அமைப்புகள்</figcaption></figure>
   </div>
@@ -1150,7 +1154,7 @@
   <div class="row">
     <div>
       <p>மோட்டாரைப் பாதுகாக்க கண்ட்ரோலர் தானாகவே நிறுத்தும். <b>அமைப்புகள் → மோட்டார் பாதுகாப்பு</b>.</p>
-      <table>
+      <div class="scroll"><table>
         <tr><th>பாதுகாப்பு</th><th>எப்போது நிறுத்தும்</th></tr>
         <tr><td>ஓவர்லோடு</td><td>கரண்ட் தாமத நேரத்தை விட அதிக நேரம் <b>அதிகமாக</b> இருந்தால்.</td></tr>
         <tr><td>ட்ரை ரன்</td><td>கரண்ட் <b>குறைவாக</b> (கிணற்றில் தண்ணீர் இல்லை) இருந்தால்.</td></tr>
@@ -1160,7 +1164,7 @@
         <tr class="t-ac3"><td>பேஸ் இல்லை / தலைகீழ்</td><td>ஒரு பேஸ் இல்லாவிட்டால், அல்லது பேஸ் வரிசை தவறாக இருந்தால்.</td></tr>
         <tr class="t-ac3"><td>மின்னழுத்த சமநிலையின்மை</td><td>ஒரு பேஸ் மற்றவற்றை விட மிகக் குறைவாக அல்லது அதிகமாக இருந்தால்.</td></tr>
         <tr><td>மழை</td><td>மழை பெய்தால் (வயலுக்கு இருமுறை தண்ணீர் வேண்டாம்).</td></tr>
-      </table>
+      </table></div>
       <p class="t-ac"><b>மின்தடைக்குப் பின் மறுதொடக்கம்</b>: மோட்டார் மீண்டும் தொடங்கும் முன் காத்திருக்கும் நேரம் (30 வி முதல் 2 நிமி). <b>பேக்கப் பேட்டரி குறைவு</b> எச்சரிக்கை மட்டும் தரும். மோட்டாரை நிறுத்தாது.</p>
       <p><b>−</b>, <b>+</b> மூலம் வரம்பை மாற்றி, <b class="btn">அனைத்தையும் சேமி</b> தட்டவும்.</p>
       <div class="warn">உறுதியாகத் தெரியாவிட்டால், DJ Tech டெக்னீஷியன் அமைத்த மதிப்புகளையே வைக்கவும்.</div>
@@ -1283,22 +1287,22 @@
     <figure><img class="shot" src="img/ta/dc/29_farmer_card.png" data-t="img/ta/{t}/29_farmer_card.png" alt="விவசாயி அட்டை"><figcaption>விவசாயி அட்டை (வால்வு + மோட்டார்)</figcaption></figure>
   </div>
   <h3>விவசாயி எப்படிப் பயன்படுத்துவார்: அழைப்பு</h3>
-  <table>
+  <div class="scroll"><table>
     <tr><th>பட்டன்</th><th>என்ன செய்யும்</th></tr>
     <tr><td><b>1</b></td><td>நிலை அறிய: மோட்டார், வால்வுகள், மின்சாரம்</td></tr>
     <tr><td><b>2</b></td><td>மோட்டார் ஆன்: வால்வு எண் → எவ்வளவு நேரம் → உறுதி செய்ய <b>1</b>. (மோட்டார் மட்டும் பெட்டி: நேரம் → 1. வால்வு மட்டும் பெட்டி: வால்வு திறக்கும்.)</td></tr>
     <tr><td><b>3</b></td><td>மோட்டார் ஆஃப்: உறுதி செய்ய <b>1</b></td></tr>
     <tr><td><b>9</b></td><td>மெனுவை மீண்டும் கேட்க</td></tr>
-  </table>
+  </table></div>
   <h3>விவசாயி எப்படிப் பயன்படுத்துவார்: SMS</h3>
-  <table>
+  <div class="scroll"><table>
     <tr><th>SMS</th><th>வால்வு + மோட்டார் பெட்டி</th><th>மோட்டார் மட்டும் பெட்டி</th><th>வால்வு மட்டும் பெட்டி</th></tr>
     <tr><td><b>STATUS</b></td><td colspan="3">நிலை அறிய: மோட்டார், வால்வுகள், மின்சாரம்</td></tr>
     <tr><td><b>START 1 30</b></td><td>வால்வு 1 + மோட்டார் ஆன் · 30 நிமிடம்</td><td>–</td><td>வால்வு 1 திற · 30 நிமிடம்</td></tr>
     <tr><td><b>START 0 60</b></td><td>எல்லா வால்வுகளும் + மோட்டார் · 60 நிமிடம்</td><td>–</td><td>எல்லா வால்வுகளும் · 60 நிமிடம்</td></tr>
     <tr><td><b>START 30</b></td><td>–</td><td>மோட்டார் ஆன் · 30 நிமிடம்</td><td>–</td></tr>
     <tr><td><b>STOP</b></td><td>மோட்டார் ஆஃப், பின் வால்வுகள் மூடும்</td><td>மோட்டார் ஆஃப்</td><td>எல்லா வால்வுகளும் மூடும்</td></tr>
-  </table>
+  </table></div>
   <ul>
     <li>விதி: <b>START &lt;வால்வு&gt; &lt;நிமிடம்&gt;</b> (வால்வு <b>0</b> = எல்லாம்). மோட்டார் மட்டும் பெட்டி: <b>START &lt;நிமிடம்&gt;</b>.</li>
     <li>நேரம் எப்போதும் <b>நிமிடத்தில்</b>: <b>120 = 2 மணி</b>, 90 = 1½ மணி.</li>
@@ -1315,11 +1319,11 @@
   <div class="row two">
     <div>
       <p>DJ Tech டெக்னீஷியன் உங்கள் மோட்டார், வால்வுகளைச் சோதிக்கலாம் (<b>சர்வீஸ் முறை</b>). பண்ணையில் டெக்னீஷியன் கண்ட்ரோலரில் உள்ள குறியீட்டை ஸ்கேன் செய்வார். தொலைவிலிருந்து என்றால், <b>அமைப்புகள் → DJ Tech சேவை அனுமதி</b>-ல் உங்கள் தேர்வைப் பொறுத்தது:</p>
-      <table>
+      <div class="scroll"><table>
         <tr><td><b>எப்போதும் அனுமதி</b></td><td>எப்போது வேண்டுமானாலும் தொடங்கலாம். தொடக்கம், முடிவில் எச்சரிக்கை வரும்.</td></tr>
         <tr><td><b>முதலில் என்னிடம் கேள்</b></td><td>முகப்பில் <b class="btn">அனுமதி</b> / <b class="btn">மறு</b> அட்டை தோன்றும். 15 நிமிடத்துக்குள் பதிலளிக்கவும்.</td></tr>
         <tr><td><b>நிறுத்தம்</b></td><td>பண்ணையில் மட்டும் சர்வீஸ்.</td></tr>
-      </table>
+      </table></div>
       <p>சர்வீஸ் நேரத்தில் ஆப் <b>"சேவை முறை இயக்கப்பட்டது"</b> என்று காட்டி பூட்டப்படும். டைமர்கள் நின்று, சர்வீஸ் முடிந்ததும் மீண்டும் இயங்கும். அனைத்தும் பதிவாகும்.</p>
     </div>
     <figure><img class="shot" src="img/ta/18_service_request.png" alt="சர்வீஸ் கோரிக்கை"><figcaption>அனுமதி / மறு</figcaption></figure>
@@ -1341,7 +1345,7 @@
 
 <section id="t-faq">
   <h2><span class="n"></span>பிரச்சனைகளும் தீர்வுகளும்</h2>
-  <table>
+  <div class="scroll"><table>
     <tr><th>பிரச்சனை</th><th>என்ன செய்வது</th></tr>
     <tr><td>எச்சரிக்கை வரவில்லை</td><td>முகப்பில் சிவப்பு பட்டையைத் தட்டவும், அல்லது அமைப்புகள் → அனுமதிகள். அறிவிப்புகள், "பின்னணியில் இயங்க" அனுமதிக்கவும். Silent / Do Not Disturb சரிபார்க்கவும்.</td></tr>
     <tr><td>"கண்ட்ரோலர்" புள்ளி பச்சை இல்லை</td><td>பெட்டிக்கு இணையம் இல்லை. பண்ணையில் மின்சாரம், Wi-Fi ரவுட்டரைச் சரிபார்க்கவும். நெட்வொர்க் மாற்ற அமைப்புகள் → Wi-Fi.</td></tr>
@@ -1352,7 +1356,7 @@
     <tr><td>அமைப்புகள் PIN மறந்துவிட்டது</td><td>உங்கள் வாடிக்கையாளர் ID உடன் DJ Tech-ஐ அழைக்கவும்.</td></tr>
     <tr><td>புதிய போன்</td><td>நிர்வாகியிடம் புதிய அழைப்பு கேட்கவும். நீங்களே நிர்வாகி, போன் தொலைந்தது என்றால் DJ Tech-ஐ அழைக்கவும்.</td></tr>
     <tr><td>ஆப் பழையது</td><td>ஆப் "புதிய பதிப்பு" என்று காட்டும் – djtechinnovation.in/app-லிருந்து மீண்டும் பதிவிறக்கி பழையதன் மேல் நிறுவவும். உங்கள் தரவு அப்படியே இருக்கும்.</td></tr>
-  </table>
+  </table></div>
 </section>
 </div>
 
@@ -1376,6 +1380,7 @@
     document.getElementById('b-en').classList.toggle('on', l === 'en');
     document.getElementById('b-ta').classList.toggle('on', l === 'ta');
     save('dj_manual_lang', l);
+    markScroll();
     if (document.body.dataset.type) showPictures();
   }
 
@@ -1389,6 +1394,21 @@
     });
   }
 
+  // Adds "slide" hints, shown only on tables wider than the card.
+  function markScroll() {
+    document.querySelectorAll('.scroll').forEach(function (b) {
+      if (!b.querySelector('.slide')) {
+        var h = document.createElement('div');
+        h.className = 'slide';
+        h.innerHTML = '<span class="en">⇠ Slide the table to see more ⇢</span><span class="ta">⇠ மேலும் பார்க்க அட்டவணையை நகர்த்தவும் ⇢</span>';
+        b.insertBefore(h, b.firstChild);
+      }
+      b.classList.toggle('more', b.scrollWidth > b.clientWidth + 2);
+    });
+  }
+  window.addEventListener('resize', markScroll);
+  window.addEventListener('load', markScroll);
+
   // Shows only the parts and pictures of one controller type.
   function setType(t, quiet) {
     if (t === 'ac3') t = 'ac3s'; // old links and saved choice (before AC3-D / AC3-S)
@@ -1399,6 +1419,7 @@
     });
     showPictures();
     save('dj_manual_type', t);
+    markScroll();
     if (!quiet && window.gtag) gtag('event', 'manual_type', { type: t });
   }
 
