@@ -64,6 +64,16 @@
   table { border-collapse: collapse; width: 100%; margin: 8px 0; font-size: 16px; }
   th, td { border-bottom: 1px solid var(--border); padding: 8px 6px; text-align: left; vertical-align: top; }
   th { color: var(--mid); font-weight: 600; }
+  .scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 8px 0; padding-bottom: 6px; }
+  .scroll::-webkit-scrollbar { height: 8px; }
+  .scroll::-webkit-scrollbar-thumb { background: #3a4a56; border-radius: 8px; }
+  .scroll::-webkit-scrollbar-track { background: #161d24; border-radius: 8px; }
+  .scroll table { margin: 0; }
+  table.wide { min-width: 560px; }
+  table.wide td, table.wide th { overflow-wrap: normal !important; word-break: normal; }
+  table.wide td:nth-child(2) { min-width: 130px; }
+  table.wide td:nth-child(3) { min-width: 200px; }
+  p.slide { display: none; color: var(--dim); font-size: 14px; margin: 10px 0 0; text-align: center; }
   p.note { color: var(--mid); font-size: 15px; margin: 4px 0 14px; }
   td.id { white-space: nowrap; overflow-wrap: normal !important; padding-right: 12px; }
   .types button small span { display: block; white-space: nowrap; }
@@ -89,6 +99,7 @@
     .picker .q { display: none; }
     .types button { font-size: 14px; padding: 7px 4px; overflow-wrap: anywhere; }
     td, th { overflow-wrap: anywhere; }
+    p.slide { display: block; }
     html { scroll-padding-top: 76px; }
   }
   @media print {
@@ -171,13 +182,13 @@
   <div class="row">
     <div>
       <p>Look at the <b>controller ID</b> on your box, or in the app at <b>Settings → This controller</b>. Then tap your type in the bar at the top of this page. The manual then shows <b>only your type</b>.</p>
-      <table>
+      <p class="slide en">⇠ Slide the table to see more ⇢</p><div class="scroll"><table class="wide">
         <tr><th>ID</th><th>Type</th><th>Motor runs on</th></tr>
         <tr><td class="id"><b>DJ-DC-M</b><br><b>DJ-DC-VM</b><br><b>DJ-DC-V</b></td><td>DC Solar</td><td>Solar panels</td></tr>
         <tr><td class="id"><b>DJ-AC1-M</b><br><b>DJ-AC1-VM</b><br><b>DJ-AC1-V</b></td><td>AC Single phase</td><td>230 V mains (EB) power</td></tr>
         <tr><td class="id"><b>DJ-AC3D-M</b><br><b>DJ-AC3D-VM</b><br><b>DJ-AC3D-V</b></td><td>AC Three phase – DOL</td><td>415 V three phase mains (EB) power. Motor below 5 HP, direct start.</td></tr>
         <tr><td class="id"><b>DJ-AC3S-M</b><br><b>DJ-AC3S-VM</b><br><b>DJ-AC3S-V</b></td><td>AC Three phase – Star-Delta</td><td>415 V three phase mains (EB) power. Motor 5 HP and above, STAR then DELTA.</td></tr>
-      </table>
+      </table></div>
       <p class="note">Old DC Solar boxes have an ID like <b>DJ-0001</b>. They are DC Solar with valves + motor (VM).</p>
       <p>The letters after the type tell what is fitted:</p>
       <table>
@@ -776,13 +787,13 @@
   <div class="row">
     <div>
       <p>உங்கள் பெட்டியில் உள்ள <b>கண்ட்ரோலர் ID</b>-ஐப் பாருங்கள், அல்லது ஆப்பில் <b>அமைப்புகள் → இந்த கண்ட்ரோலர்</b>. பிறகு இந்தப் பக்கத்தின் மேலே உள்ள பட்டையில் உங்கள் வகையைத் தட்டவும். கையேடு <b>உங்கள் வகையை மட்டும்</b> காட்டும்.</p>
-      <table>
+      <p class="slide ta">⇠ மேலும் பார்க்க அட்டவணையை நகர்த்தவும் ⇢</p><div class="scroll"><table class="wide">
         <tr><th>ID</th><th>வகை</th><th>மோட்டார் இயங்குவது</th></tr>
         <tr><td class="id"><b>DJ-DC-M</b><br><b>DJ-DC-VM</b><br><b>DJ-DC-V</b></td><td>DC சோலார்</td><td>சோலார் பேனல்கள்</td></tr>
         <tr><td class="id"><b>DJ-AC1-M</b><br><b>DJ-AC1-VM</b><br><b>DJ-AC1-V</b></td><td>AC சிங்கிள் பேஸ்</td><td>230 V EB மின்சாரம்</td></tr>
         <tr><td class="id"><b>DJ-AC3D-M</b><br><b>DJ-AC3D-VM</b><br><b>DJ-AC3D-V</b></td><td>AC த்ரீ பேஸ் – DOL</td><td>415 V த்ரீ பேஸ் EB மின்சாரம். 5 HP-க்குக் கீழ் மோட்டார், நேரடி ஸ்டார்ட்.</td></tr>
         <tr><td class="id"><b>DJ-AC3S-M</b><br><b>DJ-AC3S-VM</b><br><b>DJ-AC3S-V</b></td><td>AC த்ரீ பேஸ் – ஸ்டார்-டெல்டா</td><td>415 V த்ரீ பேஸ் EB மின்சாரம். 5 HP மற்றும் மேல் மோட்டார், ஸ்டார் பிறகு டெல்டா.</td></tr>
-      </table>
+      </table></div>
       <p class="note">பழைய DC சோலார் பெட்டிகளின் ID <b>DJ-0001</b> போல இருக்கும். அவை வால்வுகள் + மோட்டார் (VM) உள்ள DC சோலார்.</p>
       <p>வகைக்குப் பின் உள்ள எழுத்துகள் என்ன பொருத்தப்பட்டுள்ளது என்று சொல்லும்:</p>
       <table>
